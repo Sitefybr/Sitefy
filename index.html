@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sitefy — Sites que destacam sua marca</title>
 
-<meta name="description" content="A Sitefy cria sites modernos, rápidos e personalizados para marcas que querem se destacar na internet.">
-
 <style>
 
-/* =========================================================
+/* ================================
    RESET
-========================================================= */
+================================ */
 
 *{
     margin:0;
@@ -31,268 +30,252 @@ body{
     overflow-x:hidden;
 }
 
-a{
-    color:inherit;
-}
 
-::selection{
-    background:#8b5cf6;
-    color:#fff;
-}
-
-
-/* =========================================================
+/* ================================
    FUNDO
-========================================================= */
+================================ */
 
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    z-index:-10;
-    pointer-events:none;
 
     background:
         radial-gradient(
-            circle at 15% 15%,
-            rgba(139,92,246,.13),
-            transparent 28%
+            circle at 20% 20%,
+            rgba(139,92,246,.12),
+            transparent 30%
         ),
         radial-gradient(
-            circle at 85% 65%,
-            rgba(124,58,237,.09),
+            circle at 80% 70%,
+            rgba(139,92,246,.08),
             transparent 30%
         );
-}
 
-.grid-background{
-    position:fixed;
-    inset:0;
-    z-index:-9;
     pointer-events:none;
-    opacity:.18;
-
-    background-image:
-        linear-gradient(
-            rgba(139,92,246,.08) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(139,92,246,.08) 1px,
-            transparent 1px
-        );
-
-    background-size:70px 70px;
-
-    mask-image:linear-gradient(
-        to bottom,
-        black,
-        transparent 85%
-    );
+    z-index:-3;
 }
 
 .bg-orb{
     position:fixed;
-    width:450px;
-    height:450px;
+
+    width:500px;
+    height:500px;
+
     border-radius:50%;
-    background:rgba(139,92,246,.08);
-    filter:blur(110px);
+
+    background:rgba(139,92,246,.09);
+
+    filter:blur(120px);
+
+    animation:orbMove 12s ease-in-out infinite alternate;
+
     pointer-events:none;
-    z-index:-8;
+
+    z-index:-2;
 }
 
 .orb1{
-    top:-220px;
-    left:-180px;
+    top:-200px;
+    left:-150px;
 }
 
 .orb2{
-    right:-220px;
+    right:-200px;
     bottom:-200px;
+
+    animation-delay:2s;
+}
+
+@keyframes orbMove{
+
+    from{
+        transform:translate3d(0,0,0) scale(1);
+    }
+
+    to{
+        transform:translate3d(80px,50px,0) scale(1.15);
+    }
+
 }
 
 
-/* =========================================================
-   SCROLL PROGRESS
-========================================================= */
+/* ================================
+   BARRA DE PROGRESSO
+================================ */
 
 .scroll-progress{
+
     position:fixed;
+
     top:0;
     left:0;
+
     width:0%;
     height:3px;
-    z-index:9999;
 
     background:linear-gradient(
         90deg,
         #6d28d9,
-        #8b5cf6,
+        #a78bfa,
         #c4b5fd,
         #7c3aed
     );
 
     box-shadow:
-        0 0 18px rgba(139,92,246,.9);
+        0 0 15px rgba(139,92,246,.8);
+
+    z-index:9999;
 }
 
 
-/* =========================================================
-   NAVBAR
-========================================================= */
-
-nav{
-    position:sticky;
-    top:0;
-    z-index:1000;
-
-    width:100%;
-    height:78px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 5vw;
-
-    background:rgba(5,5,5,.72);
-
-    backdrop-filter:blur(18px);
-
-    border-bottom:
-        1px solid rgba(255,255,255,.06);
-}
-
-.logo-text{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:-1.5px;
-}
-
-.logo-text span{
-    color:#8b5cf6;
-}
-
-.nav-links{
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:#888;
-    font-size:13px;
-    padding:10px 14px;
-    border-radius:10px;
-    transition:.3s ease;
-}
-
-.nav-links a:hover{
-    color:#fff;
-    background:rgba(139,92,246,.1);
-}
-
-.nav-cta{
-    background:#8b5cf6 !important;
-    color:#fff !important;
-    box-shadow:0 8px 25px rgba(139,92,246,.2);
-}
-
-
-/* =========================================================
+/* ================================
    LOGO MARQUEE
-========================================================= */
+================================ */
 
 .logo-marquee{
-    position:relative;
+
     width:100%;
-    height:235px;
+
+    height:220px;
+
     overflow:hidden;
+
+    position:relative;
 
     display:flex;
     align-items:center;
 
-    border-bottom:
-        1px solid rgba(139,92,246,.12);
+    background:#050505;
 
-    background:
-        linear-gradient(
-            180deg,
-            #060606,
-            #080608
-        );
+    border-bottom:
+        1px solid rgba(139,92,246,.15);
+
+    border-top:
+        1px solid rgba(139,92,246,.08);
+
 }
+
+
+/* sombras nas laterais */
 
 .logo-marquee::before,
 .logo-marquee::after{
+
     content:"";
+
     position:absolute;
+
     top:0;
     bottom:0;
-    width:220px;
+
+    width:180px;
+
     z-index:5;
+
     pointer-events:none;
+
 }
 
 .logo-marquee::before{
+
     left:0;
+
     background:
         linear-gradient(
             90deg,
-            #060606,
+            #050505,
             transparent
         );
+
 }
 
 .logo-marquee::after{
+
     right:0;
+
     background:
         linear-gradient(
             270deg,
-            #060606,
+            #050505,
             transparent
         );
+
 }
+
+
+/* trilho */
 
 .logo-track{
+
     display:flex;
+
     width:max-content;
-    animation:logoMove 28s linear infinite;
+
+    animation:
+        logoMove 24s linear infinite;
+
 }
+
+
+/* grupo */
 
 .logo-group{
+
     display:flex;
+
     align-items:center;
-    gap:90px;
-    padding-right:90px;
+
+    gap:100px;
+
+    padding-right:100px;
+
 }
+
+
+/* imagem */
 
 .logo-marquee img{
+
     width:320px;
+
     height:160px;
+
     object-fit:contain;
 
+    flex-shrink:0;
+
     filter:
         drop-shadow(
-            0 0 25px rgba(139,92,246,.2)
+            0 0 25px
+            rgba(139,92,246,.22)
         );
 
-    transition:.4s ease;
+    transition:
+        transform .4s ease,
+        filter .4s ease;
+
 }
+
+
+/* pequeno movimento */
 
 .logo-marquee img:hover{
-    transform:scale(1.08);
+
+    transform:
+        scale(1.08);
 
     filter:
         drop-shadow(
-            0 0 45px rgba(139,92,246,.55)
+            0 0 45px
+            rgba(139,92,246,.5)
         );
+
 }
 
+
 @keyframes logoMove{
+
     from{
         transform:translateX(0);
     }
@@ -300,19 +283,101 @@ nav{
     to{
         transform:translateX(-50%);
     }
+
 }
 
 
-/* =========================================================
-   HERO
-========================================================= */
+/* ================================
+   NAVBAR
+================================ */
 
-.hero{
-    min-height:calc(100vh - 78px);
+nav{
+
+    height:82px;
 
     display:flex;
-    flex-direction:column;
+
     align-items:center;
+
+    justify-content:space-between;
+
+    max-width:1380px;
+
+    margin:auto;
+
+    padding:0 32px;
+
+    position:relative;
+
+    z-index:20;
+
+}
+
+.logo-text{
+
+    font-size:20px;
+
+    font-weight:800;
+
+    letter-spacing:-1px;
+
+}
+
+.logo-text span{
+
+    color:#8b5cf6;
+
+}
+
+
+.nav-links{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:#aaa;
+
+    font-size:13px;
+
+    padding:10px 13px;
+
+    border-radius:10px;
+
+    transition:.3s ease;
+
+}
+
+.nav-links a:hover{
+
+    color:#fff;
+
+    background:
+        rgba(139,92,246,.1);
+
+}
+
+
+/* ================================
+   HERO
+================================ */
+
+.hero{
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
     justify-content:center;
 
     text-align:center;
@@ -321,782 +386,294 @@ nav{
         130px 24px 160px;
 
     position:relative;
+
 }
 
-.hero-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
 
-    padding:9px 15px;
+.hero::before{
 
-    border-radius:999px;
+    content:"";
 
-    border:
-        1px solid rgba(139,92,246,.25);
+    position:absolute;
+
+    width:650px;
+    height:650px;
+
+    border-radius:50%;
 
     background:
-        rgba(139,92,246,.07);
+        rgba(139,92,246,.08);
 
-    color:#b7a2ef;
+    filter:blur(130px);
 
-    font-size:11px;
-    font-weight:700;
+    animation:
+        heroGlow 7s ease-in-out infinite alternate;
 
-    margin-bottom:28px;
+    z-index:-1;
 
-    animation:heroEnter 1s both;
 }
 
-.badge-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#8b5cf6;
-    box-shadow:0 0 12px #8b5cf6;
-}
 
-.hero h1{
-    max-width:1150px;
+@keyframes heroGlow{
 
-    font-size:
-        clamp(55px,9vw,115px);
-
-    line-height:.9;
-
-    letter-spacing:-7px;
-}
-
-.hero h1 span{
-    color:#8b5cf6;
-}
-
-.hero p{
-    max-width:720px;
-
-    margin-top:32px;
-
-    color:#858585;
-
-    font-size:17px;
-    line-height:1.8;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:14px;
-    margin-top:38px;
-}
-
-.btn{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    text-decoration:none;
-    border:0;
-    cursor:pointer;
-
-    padding:15px 25px;
-
-    border-radius:13px;
-
-    font-weight:800;
-    font-size:13px;
-
-    transition:
-        transform .35s ease,
-        box-shadow .35s ease,
-        background .35s ease;
-}
-
-.btn:hover{
-    transform:translateY(-4px);
-}
-
-.btn-primary{
-    background:#8b5cf6;
-    color:#fff;
-
-    box-shadow:
-        0 12px 40px rgba(139,92,246,.25);
-}
-
-.btn-primary:hover{
-    background:#9f7aea;
-
-    box-shadow:
-        0 18px 50px rgba(139,92,246,.4);
-}
-
-.btn-secondary{
-    background:rgba(255,255,255,.04);
-    color:#fff;
-
-    border:
-        1px solid rgba(255,255,255,.1);
-}
-
-.hero-scroll{
-    position:absolute;
-    bottom:38px;
-
-    color:#555;
-    font-size:10px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-
-    animation:scrollFloat 2.5s ease-in-out infinite;
-}
-
-@keyframes scrollFloat{
-    50%{
-        transform:translateY(8px);
-        opacity:.5;
-    }
-}
-
-@keyframes heroEnter{
     from{
-        opacity:0;
-        transform:translateY(30px);
-        filter:blur(10px);
+        transform:scale(.9);
+        opacity:.4;
     }
 
     to{
-        opacity:1;
-        transform:translateY(0);
-        filter:blur(0);
+        transform:scale(1.15);
+        opacity:.8;
     }
+
 }
 
 
-/* =========================================================
-   SECTIONS
-========================================================= */
+.hero h1{
+
+    font-size:
+        clamp(48px,8vw,100px);
+
+    line-height:.95;
+
+    letter-spacing:-6px;
+
+    max-width:1100px;
+
+    animation:
+        heroEnter 1.2s
+        cubic-bezier(.16,1,.3,1)
+        both;
+
+}
+
+
+.hero h1 span{
+
+    color:#8b5cf6;
+
+}
+
+
+.hero p{
+
+    max-width:700px;
+
+    margin-top:30px;
+
+    color:#8c8c8c;
+
+    font-size:17px;
+
+    line-height:1.8;
+
+    animation:
+        heroEnter 1.2s
+        .15s
+        cubic-bezier(.16,1,.3,1)
+        both;
+
+}
+
+
+@keyframes heroEnter{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(35px);
+
+        filter:blur(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+        filter:blur(0);
+
+    }
+
+}
+
+
+/* ================================
+   BOTÕES
+================================ */
+
+.hero-buttons{
+
+    display:flex;
+
+    gap:14px;
+
+    margin-top:38px;
+
+    animation:
+        heroEnter 1.2s
+        .3s
+        cubic-bezier(.16,1,.3,1)
+        both;
+
+}
+
+
+.btn{
+
+    text-decoration:none;
+
+    border:0;
+
+    cursor:pointer;
+
+    padding:
+        14px 24px;
+
+    border-radius:12px;
+
+    font-weight:700;
+
+    font-size:13px;
+
+    transition:
+        transform .35s
+        cubic-bezier(.16,1,.3,1),
+        box-shadow .35s ease,
+        background .35s ease;
+
+}
+
+
+.btn:hover{
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+.btn-primary{
+
+    background:#8b5cf6;
+
+    color:white;
+
+    box-shadow:
+        0 10px 35px
+        rgba(139,92,246,.25);
+
+}
+
+
+.btn-primary:hover{
+
+    background:#9f7aea;
+
+    box-shadow:
+        0 15px 45px
+        rgba(139,92,246,.4);
+
+}
+
+
+.btn-secondary{
+
+    background:
+        rgba(255,255,255,.04);
+
+    color:white;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+}
+
+
+/* ================================
+   SEÇÕES
+================================ */
 
 section{
-    width:100%;
-    max-width:1450px;
+
+    max-width:1380px;
+
     margin:auto;
 
     padding:
-        150px 5vw;
+        150px 32px;
+
 }
+
 
 .section-title{
-    max-width:800px;
-    margin:
-        0 auto 75px;
 
     text-align:center;
+
+    max-width:750px;
+
+    margin:
+        0 auto 70px;
+
 }
 
-.section-label{
-    color:#8b5cf6;
-    font-size:11px;
-    font-weight:800;
-    letter-spacing:2px;
-    text-transform:uppercase;
-}
 
 .section-title h2{
-    margin-top:12px;
-
-    font-size:
-        clamp(38px,5vw,65px);
-
-    line-height:1;
-
-    letter-spacing:-4px;
-}
-
-.section-title h2 span{
-    color:#8b5cf6;
-}
-
-.section-title p{
-    margin-top:20px;
-
-    color:#777;
-
-    line-height:1.8;
-}
-
-
-/* =========================================================
-   INTRO / SOBRE
-========================================================= */
-
-.intro{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:70px;
-    align-items:center;
-}
-
-.intro-visual{
-    position:relative;
-    min-height:510px;
-
-    border-radius:32px;
-    overflow:hidden;
-
-    border:
-        1px solid rgba(139,92,246,.2);
-
-    background:
-        linear-gradient(
-            135deg,
-            #100b18,
-            #050505
-        );
-
-    box-shadow:
-        0 35px 100px rgba(0,0,0,.45);
-}
-
-.intro-visual::before{
-    content:"";
-    position:absolute;
-    width:300px;
-    height:300px;
-    border-radius:50%;
-
-    background:#8b5cf6;
-    opacity:.15;
-    filter:blur(100px);
-
-    top:-80px;
-    right:-70px;
-}
-
-.intro-image{
-    position:absolute;
-    inset:25px;
-
-    border-radius:22px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(139,92,246,.2),
-            rgba(255,255,255,.02)
-        );
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    overflow:hidden;
-}
-
-.intro-image::before{
-    content:"SITEFY";
-    position:absolute;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%)
-        rotate(-8deg);
-
-    font-size:clamp(65px,8vw,120px);
-    font-weight:900;
-
-    letter-spacing:-8px;
-
-    color:rgba(255,255,255,.05);
-}
-
-.browser-top{
-    height:46px;
-
-    display:flex;
-    align-items:center;
-
-    gap:7px;
-
-    padding:0 18px;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.06);
-}
-
-.browser-dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:#444;
-}
-
-.browser-content{
-    padding:35px;
-}
-
-.fake-line{
-    width:45%;
-    height:9px;
-    border-radius:20px;
-    background:#8b5cf6;
-    margin-bottom:20px;
-}
-
-.fake-title{
-    width:80%;
-    height:35px;
-    border-radius:8px;
-    background:rgba(255,255,255,.12);
-}
-
-.fake-text{
-    width:60%;
-    height:10px;
-    margin-top:18px;
-    border-radius:20px;
-    background:rgba(255,255,255,.06);
-}
-
-.fake-boxes{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-top:50px;
-}
-
-.fake-box{
-    height:130px;
-    border-radius:16px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(139,92,246,.22),
-            rgba(255,255,255,.03)
-        );
-
-    border:
-        1px solid rgba(255,255,255,.07);
-}
-
-.intro-content h2{
-    font-size:
-        clamp(40px,5vw,68px);
-
-    line-height:.98;
-    letter-spacing:-4px;
-}
-
-.intro-content h2 span{
-    color:#8b5cf6;
-}
-
-.intro-content > p{
-    color:#818181;
-    line-height:1.9;
-    margin-top:25px;
-}
-
-.intro-points{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-
-    margin-top:35px;
-}
-
-.intro-point{
-    padding:18px;
-
-    border-radius:16px;
-
-    background:rgba(255,255,255,.025);
-
-    border:
-        1px solid rgba(255,255,255,.06);
-}
-
-.intro-point strong{
-    display:block;
-    font-size:14px;
-}
-
-.intro-point span{
-    display:block;
-    margin-top:7px;
-    color:#666;
-    font-size:11px;
-    line-height:1.5;
-}
-
-
-/* =========================================================
-   NÚMEROS
-========================================================= */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-
-    border-top:
-        1px solid rgba(255,255,255,.07);
-
-    border-bottom:
-        1px solid rgba(255,255,255,.07);
-}
-
-.stat{
-    padding:45px 25px;
-    text-align:center;
-
-    border-right:
-        1px solid rgba(255,255,255,.07);
-}
-
-.stat:last-child{
-    border-right:0;
-}
-
-.stat strong{
-    display:block;
 
     font-size:
         clamp(35px,5vw,60px);
 
     letter-spacing:-3px;
 
-    color:#fff;
-}
-
-.stat strong span{
-    color:#8b5cf6;
-}
-
-.stat p{
-    margin-top:8px;
-    color:#666;
-    font-size:11px;
 }
 
 
-/* =========================================================
-   PORTFÓLIO
-========================================================= */
+.section-title p{
 
-.portfolio-grid{
+    color:#858585;
+
+    margin-top:18px;
+
+    line-height:1.7;
+
+}
+
+
+/* ================================
+   PLANOS
+================================ */
+
+.plans{
+
     display:grid;
 
     grid-template-columns:
-        1.4fr .8fr .8fr;
+        repeat(4,minmax(0,1fr));
 
-    grid-template-rows:
-        280px 280px;
+    gap:24px;
 
-    gap:18px;
-}
-
-.portfolio-item{
-    position:relative;
-    overflow:hidden;
-
-    border-radius:24px;
-
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    background:#0b0b0b;
-
-    cursor:pointer;
-}
-
-.portfolio-item:first-child{
-    grid-row:span 2;
-}
-
-.portfolio-bg{
-    position:absolute;
-    inset:0;
-
-    transition:
-        transform .7s cubic-bezier(.16,1,.3,1);
-}
-
-.portfolio-item:hover .portfolio-bg{
-    transform:scale(1.08);
-}
-
-.portfolio-one{
-    background:
-        radial-gradient(
-            circle at 70% 30%,
-            rgba(139,92,246,.65),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #160d24,
-            #050505 70%
-        );
-}
-
-.portfolio-two{
-    background:
-        linear-gradient(
-            135deg,
-            #111,
-            #26103c
-        );
-}
-
-.portfolio-three{
-    background:
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(139,92,246,.5),
-            transparent 35%
-        ),
-        #0b0b0b;
-}
-
-.portfolio-four{
-    background:
-        linear-gradient(
-            135deg,
-            #080808,
-            #18111f
-        );
-}
-
-.portfolio-overlay{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-
-    padding:28px;
-
-    background:
-        linear-gradient(
-            transparent 25%,
-            rgba(0,0,0,.85)
-        );
-}
-
-.portfolio-overlay small{
-    color:#a78bfa;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:2px;
-}
-
-.portfolio-overlay h3{
-    margin-top:8px;
-    font-size:23px;
-}
-
-.portfolio-overlay p{
-    margin-top:7px;
-    color:#aaa;
-    font-size:11px;
-}
-
-.portfolio-ui{
-    position:absolute;
-
-    top:55px;
-    left:50%;
-
-    transform:translateX(-50%) rotate(-4deg);
-
-    width:65%;
-    height:180px;
-
-    border-radius:16px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.12),
-            rgba(255,255,255,.025)
-        );
-
-    border:
-        1px solid rgba(255,255,255,.1);
-
-    box-shadow:
-        0 25px 60px rgba(0,0,0,.5);
-}
-
-.portfolio-ui::after{
-    content:"";
-    position:absolute;
-
-    width:45%;
-    height:8px;
-
-    left:15%;
-    top:30%;
-
-    border-radius:20px;
-
-    background:#8b5cf6;
-
-    box-shadow:
-        0 35px 0 rgba(255,255,255,.08),
-        0 70px 0 rgba(255,255,255,.04);
 }
 
 
-/* =========================================================
-   PROCESSO
-========================================================= */
-
-.process{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-}
-
-.process-step{
-    position:relative;
-
-    min-height:260px;
-
-    padding:28px;
-
-    border-radius:22px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.045),
-            rgba(255,255,255,.015)
-        );
-
-    border:
-        1px solid rgba(255,255,255,.07);
-
-    transition:.4s ease;
-}
-
-.process-step:hover{
-    transform:translateY(-8px);
-
-    border-color:
-        rgba(139,92,246,.35);
-}
-
-.process-number{
-    font-size:11px;
-    color:#8b5cf6;
-    font-weight:900;
-}
-
-.process-step h3{
-    margin-top:60px;
-    font-size:20px;
-}
-
-.process-step p{
-    margin-top:12px;
-
-    color:#707070;
-    line-height:1.7;
-    font-size:12px;
-}
-
-
-/* =========================================================
-   DIFERENCIAIS
-========================================================= */
-
-.features-section{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
-}
-
-.feature{
-    min-height:230px;
-
-    padding:30px;
-
-    border-radius:22px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    border:
-        1px solid rgba(255,255,255,.06);
-
-    transition:.45s ease;
-}
-
-.feature:hover{
-    transform:translateY(-10px);
-
-    border-color:
-        rgba(139,92,246,.35);
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.35);
-}
-
-.feature-icon{
-    width:45px;
-    height:45px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:13px;
-
-    background:
-        rgba(139,92,246,.12);
-
-    border:
-        1px solid rgba(139,92,246,.2);
-
-    color:#a78bfa;
-
-    font-size:18px;
-}
-
-.feature h3{
-    margin-top:25px;
-    font-size:19px;
-}
-
-.feature p{
-    margin-top:11px;
-
-    color:#707070;
-
-    font-size:12px;
-    line-height:1.8;
-}
-
-
-/* =========================================================
-   PLANOS
-========================================================= */
-
-.plans{
-    display:grid;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:20px;
-}
+/* ================================
+   CARD
+================================ */
 
 .card{
+
     position:relative;
+
     overflow:hidden;
 
     padding:30px;
 
-    min-height:510px;
+    min-height:500px;
 
     border-radius:24px;
 
@@ -1104,161 +681,267 @@ section{
         linear-gradient(
             145deg,
             rgba(255,255,255,.055),
-            rgba(255,255,255,.012)
+            rgba(255,255,255,.015)
         );
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(255,255,255,.08);
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,.4);
+        0 20px 60px
+        rgba(0,0,0,.4);
 
     opacity:0;
-    transform:translateY(45px);
+
+    transform:
+        translateY(50px);
 
     transition:
-        opacity .8s ease,
-        transform .8s cubic-bezier(.16,1,.3,1),
+        opacity .9s ease,
+        transform .9s
+        cubic-bezier(.16,1,.3,1),
         border-color .4s ease,
         box-shadow .4s ease;
+
 }
+
 
 .card.show{
+
     opacity:1;
-    transform:translateY(0);
-}
 
-.card:hover{
     transform:
-        translateY(-12px)
-        scale(1.015);
+        translateY(0);
 
-    border-color:
-        rgba(139,92,246,.4);
-
-    box-shadow:
-        0 35px 90px rgba(0,0,0,.6),
-        0 0 50px rgba(139,92,246,.1);
 }
+
 
 .card::before{
+
     content:"";
 
     position:absolute;
 
-    width:200px;
-    height:200px;
+    width:180px;
+    height:180px;
 
     border-radius:50%;
 
-    top:-120px;
+    top:-100px;
     right:-100px;
 
-    background:rgba(139,92,246,.13);
+    background:
+        rgba(139,92,246,.12);
 
     filter:blur(35px);
 
-    transition:.6s ease;
+    transition:
+        transform .6s ease;
+
 }
+
+
+.card:hover{
+
+    transform:
+        translateY(-14px)
+        scale(1.025);
+
+    border-color:
+        rgba(139,92,246,.45);
+
+    box-shadow:
+        0 35px 80px
+        rgba(0,0,0,.6),
+
+        0 0 50px
+        rgba(139,92,246,.12);
+
+}
+
 
 .card:hover::before{
-    transform:scale(1.6);
+
+    transform:
+        scale(1.6);
+
 }
 
+
 .card-number{
+
     width:44px;
     height:44px;
 
+    border-radius:12px;
+
     display:flex;
+
     align-items:center;
     justify-content:center;
 
-    border-radius:12px;
+    font-size:11px;
 
     color:#aaa;
-    font-size:11px;
 
     background:
         rgba(255,255,255,.04);
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(255,255,255,.08);
+
+    transition:.4s ease;
+
 }
+
+
+.card:hover .card-number{
+
+    transform:
+        rotate(-5deg)
+        scale(1.1);
+
+    background:
+        rgba(139,92,246,.15);
+
+    color:#fff;
+
+}
+
 
 .card h3{
-    margin-top:27px;
-    font-size:22px;
+
+    margin-top:28px;
+
+    font-size:23px;
+
 }
+
 
 .card-description{
-    color:#777;
-    font-size:12px;
+
+    color:#888;
+
+    font-size:13px;
+
     line-height:1.7;
-    margin-top:12px;
+
+    margin-top:14px;
+
 }
+
 
 .price{
-    margin-top:27px;
+
+    margin-top:28px;
+
 }
+
 
 .price strong{
-    font-size:30px;
+
+    font-size:32px;
+
 }
+
 
 .price span{
-    color:#666;
-    font-size:11px;
+
+    color:#777;
+
+    font-size:12px;
+
 }
+
 
 .features{
+
     list-style:none;
-    margin-top:25px;
+
+    margin-top:28px;
+
 }
+
 
 .features li{
-    color:#999;
 
-    font-size:11px;
+    color:#aaa;
 
-    padding:8px 0;
+    font-size:12px;
+
+    padding:9px 0;
 
     border-bottom:
-        1px solid rgba(255,255,255,.05);
+        1px solid
+        rgba(255,255,255,.05);
+
 }
+
 
 .features li::before{
+
     content:"✓";
+
     color:#8b5cf6;
+
     margin-right:8px;
+
 }
+
 
 .card-actions{
+
     display:flex;
-    gap:9px;
-    margin-top:25px;
+
+    gap:10px;
+
+    margin-top:28px;
+
 }
+
 
 .card-actions .btn{
+
     flex:1;
-    padding:13px 8px;
-    font-size:11px;
+
+    text-align:center;
+
 }
+
 
 .buy{
+
     background:#8b5cf6;
+
+    color:white;
+
 }
 
+
 .terms{
-    background:rgba(255,255,255,.04);
+
+    background:
+        rgba(255,255,255,.04);
+
     color:#aaa;
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(255,255,255,.08);
+
 }
 
+
+/* ================================
+   CARD MAIS ESCOLHIDO
+================================ */
+
 .featured-card{
+
     border-color:
-        rgba(139,92,246,.4);
+        rgba(139,92,246,.45);
 
     background:
         radial-gradient(
@@ -1266,25 +949,32 @@ section{
             rgba(139,92,246,.2),
             transparent 40%
         ),
+
         linear-gradient(
             145deg,
-            rgba(139,92,246,.15),
+            rgba(139,92,246,.18),
             rgba(8,8,8,.96)
         );
+
 }
 
+
 .popular{
+
     position:absolute;
 
     top:20px;
     right:20px;
 
-    padding:6px 10px;
+    padding:
+        6px 10px;
 
     border-radius:999px;
 
     font-size:8px;
-    font-weight:900;
+
+    font-weight:800;
+
     letter-spacing:1px;
 
     color:#ddd;
@@ -1293,192 +983,1034 @@ section{
         rgba(139,92,246,.15);
 
     border:
-        1px solid rgba(139,92,246,.3);
+        1px solid
+        rgba(139,92,246,.3);
 
-    animation:pulse 3s infinite;
+    animation:
+        pulse 3s infinite;
+
 }
+
 
 @keyframes pulse{
+
     50%{
+
         box-shadow:
-            0 0 25px rgba(139,92,246,.3);
+            0 0 25px
+            rgba(139,92,246,.3);
+
     }
+
 }
 
 
-/* =========================================================
-   FAQ
-========================================================= */
+/* ================================
+   SEÇÃO DIFERENCIAL
+================================ */
 
-.faq{
-    max-width:850px;
-    margin:auto;
+.features-section{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:20px;
+
 }
 
-.faq-item{
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
-}
 
-.faq-question{
-    width:100%;
+.feature{
 
-    padding:25px 5px;
+    padding:30px;
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    min-height:190px;
 
-    background:none;
-    border:0;
+    border-radius:20px;
 
-    color:#fff;
+    background:
+        rgba(255,255,255,.025);
 
-    text-align:left;
-
-    cursor:pointer;
-
-    font-size:14px;
-    font-weight:700;
-}
-
-.faq-symbol{
-    color:#8b5cf6;
-    font-size:20px;
-
-    transition:.3s ease;
-}
-
-.faq-answer{
-    max-height:0;
-    overflow:hidden;
-
-    color:#777;
-
-    font-size:12px;
-    line-height:1.8;
+    border:
+        1px solid
+        rgba(255,255,255,.06);
 
     transition:
-        max-height .4s ease,
-        padding .4s ease;
-}
+        transform .5s ease,
+        border-color .5s ease;
 
-.faq-item.active .faq-answer{
-    max-height:180px;
-    padding:
-        0 5px 25px;
-}
-
-.faq-item.active .faq-symbol{
-    transform:rotate(45deg);
 }
 
 
-/* =========================================================
+.feature:hover{
+
+    transform:
+        translateY(-10px);
+
+    border-color:
+        rgba(139,92,246,.35);
+
+}
+
+
+.feature h3{
+
+    margin-bottom:12px;
+
+}
+
+
+.feature p{
+
+    color:#888;
+
+    line-height:1.7;
+
+    font-size:13px;
+
+}
+
+
+/* ================================
    CTA
-========================================================= */
+================================ */
 
 .cta{
-    position:relative;
-
-    max-width:1350px;
-
-    margin:80px auto 100px;
-
-    padding:
-        110px 30px;
 
     text-align:center;
 
-    overflow:hidden;
+    padding:
+        180px 25px;
 
-    border-radius:35px;
-
-    border:
-        1px solid rgba(139,92,246,.2);
-
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            rgba(139,92,246,.22),
-            transparent 50%
-        ),
-        linear-gradient(
-            145deg,
-            rgba(139,92,246,.08),
-            rgba(255,255,255,.015)
-        );
 }
 
-.cta::before{
-    content:"";
-
-    position:absolute;
-
-    width:400px;
-    height:400px;
-
-    border-radius:50%;
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    background:rgba(139,92,246,.08);
-
-    filter:blur(100px);
-
-    pointer-events:none;
-}
 
 .cta h2{
-    position:relative;
 
     font-size:
-        clamp(42px,6vw,78px);
+        clamp(40px,6vw,75px);
 
-    line-height:.95;
+    letter-spacing:-4px;
 
-    letter-spacing:-5px;
 }
 
-.cta h2 span{
-    color:#8b5cf6;
-}
 
 .cta p{
-    position:relative;
+
+    color:#888;
+
+    margin:
+        22px auto 35px;
 
     max-width:600px;
 
-    margin:
-        25px auto 35px;
+    line-height:1.7;
 
-    color:#777;
-
-    line-height:1.8;
-}
-
-.cta .btn{
-    position:relative;
 }
 
 
-/* =========================================================
+/* ================================
    FOOTER
-========================================================= */
+================================ */
 
 footer{
-    border-top:
-        1px solid rgba(255,255,255,.07);
 
-    padding:
-        65px 5vw 30px;
+    text-align:center;
+
+    padding:50px 20px;
+
+    color:#666;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
 }
 
-.footer-main{
-    max-width:1350px;
-    margin:auto;
 
-    display:grid
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:1100px){
+
+    .plans{
+
+        grid-template-columns:
+            repeat(2,minmax(280px,1fr));
+
+    }
+
+}
+
+
+@media(max-width:800px){
+
+    nav{
+
+        padding:
+            0 18px;
+
+    }
+
+    .nav-links{
+
+        display:none;
+
+    }
+
+    .logo-marquee{
+
+        height:160px;
+
+    }
+
+    .logo-marquee img{
+
+        width:230px;
+        height:120px;
+
+    }
+
+    .logo-group{
+
+        gap:55px;
+
+        padding-right:55px;
+
+    }
+
+    .plans{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .features-section{
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media(max-width:500px){
+
+    .hero{
+
+        padding:
+            100px 18px;
+
+    }
+
+    .hero h1{
+
+        font-size:
+            clamp(42px,14vw,65px);
+
+        letter-spacing:-4px;
+
+    }
+
+    .hero p{
+
+        font-size:14px;
+
+    }
+
+    .hero-buttons{
+
+        width:100%;
+
+        flex-direction:column;
+
+    }
+
+    .hero-buttons .btn{
+
+        width:100%;
+
+        min-height:48px;
+
+    }
+
+    section{
+
+        padding:
+            110px 16px;
+
+    }
+
+    .card{
+
+        min-height:auto;
+
+        padding:25px;
+
+    }
+
+    .card-actions{
+
+        flex-direction:column;
+
+    }
+
+    .card-actions .btn{
+
+        min-height:46px;
+
+    }
+
+}
+
+
+/* ================================
+   REDUZIR ANIMAÇÕES
+================================ */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        scroll-behavior:auto !important;
+
+        transition-duration:.01ms !important;
+
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+
+
+<!-- =================================
+     FAIXA DA LOGO
+================================= -->
+
+<div class="logo-marquee">
+
+    <div class="logo-track">
+
+        <div class="logo-group">
+
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+
+        </div>
+
+
+        <div class="logo-group">
+
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =================================
+     NAV
+================================= -->
+
+<nav>
+
+    <div class="logo-text">
+        Site<span>fy</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#inicio">Início</a>
+
+        <a href="#planos">Planos</a>
+
+        <a href="#diferenciais">Diferenciais</a>
+
+        <a href="#contato">Contato</a>
+
+    </div>
+
+</nav>
+
+
+<!-- =================================
+     HERO
+================================= -->
+
+<section class="hero" id="inicio">
+
+    <h1>
+        Sites que
+        <span>destacam</span>
+        sua marca.
+    </h1>
+
+    <p>
+        Criamos experiências digitais modernas,
+        rápidas e responsivas para transformar
+        sua presença na internet.
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <a
+            href="#planos"
+            class="btn btn-primary"
+        >
+            Ver planos
+        </a>
+
+        <a
+            href="#contato"
+            class="btn btn-secondary"
+        >
+            Falar conosco
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     PLANOS
+================================= -->
+
+<section id="planos">
+
+    <div class="section-title">
+
+        <h2>
+            Escolha seu
+            <span style="color:#8b5cf6">
+                site.
+            </span>
+        </h2>
+
+        <p>
+            Soluções pensadas para diferentes
+            momentos e necessidades do seu negócio.
+        </p>
+
+    </div>
+
+
+    <div class="plans">
+
+
+        <!-- 01 -->
+
+        <div class="card reveal">
+
+            <div class="card-number">
+                01
+            </div>
+
+            <h3>
+                Site Essencial
+            </h3>
+
+            <p class="card-description">
+
+                Uma página simples e elegante
+                para começar a apresentar
+                sua marca na internet.
+
+            </p>
+
+            <div class="price">
+
+                <strong>
+                    R$ 9,90
+                </strong>
+
+                <span>
+                    / projeto
+                </span>
+
+            </div>
+
+
+            <ul class="features">
+
+                <li>
+                    Página única
+                </li>
+
+                <li>
+                    Design limpo
+                </li>
+
+                <li>
+                    Responsivo
+                </li>
+
+                <li>
+                    Informações da empresa
+                </li>
+
+                <li>
+                    Botão para WhatsApp
+                </li>
+
+            </ul>
+
+
+            <div class="card-actions">
+
+                <a
+                    href="https://www.instagram.com/Sitefycreate/"
+                    target="_blank"
+                    class="btn buy"
+                >
+                    Adquirir
+                </a>
+
+                <button
+                    class="btn terms"
+                    onclick="openTerms('basic')"
+                >
+                    Termos
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 02 -->
+
+        <div class="card reveal">
+
+            <div class="card-number">
+                02
+            </div>
+
+            <h3>
+                Site Start
+            </h3>
+
+            <p class="card-description">
+
+                Uma solução básica, bonita
+                e funcional para pequenos
+                negócios.
+
+            </p>
+
+            <div class="price">
+
+                <strong>
+                    R$ 19,90
+                </strong>
+
+                <span>
+                    / projeto
+                </span>
+
+            </div>
+
+
+            <ul class="features">
+
+                <li>
+                    Design personalizado
+                </li>
+
+                <li>
+                    Visual moderno
+                </li>
+
+                <li>
+                    Animações suaves
+                </li>
+
+                <li>
+                    Responsivo
+                </li>
+
+                <li>
+                    Botão para WhatsApp
+                </li>
+
+                <li>
+                    Publicação online
+                </li>
+
+            </ul>
+
+
+            <div class="card-actions">
+
+                <a
+                    href="https://www.instagram.com/Sitefycreate/"
+                    target="_blank"
+                    class="btn buy"
+                >
+                    Adquirir
+                </a>
+
+                <button
+                    class="btn terms"
+                    onclick="openTerms('basic')"
+                >
+                    Termos
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 03 -->
+
+        <div class="card featured-card reveal">
+
+            <div class="popular">
+                MAIS ESCOLHIDO
+            </div>
+
+            <div class="card-number">
+                03
+            </div>
+
+            <h3>
+                Site Básico
+            </h3>
+
+            <p class="card-description">
+
+                Uma presença digital elegante
+                para apresentar sua empresa
+                de forma profissional.
+
+            </p>
+
+            <div class="price">
+
+                <strong>
+                    R$ 48,90
+                </strong>
+
+                <span>
+                    / projeto
+                </span>
+
+            </div>
+
+
+            <ul class="features">
+
+                <li>
+                    Design personalizado
+                </li>
+
+                <li>
+                    Visual moderno
+                </li>
+
+                <li>
+                    Animações suaves
+                </li>
+
+                <li>
+                    Responsivo
+                </li>
+
+                <li>
+                    Estrutura profissional
+                </li>
+
+                <li>
+                    Publicação online
+                </li>
+
+            </ul>
+
+
+            <div class="card-actions">
+
+                <a
+                    href="https://www.instagram.com/Sitefycreate/"
+                    target="_blank"
+                    class="btn buy"
+                >
+                    Adquirir
+                </a>
+
+                <button
+                    class="btn terms"
+                    onclick="openTerms('basic')"
+                >
+                    Termos
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- 04 -->
+
+        <div class="card reveal">
+
+            <div class="card-number">
+                04
+            </div>
+
+            <h3>
+                Site Pro
+            </h3>
+
+            <p class="card-description">
+
+                Uma experiência sofisticada,
+                com identidade visual marcante
+                e acabamento premium.
+
+            </p>
+
+            <div class="price">
+
+                <strong>
+                    R$ 73,40
+                </strong>
+
+                <span>
+                    / projeto
+                </span>
+
+            </div>
+
+
+            <ul class="features">
+
+                <li>
+                    Tudo do Site Básico
+                </li>
+
+                <li>
+                    Design elaborado
+                </li>
+
+                <li>
+                    Interações avançadas
+                </li>
+
+                <li>
+                    Otimizado para celulares
+                </li>
+
+                <li>
+                    Otimizado para computadores
+                </li>
+
+                <li>
+                    Personalização avançada
+                </li>
+
+            </ul>
+
+
+            <div class="card-actions">
+
+                <a
+                    href="https://www.instagram.com/Sitefycreate/"
+                    target="_blank"
+                    class="btn buy"
+                >
+                    Adquirir
+                </a>
+
+                <button
+                    class="btn terms"
+                    onclick="openTerms('pro')"
+                >
+                    Termos
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     DIFERENCIAIS
+================================= -->
+
+<section id="diferenciais">
+
+    <div class="section-title">
+
+        <h2>
+            Por que
+            <span style="color:#8b5cf6">
+                Sitefy?
+            </span>
+        </h2>
+
+        <p>
+            Não criamos apenas páginas.
+            Criamos experiências digitais.
+        </p>
+
+    </div>
+
+
+    <div class="features-section">
+
+
+        <div class="feature reveal">
+
+            <h3>
+                Design moderno
+            </h3>
+
+            <p>
+                Interfaces pensadas para transmitir
+                profissionalismo e destacar sua marca.
+            </p>
+
+        </div>
+
+
+        <div class="feature reveal">
+
+            <h3>
+                Responsivo
+            </h3>
+
+            <p>
+                Seu site funciona de forma fluida
+                em computadores, tablets e celulares.
+            </p>
+
+        </div>
+
+
+        <div class="feature reveal">
+
+            <h3>
+                Experiência
+            </h3>
+
+            <p>
+                Animações e interações suaves para
+                tornar a navegação mais agradável.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     CTA
+================================= -->
+
+<section class="cta" id="contato">
+
+    <h2>
+        Vamos criar algo
+        <span style="color:#8b5cf6">
+            incrível?
+        </span>
+    </h2>
+
+    <p>
+        Entre em contato e conte um pouco
+        sobre o seu projeto.
+    </p>
+
+    <a
+        href="https://www.instagram.com/Sitefycreate/"
+        target="_blank"
+        class="btn btn-primary"
+    >
+        Falar com a Sitefy
+    </a>
+
+</section>
+
+
+<footer>
+
+    © 2026 Sitefy.
+    Todos os direitos reservados.
+
+</footer>
+
+
+<script>
+
+/* =================================
+   REVEAL DOS CARDS
+================================= */
+
+const reveals =
+    document.querySelectorAll(".reveal");
+
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold:.12
+        }
+    );
+
+
+reveals.forEach(
+    element =>
+        revealObserver.observe(element)
+);
+
+
+/* =================================
+   PROGRESSO DA ROLAGEM
+================================= */
+
+const progress =
+    document.getElementById(
+        "scrollProgress"
+    );
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        const max =
+            document.documentElement
+                .scrollHeight -
+            window.innerHeight;
+
+
+        const value =
+            max > 0
+                ? (
+                    window.scrollY /
+                    max
+                ) * 100
+                : 0;
+
+
+        progress.style.width =
+            value + "%";
+
+    },
+    {
+        passive:true
+    }
+);
+
+
+/* =================================
+   MOVIMENTO DO FUNDO PELO MOUSE
+================================= */
+
+document.addEventListener(
+    "mousemove",
+    event => {
+
+        const x =
+            (event.clientX /
+            window.innerWidth - .5)
+            * 30;
+
+        const y =
+            (event.clientY /
+            window.innerHeight - .5)
+            * 30;
+
+
+        document.querySelector(
+            ".orb1"
+        ).style.transform =
+            `translate(${x}px,${y}px)`;
+
+
+        document.querySelector(
+            ".orb2"
+        ).style.transform =
+            `translate(${-x}px,${-y}px)`;
+
+    }
+);
+
+
+/* =================================
+   TERMOS
+================================= */
+
+function openTerms(type){
+
+    alert(
+        "Os termos deste plano serão apresentados durante o atendimento."
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>
