@@ -1,2018 +1,726 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+<!-- ============================================================
+     SITEFY — Site institucional de venda de criação de sites
+     Arquivo único: HTML + CSS + JS
+============================================================= -->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Sitefy — Sites que destacam sua marca</title>
+<meta name="description" content="A Sitefy cria sites modernos, rápidos e personalizados para empresas e profissionais que querem se destacar na internet. Peça um orçamento gratuito.">
+<meta name="theme-color" content="#07060c">
 
-<link rel="icon" type="image/prg" href="ChatGPT Image 23 de ago. de 2026, 15_01_46.png">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sitefy — Sites que destacam sua marca">
+<meta property="og:description" content="Criação de sites modernos, rápidos e responsivos, com identidade única para o seu negócio.">
+<meta property="og:site_name" content="Sitefy">
+
+<!-- Favicon inline (sem arquivo externo) -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307060c'/%3E%3Cpath d='M20 40c0 4 4 7 10 7s9-2.5 9-6.5c0-9-19-6-19-14.5C20 21.5 24.5 18 30 18s10 3 10 7' stroke='url(%23g)' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='20' y1='18' x2='39' y2='47' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23A78BFA'/%3E%3Cstop offset='1' stop-color='%2322D3EE'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E">
+
+<!-- Fontes -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
+/* ============================================================
+   1. TOKENS / VARIÁVEIS GLOBAIS
+============================================================= */
+:root{
+  --bg: #07060c;
+  --bg-soft: #0c0b16;
+  --panel: #100e1c;
+  --panel-2: #14121f;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.16);
 
-/* ================================
-   RESET
-================================ */
+  --violet: #7c3aed;
+  --violet-light: #a78bfa;
+  --cyan: #22d3ee;
+  --pink: #f472b6;
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+  --grad-brand: linear-gradient(135deg, var(--violet-light), var(--cyan));
+  --grad-brand-2: linear-gradient(135deg, var(--violet), var(--pink));
+
+  --text: #f5f4fb;
+  --text-dim: #a1a0b5;
+  --text-faint: #6f6d84;
+
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+
+  --ease: cubic-bezier(.16,.84,.44,1);
+  --dur-fast: .25s;
+  --dur: .55s;
+
+  --maxw: 1240px;
+  --nav-h: 78px;
 }
 
-html{
-    scroll-behavior:smooth;
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
 }
 
 body{
-    background:#050505;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-    overflow-x:hidden;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', -apple-system, sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
 
+h1,h2,h3,h4{
+  font-family:'Space Grotesk', 'Inter', sans-serif;
+  font-weight:600;
+  line-height:1.12;
+  margin:0;
+  letter-spacing:-.01em;
+}
+p{ margin:0; }
+a{ color:inherit; text-decoration:none; }
+ul{ margin:0; padding:0; list-style:none; }
+button{ font-family:inherit; cursor:pointer; }
+img{ max-width:100%; display:block; }
 
-/* ================================
-   FUNDO
-================================ */
+.mono{ font-family:'JetBrains Mono', monospace; }
 
-body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-
-    background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(139,92,246,.12),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 80% 70%,
-            rgba(139,92,246,.08),
-            transparent 30%
-        );
-
-    pointer-events:none;
-    z-index:-3;
+/* Foco visível para acessibilidade */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:3px;
+  border-radius:6px;
 }
 
-.bg-orb{
-    position:fixed;
+/* Scrollbar discreta */
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg); }
+::-webkit-scrollbar-thumb{ background:var(--panel-2); border-radius:10px; border:2px solid var(--bg); }
 
-    width:500px;
-    height:500px;
-
-    border-radius:50%;
-
-    background:rgba(139,92,246,.09);
-
-    filter:blur(120px);
-
-    animation:orbMove 12s ease-in-out infinite alternate;
-
-    pointer-events:none;
-
-    z-index:-2;
+.container{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:0 24px;
 }
 
-.orb1{
-    top:-200px;
-    left:-150px;
+.section{
+  position:relative;
+  padding:120px 0;
+}
+@media (max-width:768px){
+  .section{ padding:80px 0; }
 }
 
-.orb2{
-    right:-200px;
-    bottom:-200px;
-
-    animation-delay:2s;
+.section-head{
+  max-width:640px;
+  margin:0 0 56px;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:'JetBrains Mono', monospace;
+  font-size:12.5px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:16px;
+}
+.eyebrow::before{
+  content:'';
+  width:18px; height:1px;
+  background:var(--cyan);
+}
+.section-head h2{
+  font-size:clamp(28px, 4vw, 42px);
+  color:var(--text);
+}
+.section-head p{
+  margin-top:16px;
+  color:var(--text-dim);
+  font-size:17px;
+  max-width:560px;
 }
 
-@keyframes orbMove{
+/* Fundo texturizado global: grid técnico sutil + glow ambiente */
+.bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  pointer-events:none;
+}
+.bg-glow{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  background:var(--bg);
+  pointer-events:none;
+}
+.bg-glow::before, .bg-glow::after{
+  content:'';
+  position:absolute;
+  width:640px; height:640px;
+  border-radius:50%;
+  filter:blur(140px);
+  opacity:.28;
+}
+.bg-glow::before{ top:-180px; left:-160px; background:var(--violet); }
+.bg-glow::after{ top:20%; right:-220px; background:var(--cyan); opacity:.16; }
 
-    from{
-        transform:translate3d(0,0,0) scale(1);
-    }
-
-    to{
-        transform:translate3d(80px,50px,0) scale(1.15);
-    }
-
+/* ============================================================
+   2. CURSOR CUSTOMIZADO + SPOTLIGHT
+============================================================= */
+.cursor-dot, .cursor-ring{
+  position:fixed;
+  top:0; left:0;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+}
+.cursor-dot{
+  width:6px; height:6px;
+  background:var(--cyan);
+  transition:opacity .2s;
+}
+.cursor-ring{
+  width:34px; height:34px;
+  border:1.5px solid rgba(167,139,250,.55);
+  transition:width .2s var(--ease), height .2s var(--ease), border-color .2s, opacity .2s, background .2s;
+}
+.cursor-ring.is-active{
+  width:56px; height:56px;
+  background:rgba(124,58,237,.12);
+  border-color:var(--cyan);
+}
+@media (hover:none), (pointer:coarse){
+  .cursor-dot, .cursor-ring, .spotlight{ display:none !important; }
 }
 
+.spotlight{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:radial-gradient(560px circle at var(--sx,50%) var(--sy,50%), rgba(124,58,237,.10), transparent 70%);
+  transition:opacity .3s;
+}
 
-/* ================================
-   BARRA DE PROGRESSO
-================================ */
-
+/* ============================================================
+   3. BARRA DE PROGRESSO DE SCROLL
+============================================================= */
 .scroll-progress{
-
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:0%;
-    height:3px;
-
-    background:linear-gradient(
-        90deg,
-        #6d28d9,
-        #a78bfa,
-        #c4b5fd,
-        #7c3aed
-    );
-
-    box-shadow:
-        0 0 15px rgba(139,92,246,.8);
-
-    z-index:9999;
+  position:fixed;
+  top:0; left:0;
+  height:3px;
+  width:0%;
+  background:var(--grad-brand);
+  z-index:1001;
+  box-shadow:0 0 12px rgba(34,211,238,.6);
 }
 
-
-/* ================================
-   LOGO MARQUEE
-================================ */
-
-.logo-marquee{
-
-    width:100%;
-
-    height:220px;
-
-    overflow:hidden;
-
-    position:relative;
-
-    display:flex;
-    align-items:center;
-
-    background:#050505;
-
-    border-bottom:
-        1px solid rgba(139,92,246,.15);
-
-    border-top:
-        1px solid rgba(139,92,246,.08);
-
+/* ============================================================
+   4. NAVBAR
+============================================================= */
+.navbar{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:1000;
+  height:var(--nav-h);
+  display:flex;
+  align-items:center;
+  background:transparent;
+  border-bottom:1px solid transparent;
+  transition:background .4s var(--ease), border-color .4s var(--ease), backdrop-filter .4s var(--ease), height .3s var(--ease);
 }
-
-
-/* sombras nas laterais */
-
-.logo-marquee::before,
-.logo-marquee::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    bottom:0;
-
-    width:180px;
-
-    z-index:5;
-
-    pointer-events:none;
-
+.navbar.scrolled{
+  background:rgba(7,6,12,.72);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--border);
+  height:68px;
 }
-
-.logo-marquee::before{
-
-    left:0;
-
-    background:
-        linear-gradient(
-            90deg,
-            #050505,
-            transparent
-        );
-
+.nav-inner{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-
-.logo-marquee::after{
-
-    right:0;
-
-    background:
-        linear-gradient(
-            270deg,
-            #050505,
-            transparent
-        );
-
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:700;
+  font-size:21px;
+  color:var(--text);
+  letter-spacing:-.02em;
 }
-
-
-/* trilho */
-
-.logo-track{
-
-    display:flex;
-
-    width:max-content;
-
-    animation:
-        logoMove 24s linear infinite;
-
+.logo .dot{
+  width:9px; height:9px;
+  border-radius:50%;
+  background:var(--grad-brand);
+  box-shadow:0 0 14px rgba(34,211,238,.7);
 }
-
-
-/* grupo */
-
-.logo-group{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:100px;
-
-    padding-right:100px;
-
+.logo span.accent{
+  background:var(--grad-brand);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
-
-
-/* imagem */
-
-.logo-marquee img{
-
-    width:320px;
-
-    height:160px;
-
-    object-fit:contain;
-
-    flex-shrink:0;
-
-    filter:
-        drop-shadow(
-            0 0 25px
-            rgba(139,92,246,.22)
-        );
-
-    transition:
-        transform .4s ease,
-        filter .4s ease;
-
-}
-
-
-/* pequeno movimento */
-
-.logo-marquee img:hover{
-
-    transform:
-        scale(1.08);
-
-    filter:
-        drop-shadow(
-            0 0 45px
-            rgba(139,92,246,.5)
-        );
-
-}
-
-
-@keyframes logoMove{
-
-    from{
-        transform:translateX(0);
-    }
-
-    to{
-        transform:translateX(-50%);
-    }
-
-}
-
-
-/* ================================
-   NAVBAR
-================================ */
-
-nav{
-
-    height:82px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    max-width:1380px;
-
-    margin:auto;
-
-    padding:0 32px;
-
-    position:relative;
-
-    z-index:20;
-
-}
-
-.logo-text{
-
-    font-size:20px;
-
-    font-weight:800;
-
-    letter-spacing:-1px;
-
-}
-
-.logo-text span{
-
-    color:#8b5cf6;
-
-}
-
 
 .nav-links{
-
-    display:flex;
-
-    gap:8px;
-
+  display:flex;
+  align-items:center;
+  gap:36px;
 }
-
 .nav-links a{
-
-    text-decoration:none;
-
-    color:#aaa;
-
-    font-size:13px;
-
-    padding:10px 13px;
-
-    border-radius:10px;
-
-    transition:.3s ease;
-
+  position:relative;
+  font-size:14.5px;
+  font-weight:500;
+  color:var(--text-dim);
+  padding:6px 0;
+  transition:color .25s;
 }
-
-.nav-links a:hover{
-
-    color:#fff;
-
-    background:
-        rgba(139,92,246,.1);
-
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  left:0; bottom:0;
+  width:0%; height:1.5px;
+  background:var(--grad-brand);
+  transition:width .3s var(--ease);
 }
+.nav-links a:hover{ color:var(--text); }
+.nav-links a:hover::after{ width:100%; }
 
-
-/* ================================
-   HERO
-================================ */
-
-.hero{
-
-    min-height:100vh;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    padding:
-        130px 24px 160px;
-
-    position:relative;
-
-}
-
-
-.hero::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:650px;
-    height:650px;
-
-    border-radius:50%;
-
-    background:
-        rgba(139,92,246,.08);
-
-    filter:blur(130px);
-
-    animation:
-        heroGlow 7s ease-in-out infinite alternate;
-
-    z-index:-1;
-
-}
-
-
-@keyframes heroGlow{
-
-    from{
-        transform:scale(.9);
-        opacity:.4;
-    }
-
-    to{
-        transform:scale(1.15);
-        opacity:.8;
-    }
-
-}
-
-
-.hero h1{
-
-    font-size:
-        clamp(48px,8vw,100px);
-
-    line-height:.95;
-
-    letter-spacing:-6px;
-
-    max-width:1100px;
-
-    animation:
-        heroEnter 1.2s
-        cubic-bezier(.16,1,.3,1)
-        both;
-
-}
-
-
-.hero h1 span{
-
-    color:#8b5cf6;
-
-}
-
-
-.hero p{
-
-    max-width:700px;
-
-    margin-top:30px;
-
-    color:#8c8c8c;
-
-    font-size:17px;
-
-    line-height:1.8;
-
-    animation:
-        heroEnter 1.2s
-        .15s
-        cubic-bezier(.16,1,.3,1)
-        both;
-
-}
-
-
-@keyframes heroEnter{
-
-    from{
-
-        opacity:0;
-
-        transform:
-            translateY(35px);
-
-        filter:blur(10px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:
-            translateY(0);
-
-        filter:blur(0);
-
-    }
-
-}
-
-
-/* ================================
-   BOTÕES
-================================ */
-
-.hero-buttons{
-
-    display:flex;
-
-    gap:14px;
-
-    margin-top:38px;
-
-    animation:
-        heroEnter 1.2s
-        .3s
-        cubic-bezier(.16,1,.3,1)
-        both;
-
-}
-
+.nav-actions{ display:flex; align-items:center; gap:18px; }
 
 .btn{
-
-    text-decoration:none;
-
-    border:0;
-
-    cursor:pointer;
-
-    padding:
-        14px 24px;
-
-    border-radius:12px;
-
-    font-weight:700;
-
-    font-size:13px;
-
-    transition:
-        transform .35s
-        cubic-bezier(.16,1,.3,1),
-        box-shadow .35s ease,
-        background .35s ease;
-
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:13px 26px;
+  border-radius:999px;
+  font-size:14.5px;
+  font-weight:600;
+  border:1px solid transparent;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .3s, border-color .3s, color .3s;
+  white-space:nowrap;
 }
-
-
-.btn:hover{
-
-    transform:
-        translateY(-4px);
-
-}
-
-
+.btn:active{ transform:scale(.97); }
 .btn-primary{
-
-    background:#8b5cf6;
-
-    color:white;
-
-    box-shadow:
-        0 10px 35px
-        rgba(139,92,246,.25);
-
+  background:var(--grad-brand);
+  color:#0a0714;
+  box-shadow:0 8px 24px -8px rgba(124,58,237,.65);
 }
-
-
 .btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 32px -8px rgba(34,211,238,.55);
+}
+.btn-ghost{
+  background:rgba(255,255,255,.03);
+  border-color:var(--border-strong);
+  color:var(--text);
+}
+.btn-ghost:hover{
+  border-color:var(--cyan);
+  background:rgba(34,211,238,.06);
+  transform:translateY(-2px);
+}
+.btn-block{ width:100%; }
+.btn-sm{ padding:10px 20px; font-size:13.5px; }
 
-    background:#9f7aea;
+.nav-cta{ display:none; }
+@media (min-width:980px){ .nav-cta{ display:inline-flex; } }
 
-    box-shadow:
-        0 15px 45px
-        rgba(139,92,246,.4);
+.burger{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:5px;
+  width:40px; height:40px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  border-radius:10px;
+  align-items:center;
+}
+.burger span{
+  display:block;
+  width:18px; height:1.5px;
+  background:var(--text);
+  transition:transform .3s var(--ease), opacity .3s;
+}
+.burger.is-open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+.burger.is-open span:nth-child(2){ opacity:0; }
+.burger.is-open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
 
+@media (max-width:979px){
+  .nav-links{ display:none; }
+}
+@media (min-width:980px){
+  .burger{ display:none; }
 }
 
+.mobile-menu{
+  position:fixed;
+  top:0; right:0;
+  height:100%;
+  width:min(320px, 84vw);
+  background:rgba(10,9,18,.98);
+  backdrop-filter:blur(20px);
+  border-left:1px solid var(--border);
+  z-index:999;
+  padding:100px 28px 40px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  transform:translateX(100%);
+  transition:transform .45s var(--ease);
+}
+.mobile-menu.is-open{ transform:translateX(0); }
+.mobile-menu a{
+  font-size:18px;
+  font-weight:500;
+  padding:14px 4px;
+  border-bottom:1px solid var(--border);
+  color:var(--text-dim);
+}
+.mobile-menu a:hover{ color:var(--text); }
+.mobile-menu .btn{ margin-top:20px; }
+.menu-overlay{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:998;
+  opacity:0; pointer-events:none;
+  transition:opacity .4s;
+}
+.menu-overlay.is-open{ opacity:1; pointer-events:auto; }
 
-.btn-secondary{
-
-    background:
-        rgba(255,255,255,.04);
-
-    color:white;
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-
+/* ============================================================
+   5. HERO
+============================================================= */
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  padding-top:var(--nav-h);
+  overflow:hidden;
+}
+.hero-inner{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:60px;
+  align-items:center;
+  width:100%;
+  padding:80px 0 60px;
+}
+@media (max-width:980px){
+  .hero-inner{ grid-template-columns:1fr; text-align:center; padding:60px 0 40px; gap:48px; }
+  .hero-badge, .hero-actions, .hero-stats{ justify-content:center; margin-inline:auto; }
 }
 
-
-/* ================================
-   SEÇÕES
-================================ */
-
-section{
-
-    max-width:1380px;
-
-    margin:auto;
-
-    padding:
-        150px 32px;
-
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 16px 8px 8px;
+  border-radius:999px;
+  border:1px solid var(--border-strong);
+  background:rgba(255,255,255,.03);
+  font-size:13px;
+  color:var(--text-dim);
+  margin-bottom:28px;
+}
+.hero-badge .pill{
+  background:var(--grad-brand);
+  color:#0a0714;
+  font-weight:700;
+  font-size:11px;
+  padding:3px 9px;
+  border-radius:999px;
 }
 
-
-.section-title{
-
-    text-align:center;
-
-    max-width:750px;
-
-    margin:
-        0 auto 70px;
-
+.hero h1{
+  font-size:clamp(38px, 5.6vw, 68px);
+  color:var(--text);
+}
+.hero h1 .grad{
+  background:var(--grad-brand);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
+.hero p.lead{
+  margin-top:24px;
+  font-size:18px;
+  color:var(--text-dim);
+  max-width:520px;
+  line-height:1.7;
+}
+@media (max-width:980px){ .hero p.lead{ margin-inline:auto; } }
 
-.section-title h2{
-
-    font-size:
-        clamp(35px,5vw,60px);
-
-    letter-spacing:-3px;
-
+.hero-actions{
+  display:flex;
+  gap:16px;
+  margin-top:38px;
+  flex-wrap:wrap;
 }
 
-
-.section-title p{
-
-    color:#858585;
-
-    margin-top:18px;
-
-    line-height:1.7;
-
+.hero-stats{
+  display:flex;
+  gap:40px;
+  margin-top:56px;
+  flex-wrap:wrap;
+}
+.hero-stats .stat b{
+  display:block;
+  font-family:'Space Grotesk', sans-serif;
+  font-size:26px;
+  font-weight:700;
+  background:var(--grad-brand);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-stats .stat span{
+  font-size:13px;
+  color:var(--text-faint);
 }
 
-
-/* ================================
-   PLANOS
-================================ */
-
-.plans{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,minmax(0,1fr));
-
-    gap:24px;
-
+/* Mockup 3D do hero — o elemento de assinatura */
+.hero-visual{
+  perspective:1400px;
+  display:flex;
+  justify-content:center;
 }
-
-
-/* ================================
-   CARD
-================================ */
-
-.card{
-
-    position:relative;
-
-    overflow:hidden;
-
-    padding:30px;
-
-    min-height:500px;
-
-    border-radius:24px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.055),
-            rgba(255,255,255,.015)
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    box-shadow:
-        0 20px 60px
-        rgba(0,0,0,.4);
-
-    opacity:0;
-
-    transform:
-        translateY(50px);
-
-    transition:
-        opacity .9s ease,
-        transform .9s
-        cubic-bezier(.16,1,.3,1),
-        border-color .4s ease,
-        box-shadow .4s ease;
-
+.browser-mock{
+  width:100%;
+  max-width:460px;
+  border-radius:var(--radius-lg);
+  background:linear-gradient(180deg, var(--panel-2), var(--panel));
+  border:1px solid var(--border-strong);
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.02);
+  transform-style:preserve-3d;
+  transition:transform .15s ease-out;
+  overflow:hidden;
 }
-
-
-.card.show{
-
-    opacity:1;
-
-    transform:
-        translateY(0);
-
+.browser-bar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.02);
 }
-
-
-.card::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:180px;
-    height:180px;
-
-    border-radius:50%;
-
-    top:-100px;
-    right:-100px;
-
-    background:
-        rgba(139,92,246,.12);
-
-    filter:blur(35px);
-
-    transition:
-        transform .6s ease;
-
+.browser-bar .dots{ display:flex; gap:6px; }
+.browser-bar .dots i{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.14); display:block; }
+.browser-bar .url{
+  flex:1;
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  color:var(--text-faint);
+  background:rgba(255,255,255,.03);
+  border-radius:999px;
+  padding:5px 12px;
+  text-align:center;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
-
-
-.card:hover{
-
-    transform:
-        translateY(-14px)
-        scale(1.025);
-
-    border-color:
-        rgba(139,92,246,.45);
-
-    box-shadow:
-        0 35px 80px
-        rgba(0,0,0,.6),
-
-        0 0 50px
-        rgba(139,92,246,.12);
-
+.browser-body{ padding:26px; display:flex; flex-direction:column; gap:16px; }
+.skel-line{
+  height:11px;
+  border-radius:6px;
+  background:linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
 }
-
-
-.card:hover::before{
-
-    transform:
-        scale(1.6);
-
+.skel-hero-block{
+  height:120px;
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(124,58,237,.5), transparent 60%),
+    radial-gradient(circle at 75% 70%, rgba(34,211,238,.35), transparent 55%),
+    linear-gradient(135deg, var(--panel-2), var(--panel));
+  border:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
 }
-
-
-.card-number{
-
-    width:44px;
-    height:44px;
-
-    border-radius:12px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:11px;
-
-    color:#aaa;
-
-    background:
-        rgba(255,255,255,.04);
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    transition:.4s ease;
-
+.skel-hero-block::after{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.08) 50%, transparent 70%);
+  background-size:200% 100%;
+  animation:shimmer 3.2s ease-in-out infinite;
 }
-
-
-.card:hover .card-number{
-
-    transform:
-        rotate(-5deg)
-        scale(1.1);
-
-    background:
-        rgba(139,92,246,.15);
-
-    color:#fff;
-
+@keyframes shimmer{ 0%{ background-position:200% 0; } 100%{ background-position:-40% 0; } }
+.skel-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.skel-card{
+  height:64px;
+  border-radius:10px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
 }
-
-
-.card h3{
-
-    margin-top:28px;
-
-    font-size:23px;
-
+.browser-mock .pulse-dot{
+  position:absolute;
+  width:8px; height:8px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 0 0 rgba(34,211,238,.6);
+  animation:pulse 2.2s ease-out infinite;
 }
-
-
-.card-description{
-
-    color:#888;
-
-    font-size:13px;
-
-    line-height:1.7;
-
-    margin-top:14px;
-
-}
-
-
-.price{
-
-    margin-top:28px;
-
-}
-
-
-.price strong{
-
-    font-size:32px;
-
-}
-
-
-.price span{
-
-    color:#777;
-
-    font-size:12px;
-
-}
-
-
-.features{
-
-    list-style:none;
-
-    margin-top:28px;
-
-}
-
-
-.features li{
-
-    color:#aaa;
-
-    font-size:12px;
-
-    padding:9px 0;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.05);
-
-}
-
-
-.features li::before{
-
-    content:"✓";
-
-    color:#8b5cf6;
-
-    margin-right:8px;
-
-}
-
-
-.card-actions{
-
-    display:flex;
-
-    gap:10px;
-
-    margin-top:28px;
-
-}
-
-
-.card-actions .btn{
-
-    flex:1;
-
-    text-align:center;
-
-}
-
-
-.buy{
-
-    background:#8b5cf6;
-
-    color:white;
-
-}
-
-
-.terms{
-
-    background:
-        rgba(255,255,255,.04);
-
-    color:#aaa;
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-}
-
-
-/* ================================
-   CARD MAIS ESCOLHIDO
-================================ */
-
-.featured-card{
-
-    border-color:
-        rgba(139,92,246,.45);
-
-    background:
-        radial-gradient(
-            circle at 80% 10%,
-            rgba(139,92,246,.2),
-            transparent 40%
-        ),
-
-        linear-gradient(
-            145deg,
-            rgba(139,92,246,.18),
-            rgba(8,8,8,.96)
-        );
-
-}
-
-
-.popular{
-
-    position:absolute;
-
-    top:20px;
-    right:20px;
-
-    padding:
-        6px 10px;
-
-    border-radius:999px;
-
-    font-size:8px;
-
-    font-weight:800;
-
-    letter-spacing:1px;
-
-    color:#ddd;
-
-    background:
-        rgba(139,92,246,.15);
-
-    border:
-        1px solid
-        rgba(139,92,246,.3);
-
-    animation:
-        pulse 3s infinite;
-
-}
-
-
 @keyframes pulse{
-
-    50%{
-
-        box-shadow:
-            0 0 25px
-            rgba(139,92,246,.3);
-
-    }
-
+  0%{ box-shadow:0 0 0 0 rgba(34,211,238,.55); }
+  70%{ box-shadow:0 0 0 14px rgba(34,211,238,0); }
+  100%{ box-shadow:0 0 0 0 rgba(34,211,238,0); }
 }
 
+/* Formas abstratas de fundo do hero */
+.hero-shapes{ position:absolute; inset:0; z-index:-1; pointer-events:none; }
+.hero-shapes .line{
+  position:absolute;
+  background:linear-gradient(90deg, transparent, rgba(167,139,250,.5), transparent);
+  height:1px;
+}
+.hero-shapes .l1{ top:22%; left:0; width:40%; }
+.hero-shapes .l2{ top:68%; right:0; width:32%; }
+.hero-shapes .ring{
+  position:absolute;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:50%;
+}
+.hero-shapes .r1{ width:520px; height:520px; top:-160px; right:-120px; }
+.hero-shapes .r2{ width:340px; height:340px; bottom:-120px; left:-80px; }
 
-/* ================================
-   SEÇÃO DIFERENCIAL
-================================ */
-
-.features-section{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:20px;
-
+.particles{ position:absolute; inset:0; z-index:-1; pointer-events:none; }
+.particles span{
+  position:absolute;
+  width:3px; height:3px;
+  border-radius:50%;
+  background:var(--cyan);
+  opacity:.5;
+  animation:float-p linear infinite;
+}
+@keyframes float-p{
+  0%{ transform:translateY(0) translateX(0); opacity:0; }
+  10%{ opacity:.6; }
+  90%{ opacity:.4; }
+  100%{ transform:translateY(-90vh) translateX(20px); opacity:0; }
 }
 
-
-.feature{
-
-    padding:30px;
-
-    min-height:190px;
-
-    border-radius:20px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
-
-    transition:
-        transform .5s ease,
-        border-color .5s ease;
-
+.scroll-cue{
+  position:absolute;
+  bottom:28px; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  color:var(--text-faint);
+  text-transform:uppercase;
 }
-
-
-.feature:hover{
-
-    transform:
-        translateY(-10px);
-
-    border-color:
-        rgba(139,92,246,.35);
-
+.scroll-cue .stick{
+  width:1px; height:34px;
+  background:linear-gradient(var(--cyan), transparent);
+  animation:scroll-cue 1.8s ease-in-out infinite;
 }
+@keyframes scroll-cue{ 0%,100%{ transform:scaleY(.6); opacity:.4; } 50%{ transform:scaleY(1); opacity:1; } }
 
-
-.feature h3{
-
-    margin-bottom:12px;
-
+/* ============================================================
+   6. REVEAL ON SCROLL (genérico)
+============================================================= */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .8s var(--ease), transform .8s var(--ease);
 }
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+.reveal-stagger.is-visible > *{ transition-delay:calc(var(--i,0) * 90ms); }
 
-
-.feature p{
-
-    color:#888;
-
-    line-height:1.7;
-
-    font-size:13px;
-
+/* ============================================================
+   7. LOGOS / MARQUEE (prova social simples)
+============================================================= */
+.marquee-wrap{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:28px 0;
+  overflow:hidden;
+  position:relative;
 }
-
-
-/* ================================
-   CTA
-================================ */
-
-.cta{
-
-    text-align:center;
-
-    padding:
-        180px 25px;
-
+.marquee-wrap::before, .marquee-wrap::after{
+  content:'';
+  position:absolute; top:0; bottom:0; width:120px; z-index:2;
 }
-
-
-.cta h2{
-
-    font-size:
-        clamp(40px,6vw,75px);
-
-    letter-spacing:-4px;
-
+.marquee-wrap::before{ left:0; background:linear-gradient(90deg, var(--bg), transparent); }
+.marquee-wrap::after{ right:0; background:linear-gradient(-90deg, var(--bg), transparent); }
+.marquee{
+  display:flex;
+  gap:64px;
+  width:max-content;
+  animation:marquee 26s linear infinite;
 }
-
-
-.cta p{
-
-    color:#888;
-
-    margin:
-        22px auto 35px;
-
-    max-width:600px;
-
-    line-height:1.7;
-
+.marquee span{
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:600;
+  font-size:19px;
+  color:var(--text-faint);
+  white-space:nowrap;
+  letter-spacing:.02em;
 }
+@keyframes marquee{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
 
-
-/* ================================
-   FOOTER
-================================ */
-
-footer{
-
-    text-align:center;
-
-    padding:50px 20px;
-
-    color:#666;
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.06);
-
+/* ============================================================
+   8. SERVIÇOS
+============================================================= */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:22px;
 }
+@media (max-width:980px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){ .services-grid{ grid-template-columns:1fr; } }
 
-
-/* ================================
-   MOBILE
-================================ */
-
-@media(max-width:1100px){
-
-    .plans{
-
-        grid-template-columns:
-            repeat(2,minmax(280px,1fr));
-
-    }
-
+.tilt-card{
+  --mx:50%; --my:50%;
+  position:relative;
+  padding:32px 26px;
+  border-radius:var(--radius-md);
+  background:linear-gradient(160deg, var(--panel-2), var(--panel));
+  border:1px solid var(--border);
+  transform-style:preserve-3d;
+  transition:transform .12s ease-out, border-color .3s, box-shadow .3s;
+  overflow:hidden;
 }
-
-
-@media(max-width:800px){
-
-    nav{
-
-        padding:
-            0 18px;
-
-    }
-
-    .nav-links{
-
-        display:none;
-
-    }
-
-    .logo-marquee{
-
-        height:160px;
-
-    }
-
-    .logo-marquee img{
-
-        width:230px;
-        height:120px;
-
-    }
-
-    .logo-group{
-
-        gap:55px;
-
-        padding-right:55px;
-
-    }
-
-    .plans{
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-    .features-section{
-
-        grid-template-columns:
-            1fr;
-
-    }
-
+.tilt-card::before{
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(220px circle at var(--mx) var(--my), rgba(167,139,250,.16), transparent 60%);
+  opacity:0;
+  transition:opacity .35s;
+  pointer-events:none;
 }
-
-
-@media(max-width:500px){
-
-    .hero{
-
-        padding:
-            100px 18px;
-
-    }
-
-    .hero h1{
-
-        font-size:
-            clamp(42px,14vw,65px);
-
-        letter-spacing:-4px;
-
-    }
-
-    .hero p{
-
-        font-size:14px;
-
-    }
-
-    .hero-buttons{
-
-        width:100%;
-
-        flex-direction:column;
-
-    }
-
-    .hero-buttons .btn{
-
-        width:100%;
-
-        min-height:48px;
-
-    }
-
-    section{
-
-        padding:
-            110px 16px;
-
-    }
-
-    .card{
-
-        min-height:auto;
-
-        padding:25px;
-
-    }
-
-    .card-actions{
-
-        flex-direction:column;
-
-    }
-
-    .card-actions .btn{
-
-        min-height:46px;
-
-    }
-
+.tilt-card:hover{
+  border-color:var(--border-strong);
+  box-shadow:0 24px 48px -20px rgba(124,58,237,.35);
 }
-
-
-/* ================================
-   REDUZIR ANIMAÇÕES
-================================ */
-
-@media(prefers-reduced-motion:reduce){
-
-    *,
-    *::before,
-    *::after{
-
-        animation-duration:.01ms !important;
-
-        animation-iteration-count:1 !important;
-
-        scroll-behavior:auto !important;
-
-        transition-duration:.01ms !important;
-
-    }
-
-}
-
-</style>
-</head>
-
-
-<body>
-
-
-<div class="scroll-progress" id="scrollProgress"></div>
-
-<div class="bg-orb orb1"></div>
-<div class="bg-orb orb2"></div>
-
-
-<!-- =================================
-     FAIXA DA LOGO
-================================= -->
-
-<div class="logo-marquee">
-
-    <div class="logo-track">
-
-        <div class="logo-group">
-
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-
-        </div>
-
-
-        <div class="logo-group">
-
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-            <img src="ChatGPT Image 23 de ago. de 2026, 15_01_46.png" alt="Sitefy">
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =================================
-     NAV
-================================= -->
-
-<nav>
-
-    <div class="logo-text">
-        Site<span>fy</span>
-    </div>
-
-    <div class="nav-links">
-
-        <a href="#inicio">Início</a>
-
-        <a href="#planos">Planos</a>
-
-        <a href="#diferenciais">Diferenciais</a>
-
-        <a href="#contato">Contato</a>
-
-    </div>
-
-</nav>
-
-
-<!-- =================================
-     HERO
-================================= -->
-
-<section class="hero" id="inicio">
-
-    <h1>
-        Sites que
-        <span>destacam</span>
-        sua marca.
-    </h1>
-
-    <p>
-        Criamos experiências digitais modernas,
-        rápidas e responsivas para transformar
-        sua presença na internet.
-    </p>
-
-
-    <div class="hero-buttons">
-
-        <a
-            href="#planos"
-            class="btn btn-primary"
-        >
-            Ver planos
-        </a>
-
-        <a
-            href="#contato"
-            class="btn btn-secondary"
-        >
-            Falar conosco
-        </a>
-
-    </div>
-
-</section>
-
-
-<!-- =================================
-     PLANOS
-================================= -->
-
-<section id="planos">
-
-    <div class="section-title">
-
-        <h2>
-            Escolha seu
-            <span style="color:#8b5cf6">
-                site.
-            </span>
-        </h2>
-
-        <p>
-            Soluções pensadas para diferentes
-            momentos e necessidades do seu negócio.
-        </p>
-
-    </div>
-
-
-    <div class="plans">
-
-
-        <!-- 01 -->
-
-        <div class="card reveal">
-
-            <div class="card-number">
-                01
-            </div>
-
-            <h3>
-                Site Essencial
-            </h3>
-
-            <p class="card-description">
-
-                Uma página simples e elegante
-                para começar a apresentar
-                sua marca na internet.
-
-            </p>
-
-            <div class="price">
-
-                <strong>
-                    R$ 9,90
-                </strong>
-
-                <span>
-                    / projeto
-                </span>
-
-            </div>
-
-
-            <ul class="features">
-
-                <li>
-                    Página única
-                </li>
-
-                <li>
-                    Design limpo
-                </li>
-
-                <li>
-                    Responsivo
-                </li>
-
-                <li>
-                    Informações da empresa
-                </li>
-
-                <li>
-                    Botão para WhatsApp
-                </li>
-
-            </ul>
-
-
-            <div class="card-actions">
-
-                <a
-                    href="https://www.instagram.com/Sitefycreate/"
-                    target="_blank"
-                    class="btn buy"
-                >
-                    Adquirir
-                </a>
-
-                <button
-                    class="btn terms"
-                    onclick="openTerms('basic')"
-                >
-                    Termos
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- 02 -->
-
-        <div class="card reveal">
-
-            <div class="card-number">
-                02
-            </div>
-
-            <h3>
-                Site Start
-            </h3>
-
-            <p class="card-description">
-
-                Uma solução básica, bonita
-                e funcional para pequenos
-                negócios.
-
-            </p>
-
-            <div class="price">
-
-                <strong>
-                    R$ 19,90
-                </strong>
-
-                <span>
-                    / projeto
-                </span>
-
-            </div>
-
-
-            <ul class="features">
-
-                <li>
-                    Design personalizado
-                </li>
-
-                <li>
-                    Visual moderno
-                </li>
-
-                <li>
-                    Animações suaves
-                </li>
-
-                <li>
-                    Responsivo
-                </li>
-
-                <li>
-                    Botão para WhatsApp
-                </li>
-
-                <li>
-                    Publicação online
-                </li>
-
-            </ul>
-
-
-            <div class="card-actions">
-
-                <a
-                    href="https://www.instagram.com/Sitefycreate/"
-                    target="_blank"
-                    class="btn buy"
-                >
-                    Adquirir
-                </a>
-
-                <button
-                    class="btn terms"
-                    onclick="openTerms('basic')"
-                >
-                    Termos
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- 03 -->
-
-        <div class="card featured-card reveal">
-
-            <div class="popular">
-                MAIS ESCOLHIDO
-            </div>
-
-            <div class="card-number">
-                03
-            </div>
-
-            <h3>
-                Site Básico
-            </h3>
-
-            <p class="card-description">
-
-                Uma presença digital elegante
-                para apresentar sua empresa
-                de forma profissional.
-
-            </p>
-
-            <div class="price">
-
-                <strong>
-                    R$ 48,90
-                </strong>
-
-                <span>
-                    / projeto
-                </span>
-
-            </div>
-
-
-            <ul class="features">
-
-                <li>
-                    Design personalizado
-                </li>
-
-                <li>
-                    Visual moderno
-                </li>
-
-                <li>
-                    Animações suaves
-                </li>
-
-                <li>
-                    Responsivo
-                </li>
-
-                <li>
-                    Estrutura profissional
-                </li>
-
-                <li>
-                    Publicação online
-                </li>
-
-            </ul>
-
-
-            <div class="card-actions">
-
-                <a
-                    href="https://www.instagram.com/Sitefycreate/"
-                    target="_blank"
-                    class="btn buy"
-                >
-                    Adquirir
-                </a>
-
-                <button
-                    class="btn terms"
-                    onclick="openTerms('basic')"
-                >
-                    Termos
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- 04 -->
-
-        <div class="card reveal">
-
-            <div class="card-number">
-                04
-            </div>
-
-            <h3>
-                Site Pro
-            </h3>
-
-            <p class="card-description">
-
-                Uma experiência sofisticada,
-                com identidade visual marcante
-                e acabamento premium.
-
-            </p>
-
-            <div class="price">
-
-                <strong>
-                    R$ 73,40
-                </strong>
-
-                <span>
-                    / projeto
-                </span>
-
-            </div>
-
-
-            <ul class="features">
-
-                <li>
-                    Tudo do Site Básico
-                </li>
-
-                <li>
-                    Design elaborado
-                </li>
-
-                <li>
-                    Interações avançadas
-                </li>
-
-                <li>
-                    Otimizado para celulares
-                </li>
-
-                <li>
-                    Otimizado para computadores
-                </li>
-
-                <li>
-                    Personalização avançada
-                </li>
-
-            </ul>
-
-
-            <div class="card-actions">
-
-                <a
-                    href="https://www.instagram.com/Sitefycreate/"
-                    target="_blank"
-                    class="btn buy"
-                >
-                    Adquirir
-                </a>
-
-                <button
-                    class="btn terms"
-                    onclick="openTerms('pro')"
-                >
-                    Termos
-                </button>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- =================================
-     DIFERENCIAIS
-================================= -->
-
-<section id="diferenciais">
-
-    <div class="section-title">
-
-        <h2>
-            Por que
-            <span style="color:#8b5cf6">
-                Sitefy?
-            </span>
-        </h2>
-
-        <p>
-            Não criamos apenas páginas.
-            Criamos experiências digitais.
-        </p>
-
-    </div>
-
-
-    <div class="features-section">
-
-
-        <div class="feature reveal">
-
-            <h3>
-                Design moderno
-            </h3>
-
-            <p>
-                Interfaces pensadas para transmitir
-                profissionalismo e destacar sua marca.
-            </p>
-
-        </div>
-
-
-        <div class="feature reveal">
-
-            <h3>
-                Responsivo
-            </h3>
-
-            <p>
-                Seu site funciona de forma fluida
-                em computadores, tablets e celulares.
-            </p>
-
-        </div>
-
-
-        <div class="feature reveal">
-
-            <h3>
-                Experiência
-            </h3>
-
-            <p>
-                Animações e interações suaves para
-                tornar a navegação mais agradável.
-            </p>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- =================================
-     CTA
-================================= -->
-
-<section class="cta" id="contato">
-
-    <h2>
-        Vamos criar algo
-        <span style="color:#8b5cf6">
-            incrível?
-        </span>
-    </h2>
-
-    <p>
-        Entre em contato e conte um pouco
-        sobre o seu projeto.
-    </p>
-
-    <a
-        href="https://www.instagram.com/Sitefycreate/"
-        target="_blank"
-        class="btn btn-primary"
-    >
-        Falar com a Sitefy
-    </a>
-
-</section>
-
-
-<footer>
-
-    © 2026 Sitefy.
-    Todos os direitos reservados.
-
-</footer>
-
-
-<script>
-
-/* =================================
-   REVEAL DOS CARDS
-================================= */
-
-const reveals =
-    document.querySelectorAll(".reveal");
-
-
-const revealObserver =
-    new IntersectionObserver(
-        entries => {
-
-            entries.forEach(
-                entry => {
-
-                    if(
-                        entry.isIntersecting
-                    ){
-
-                        entry.target.classList.add(
-                            "show"
-                        );
-
-                    }
-
-                }
-            );
-
-        },
-        {
-            threshold:.12
-        }
-    );
-
-
-reveals.forEach(
-    element =>
-        revealObserver.observe(element)
-);
-
-
-/* =================================
-   PROGRESSO DA ROLAGEM
-================================= */
-
-const progress =
-    document.getElementById(
-        "scrollProgress"
-    );
-
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        const max =
-            document.documentElement
-                .scrollHeight -
-            window.innerHeight;
-
-
-        const value =
-            max > 0
-                ? (
-                    window.scrollY /
-                    max
-                ) * 100
-                : 0;
-
-
-        progress.style.width =
-            value + "%";
-
-    },
-    {
-        passive:true
-    }
-);
-
-
-/* =================================
-   MOVIMENTO DO FUNDO PELO MOUSE
-================================= */
-
-document.addEventListener(
-    "mousemove",
-    event => {
-
-        const x =
-            (event.clientX /
-            window.innerWidth - .5)
-            * 30;
-
-        const y =
-            (event.clientY /
-            window.innerHeight - .5)
-            * 30;
-
-
-        document.querySelector(
-            ".orb1"
-        ).style.transform =
-            `translate(${x}px,${y}px)`;
-
-
-        document.querySelector(
-            ".orb2"
-        ).style.transform =
-            `translate(${-x}px,${-y}px)`;
-
-    }
-);
-
-
-/* =================================
-   TERMOS
-================================= */
-
-function openTerms(type){
-
-    alert(
-        "Os termos deste plano serão apresentados durante o atendimento."
-    );
-
-}
-
-</script>
-
-
-</body>
-</html>
+.tilt-card:hover::before{ opacity:1; }
+
+.service-icon{
+  width:52px; height:52px;
+  border-radius:1
