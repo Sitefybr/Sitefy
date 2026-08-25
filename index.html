@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#050505">
-    <title>SITEFY — Engenharias Digitais de Alta Conversão</title>
+    <meta name="theme-color" content="#000000">
+    <title>SITEFY — Engenharia Digital & Minimalismo Agressivo</title>
 
+    <!-- Fontes Premium Monocromáticas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syncopate:wght@700;800&display=swap" rel="stylesheet">
     
+    <!-- Three.js Visual Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
         /* ==========================================================================
-           DESIGN SYSTEM MONOCROMÁTICO + 20% ROXO (PURPLE ACCENT)
+           1. SISTEMA VISUAL MONOCROMÁTICO (BLACK & WHITE EXCLUSIVO)
            ========================================================================== */
         :root {
-            --bg-dark: #050505;
-            --bg-card: rgba(18, 18, 23, 0.75);
-            --bg-card-hover: rgba(28, 28, 36, 0.85);
-            --border-neutral: rgba(255, 255, 255, 0.08);
-            --border-purple: rgba(139, 92, 246, 0.4);
+            --bg-black: #000000;
+            --bg-surface: #0a0a0a;
+            --bg-card: #111111;
+            --bg-card-hover: #181818;
             
-            --purple-main: #8b5cf6;
-            --purple-deep: #6d28d9;
-            --purple-glow: rgba(139, 92, 246, 0.35);
+            --border-dim: #222222;
+            --border-bright: #ffffff;
             
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            --text-muted: #52525b;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --text-dim: #444444;
 
-            --font-head: 'Syne', sans-serif;
-            --font-body: 'Inter', sans-serif;
+            --font-head: 'Syncopate', sans-serif;
+            --font-body: 'Space Grotesk', sans-serif;
         }
 
         *, *::before, *::after {
@@ -44,19 +44,20 @@
 
         html {
             scroll-behavior: smooth;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
+            background-color: var(--bg-black);
+            color: var(--text-main);
             font-family: var(--font-body);
             overflow-x: hidden;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg-black);
             position: relative;
+            color: var(--text-main);
         }
 
-        /* WebGL Background */
-        #canvas-container {
+        /* Canvas 3D de Fundo */
+        #webgl-container {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
@@ -64,35 +65,34 @@
             pointer-events: none;
         }
 
-        /* Cursor Customizado */
-        .cursor-dot, .cursor-circle {
+        /* Cursor Personalizado B&W */
+        .cursor-dot, .cursor-follower {
             position: fixed;
             pointer-events: none;
             border-radius: 50%;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
         }
 
         .cursor-dot {
-            width: 6px; height: 6px;
-            background-color: var(--purple-main);
+            width: 4px; height: 4px;
+            background-color: #ffffff;
         }
 
-        .cursor-circle {
-            width: 36px; height: 36px;
-            border: 1px solid var(--purple-main);
-            transition: transform 0.15s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+        .cursor-follower {
+            width: 32px; height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.1s ease-out, width 0.2s, height 0.2s, background-color 0.2s;
         }
 
-        body.hovered .cursor-circle {
-            width: 60px; height: 60px;
+        body.active-hover .cursor-follower {
+            width: 56px; height: 56px;
+            background-color: rgba(255, 255, 255, 0.1);
             border-color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.03);
         }
 
-        /* Intro Loader */
-        .loader {
+        /* Preloader */
+        .loader-overlay {
             position: fixed;
             inset: 0;
             background: #000000;
@@ -101,49 +101,27 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+            transition: opacity 0.6s ease, visibility 0.6s;
         }
 
-        .loader.fade-out {
+        .loader-overlay.hidden {
             opacity: 0;
             visibility: hidden;
         }
 
-        .loader-title {
+        .loader-brand {
             font-family: var(--font-head);
-            font-size: 42px;
+            font-size: 32px;
             font-weight: 800;
-            letter-spacing: -2px;
-            color: #fff;
-            margin-bottom: 20px;
+            letter-spacing: 6px;
+            margin-bottom: 24px;
         }
 
-        .loader-title span { color: var(--purple-main); }
-
-        .loader-bar-bg {
-            width: 200px;
-            height: 2px;
-            background: var(--border-neutral);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loader-bar-fill {
-            position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--purple-main);
-            box-shadow: 0 0 10px var(--purple-main);
-            transition: width 0.1s linear;
-        }
-
-        .loader-percent {
-            margin-top: 12px;
-            font-size: 11px;
-            color: var(--text-muted);
+        .loader-counter {
+            font-size: 14px;
+            font-weight: 700;
             letter-spacing: 2px;
-            font-weight: 600;
+            color: var(--text-muted);
         }
 
         /* Navegação */
@@ -151,593 +129,510 @@
             position: fixed;
             top: 0; left: 0; width: 100%;
             z-index: 1000;
-            padding: 24px 6%;
+            padding: 28px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.4s ease;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
         }
 
         header.scrolled {
-            padding: 16px 6%;
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-neutral);
+            padding: 18px 5%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dim);
         }
 
-        .brand {
+        .brand-logo {
             font-family: var(--font-head);
-            font-size: 26px;
+            font-size: 20px;
             font-weight: 800;
-            color: #fff;
+            color: #ffffff;
             text-decoration: none;
-            letter-spacing: -1px;
+            letter-spacing: 2px;
         }
 
-        .brand span { color: var(--purple-main); }
-
-        .nav-items {
+        .nav-links {
             display: flex;
-            gap: 36px;
+            gap: 40px;
             list-style: none;
         }
 
-        .nav-items a {
-            color: var(--text-secondary);
+        .nav-links a {
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: color 0.3s;
         }
 
-        .nav-items a:hover { color: #fff; }
+        .nav-links a:hover { color: #ffffff; }
 
-        .cta-header {
+        .btn-header {
             text-decoration: none;
-            color: #fff;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 10px 22px;
-            border-radius: 6px;
-            border: 1px solid var(--border-purple);
-            background: rgba(139, 92, 246, 0.08);
+            color: #000000;
+            background: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border-radius: 2px;
             transition: all 0.3s;
         }
 
-        .cta-header:hover {
-            background: var(--purple-main);
-            box-shadow: 0 0 20px var(--purple-glow);
+        .btn-header:hover {
+            background: #cccccc;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            padding: 160px 6% 100px;
+            padding: 180px 5% 100px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
+            justify-content: flex-start;
             position: relative;
         }
 
-        .hero-container {
-            max-width: 900px;
-            z-index: 2;
+        .hero-content {
+            max-width: 1000px;
         }
 
-        .tag-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            border-radius: 100px;
-            border: 1px solid var(--border-neutral);
-            background: rgba(255, 255, 255, 0.02);
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
+        .hero-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-        }
-
-        .dot-pulse {
-            width: 6px; height: 6px;
-            background: var(--purple-main);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--purple-main);
+            letter-spacing: 3px;
+            padding: 6px 14px;
+            border: 1px solid var(--border-dim);
+            color: var(--text-muted);
+            margin-bottom: 24px;
         }
 
         .hero h1 {
             font-family: var(--font-head);
-            font-size: clamp(48px, 7vw, 96px);
+            font-size: clamp(40px, 6.5vw, 88px);
             font-weight: 800;
-            line-height: 0.95;
-            letter-spacing: -3px;
-            margin-bottom: 28px;
-            color: #ffffff;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
         }
 
-        .hero h1 .highlight {
+        .hero h1 span.outline {
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
-        }
-
-        .hero h1 .purple-text {
-            color: var(--purple-main);
+            -webkit-text-stroke: 1px #ffffff;
         }
 
         .hero p {
-            font-size: clamp(16px, 1.8vw, 20px);
-            color: var(--text-secondary);
-            max-width: 680px;
-            margin: 0 auto 40px;
+            font-size: clamp(16px, 1.5vw, 20px);
+            color: var(--text-muted);
+            max-width: 600px;
             line-height: 1.6;
-            font-weight: 400;
+            margin-bottom: 40px;
         }
 
         .hero-actions {
             display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .btn-primary {
+        .btn-main {
             text-decoration: none;
-            color: #fff;
-            background: var(--purple-main);
-            padding: 18px 38px;
-            border-radius: 8px;
+            color: #000000;
+            background: #ffffff;
+            padding: 20px 40px;
             font-weight: 700;
-            font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 10px 30px var(--purple-glow);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            background: var(--purple-deep);
-            box-shadow: 0 15px 40px var(--purple-glow);
-        }
-
-        .btn-secondary {
-            text-decoration: none;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-neutral);
-            padding: 18px 38px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 15px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 2px;
             transition: all 0.3s;
         }
 
-        .btn-secondary:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
+        .btn-main:hover {
+            background: #e6e6e6;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            text-decoration: none;
+            color: #ffffff;
+            background: transparent;
+            border: 1px solid var(--border-dim);
+            padding: 20px 40px;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* Seções de Conteúdo */
         section {
-            padding: 120px 6%;
-            position: relative;
+            padding: 140px 5%;
+            border-top: 1px solid var(--border-dim);
         }
 
         .section-header {
-            max-width: 700px;
-            margin: 0 auto 70px;
-            text-align: center;
+            margin-bottom: 80px;
         }
 
-        .section-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--purple-main);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 12px;
+        .section-num {
+            font-family: var(--font-head);
+            font-size: 14px;
+            color: var(--text-muted);
             display: block;
+            margin-bottom: 12px;
         }
 
         .section-title {
             font-family: var(--font-head);
-            font-size: clamp(32px, 4vw, 56px);
+            font-size: clamp(28px, 4vw, 52px);
             font-weight: 800;
-            letter-spacing: -2px;
-            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
         }
 
-        /* Tabela de Planos */
+        /* Tabela de Planos Refatorada */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1280px;
-            margin: 0 auto;
+            gap: 20px;
         }
 
         .pricing-card {
             background: var(--bg-card);
-            border: 1px solid var(--border-neutral);
-            border-radius: 16px;
-            padding: 40px 32px;
+            border: 1px solid var(--border-dim);
+            padding: 48px 36px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            backdrop-filter: blur(20px);
-            transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
             position: relative;
+            transition: all 0.3s;
         }
 
         .pricing-card:hover {
-            border-color: var(--border-purple);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            border-color: var(--border-bright);
+            background: var(--bg-card-hover);
         }
 
-        .pricing-card.featured {
-            border-color: var(--purple-main);
-            background: linear-gradient(180deg, rgba(139, 92, 246, 0.08) 0%, var(--bg-card) 100%);
+        .pricing-card.highlight {
+            border-color: #ffffff;
+            background: #141414;
         }
 
-        .featured-tag {
+        .badge-pop {
             position: absolute;
-            top: -12px;
-            right: 28px;
-            background: var(--purple-main);
-            color: #fff;
+            top: 0; right: 0;
+            background: #ffffff;
+            color: #000000;
             font-size: 10px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 4px 12px;
-            border-radius: 4px;
+            padding: 6px 12px;
         }
 
-        .plan-name {
+        .plan-title {
             font-family: var(--font-head);
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .plan-desc {
-            color: var(--text-secondary);
-            font-size: 13px;
-            line-height: 1.5;
-            min-height: 40px;
-            margin-bottom: 24px;
-        }
-
-        .plan-price {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            margin-bottom: 32px;
-            border-bottom: 1px solid var(--border-neutral);
-            padding-bottom: 24px;
-        }
-
-        .price-currency { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
-        .price-val { font-family: var(--font-head); font-size: 48px; font-weight: 800; color: #fff; }
-        .price-cents { font-size: 18px; font-weight: 700; color: var(--text-secondary); }
-
-        .plan-features {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 32px;
-        }
-
-        .plan-features li {
-            font-size: 14px;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .plan-features li::before {
-            content: "";
-            width: 5px; height: 5px;
-            background: var(--purple-main);
-            border-radius: 50%;
-        }
-
-        .plan-btn {
-            display: block;
-            text-align: center;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border-neutral);
-            background: rgba(255, 255, 255, 0.02);
-            color: #fff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .plan-btn:hover {
-            border-color: var(--purple-main);
-            background: var(--purple-main);
-            box-shadow: 0 0 25px var(--purple-glow);
-        }
-
-        /* Grid de Processo */
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .process-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-neutral);
-            padding: 40px;
-            border-radius: 16px;
-            backdrop-filter: blur(20px);
-        }
-
-        .process-number {
-            font-family: var(--font-head);
-            font-size: 40px;
-            font-weight: 800;
-            color: var(--purple-main);
-            margin-bottom: 16px;
-            line-height: 1;
-        }
-
-        .process-box h3 {
             font-size: 20px;
-            font-weight: 700;
+            font-weight: 800;
+            text-transform: uppercase;
             margin-bottom: 12px;
         }
 
-        .process-box p {
-            color: var(--text-secondary);
+        .plan-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 32px;
+            min-height: 42px;
+        }
+
+        .plan-price {
+            font-family: var(--font-head);
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .plan-price span {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-list li {
+            font-size: 14px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-list li::before {
+            content: "—";
+            color: var(--text-muted);
+        }
+
+        .btn-card {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            background: transparent;
+            border: 1px solid var(--border-dim);
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .btn-card:hover {
+            color: #000000;
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        /* Grid de Recursos */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .feature-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dim);
+            padding: 40px;
+        }
+
+        .feature-box h3 {
+            font-family: var(--font-head);
+            font-size: 18px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .feature-box p {
+            color: var(--text-muted);
             font-size: 14px;
             line-height: 1.6;
         }
 
-        /* CTA Final */
-        .cta-banner {
-            max-width: 1280px;
-            margin: 0 auto;
-            background: linear-gradient(180deg, rgba(20, 20, 28, 0.9) 0%, rgba(10, 10, 15, 0.95) 100%);
-            border: 1px solid var(--border-purple);
-            border-radius: 24px;
-            padding: 80px 40px;
-            text-align: center;
-            box-shadow: 0 0 80px rgba(139, 92, 246, 0.1);
-        }
-
-        .cta-banner h2 {
-            font-family: var(--font-head);
-            font-size: clamp(36px, 5vw, 64px);
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-        }
-
-        .cta-banner p {
-            color: var(--text-secondary);
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto 36px;
-        }
-
         /* Footer */
         footer {
-            border-top: 1px solid var(--border-neutral);
-            padding: 40px 6%;
+            padding: 60px 5%;
+            border-top: 1px solid var(--border-dim);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 12px;
             color: var(--text-muted);
-            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
+        /* Revelação Suave */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .reveal.active {
+        .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        @media (max-width: 1024px) {
-            .pricing-grid, .process-grid {
-                grid-template-columns: 1fr;
-                max-width: 500px;
-            }
-            .nav-items { display: none; }
-            .cursor-dot, .cursor-circle { display: none; }
+        @media (max-width: 900px) {
+            .pricing-grid, .features-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .cursor-dot, .cursor-follower { display: none; }
             * { cursor: auto !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="loader" id="loader">
-        <div class="loader-title">SITE<span>FY</span></div>
-        <div class="loader-bar-bg">
-            <div class="loader-bar-fill" id="loaderBar"></div>
-        </div>
-        <div class="loader-percent" id="loaderText">0%</div>
+    <!-- Loader Percentual -->
+    <div class="loader-overlay" id="loader">
+        <div class="loader-brand">SITEFY</div>
+        <div class="loader-counter" id="loaderVal">0%</div>
     </div>
 
-    <div id="canvas-container"></div>
+    <!-- Background 3D Engine -->
+    <div id="webgl-container"></div>
 
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-circle" id="cursorCircle"></div>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="dot"></div>
+    <div class="cursor-follower" id="follower"></div>
 
+    <!-- Header -->
     <header id="header">
-        <a href="#" class="brand">SITE<span>FY</span></a>
-        <ul class="nav-items">
-            <li><a href="#inicio" class="hover-trigger">Início</a></li>
-            <li><a href="#planos" class="hover-trigger">Planos</a></li>
-            <li><a href="#processo" class="hover-trigger">Engenharia</a></li>
+        <a href="#" class="brand-logo">SITEFY</a>
+        <ul class="nav-links">
+            <li><a href="#inicio" class="hover-target">Início</a></li>
+            <li><a href="#planos" class="hover-target">Planos</a></li>
+            <li><a href="#diferenciais" class="hover-target">Diferenciais</a></li>
         </ul>
-        <a href="#planos" class="cta-header hover-trigger">Iniciar Projeto</a>
+        <a href="#planos" class="btn-header hover-target">Iniciar Projeto</a>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero" id="inicio">
-        <div class="hero-container">
-            <div class="tag-status">
-                <span class="dot-pulse"></span> HIGH PERFORMANCE WEBSITES
-            </div>
+        <div class="hero-content">
+            <span class="hero-tag">Desenvolvimento Web de Performance</span>
             <h1>
-                A SÓBRIA ARQUITETURA DA <br>
-                <span class="highlight">SUA MARCA</span> <span class="purple-text">ONLINE.</span>
+                Interfaces <span class="outline">Sóbrias</span><br>
+                de Alto Impacto
             </h1>
             <p>
-                Afastamos o amadorismo visual. Desenvolvemos plataformas com presença institucional pesada, tecnologia 3D avançada e foco absoluto em conversão comercial.
+                Eliminamos distrações e focamos no que gera resultado. Projetos construídos sob medida com tecnologia de ponta, velocidade extrema e estética monocromática.
             </p>
             <div class="hero-actions">
-                <a href="#planos" class="btn-primary hover-trigger">Ver Tabela de Planos</a>
-                <a href="#processo" class="btn-secondary hover-trigger">Conhecer o Processo</a>
+                <a href="#planos" class="btn-main hover-target">Conhecer Tabela</a>
+                <a href="#diferenciais" class="btn-outline hover-target">Ver Métricas</a>
             </div>
         </div>
     </section>
 
+    <!-- Seção de Planos -->
     <section id="planos">
         <div class="section-header reveal">
-            <span class="section-label">INVESTIMENTO ESTRATÉGICO</span>
-            <h2 class="section-title">Ajuste de Escala</h2>
+            <span class="section-num">// 01</span>
+            <h2 class="section-title">Investimento Estratégico</h2>
         </div>
 
         <div class="pricing-grid">
-            <article class="pricing-card reveal hover-trigger">
+            <!-- START -->
+            <article class="pricing-card reveal hover-target">
                 <div>
-                    <h3 class="plan-name">Site Start</h3>
-                    <p class="plan-desc">Presença digital imediata, leve e extremamente objetiva.</p>
-                    <div class="plan-price">
-                        <span class="price-currency">R$</span>
-                        <span class="price-val">59</span>
-                        <span class="price-cents">,90</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li>Landing Page Single-Page</li>
+                    <h3 class="plan-title">Start</h3>
+                    <p class="plan-desc">Presença digital essencial, rápida e otimizada.</p>
+                    <div class="plan-price">R$ 59<span>,90</span></div>
+                    <ul class="feature-list">
+                        <li>Landing Page Exclusiva</li>
                         <li>Design 100% Responsivo</li>
-                        <li>Integração Direta WhatsApp</li>
-                        <li>Hospedagem Otimizada</li>
+                        <li>Integração WhatsApp</li>
+                        <li>Carregamento Ultrarrápido</li>
                     </ul>
                 </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="plan-btn">Adquirir Start</a>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card">Selecionar Start</a>
             </article>
 
-            <article class="pricing-card featured reveal hover-trigger">
-                <div class="featured-tag">MAIS VENDIDO</div>
+            <!-- PRO -->
+            <article class="pricing-card highlight reveal hover-target">
+                <div class="badge-pop">Popular</div>
                 <div>
-                    <h3 class="plan-name">Site Pro</h3>
-                    <p class="plan-desc">Estrutura completa e refinada para autoridade de mercado.</p>
-                    <div class="plan-price">
-                        <span class="price-currency">R$</span>
-                        <span class="price-val">140</span>
-                        <span class="price-cents">,90</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li>Website Multi-seções</li>
-                        <li>Animações de Scroll Fluídas</li>
-                        <li>Formulários de Captura Avançados</li>
-                        <li>SEO Técnico para Buscadores</li>
-                        <li>Suporte Técnico Prioritário</li>
+                    <h3 class="plan-title">Pro</h3>
+                    <p class="plan-desc">Estrutura completa para empresas em expansão.</p>
+                    <div class="plan-price">R$ 140<span>,90</span></div>
+                    <ul class="feature-list">
+                        <li>Website Multi-páginas</li>
+                        <li>Animações Interativas</li>
+                        <li>Formulários de Captura</li>
+                        <li>Otimização SEO Avançada</li>
                     </ul>
                 </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="plan-btn" style="background: var(--purple-main); border-color: var(--purple-main);">Adquirir Pro</a>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card" style="background: #ffffff; color: #000000;">Selecionar Pro</a>
             </article>
 
-            <article class="pricing-card reveal hover-trigger">
+            <!-- ULTRA -->
+            <article class="pricing-card reveal hover-target">
                 <div>
-                    <h3 class="plan-name">Site Ultra</h3>
-                    <p class="plan-desc">Imersão visual 3D para marcas que exigem destaque absoluto.</p>
-                    <div class="plan-price">
-                        <span class="price-currency">R$</span>
-                        <span class="price-val">249</span>
-                        <span class="price-cents">,90</span>
-                    </div>
-                    <ul class="plan-features">
-                        <li>Engine 3D WebGL Interativo</li>
-                        <li>Animações Customizadas Avançadas</li>
-                        <li>Arquitetura de Conversão Exclusiva</li>
-                        <li>Desempenho Cravado em 60 FPS</li>
+                    <h3 class="plan-title">Ultra</h3>
+                    <p class="plan-desc">Experiência 3D imersiva de nível internacional.</p>
+                    <div class="plan-price">R$ 249<span>,90</span></div>
+                    <ul class="feature-list">
+                        <li>Engine WebGL 3D Personalizado</li>
+                        <li>Animações de Scroll Complexas</li>
+                        <li>Arquitetura de Alta Conversão</li>
+                        <li>Suporte Técnico Dedicado</li>
                     </ul>
                 </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="plan-btn">Adquirir Ultra</a>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card">Selecionar Ultra</a>
             </article>
         </div>
     </section>
 
-    <section id="processo">
+    <!-- Seção de Diferenciais -->
+    <section id="diferenciais">
         <div class="section-header reveal">
-            <span class="section-label">METODOLOGIA DE TRABALHO</span>
-            <h2 class="section-title">Engenharia de Impacto</h2>
+            <span class="section-num">// 02</span>
+            <h2 class="section-title">Padrões Técnicos</h2>
         </div>
 
-        <div class="process-grid">
-            <div class="process-box reveal hover-trigger">
-                <div class="process-number">01</div>
-                <h3>Alinhamento Visual</h3>
-                <p>Mapeamento de identidade para garantir um site maduro, sem elementos excessivos e com arquitetura sóbria.</p>
+        <div class="features-grid">
+            <div class="feature-box reveal hover-target">
+                <h3>01. Código Limpo</h3>
+                <p>Estrutura leve e otimizada, garantindo carregamento instantâneo e pontuação máxima nos testes do Google.</p>
             </div>
-            <div class="process-box reveal hover-trigger">
-                <div class="process-number">02</div>
-                <h3>Desenvolvimento 3D</h3>
-                <p>Criação dos elementos em WebGL e CSS3 otimizados para garantir fluidez máxima em computadores e celulares.</p>
+            <div class="feature-box reveal hover-target">
+                <h3>02. Estética Sóbria</h3>
+                <p>Layouts focados na legibilidade e na transmissão de credibilidade corporativa, sem elementos desnecessários.</p>
             </div>
-            <div class="process-box reveal hover-trigger">
-                <div class="process-number">03</div>
-                <h3>Publicação & Entrega</h3>
-                <p>Instalação do projeto no domínio do cliente com checklist técnico completo de segurança e velocidade.</p>
+            <div class="feature-box reveal hover-target">
+                <h3>03. Animações 60 FPS</h3>
+                <p>Transições fluidas e interação 3D via Three.js projetadas para funcionar perfeitamente em qualquer dispositivo.</p>
             </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="cta-banner reveal">
-            <h2>Eleve o nível do seu negócio</h2>
-            <p>Escolha o plano ideal e construa uma presença digital respeitada no mercado.</p>
-            <a href="#planos" class="btn-primary hover-trigger">Garantir Meu Site Agora</a>
+            <div class="feature-box reveal hover-target">
+                <h3>04. Foco em Conversão</h3>
+                <p>Hierarquia visual estratégica direcionada para transformar visitantes em clientes qualificados.</p>
+            </div>
         </div>
     </section>
 
+    <!-- Rodapé -->
     <footer>
-        <div>© 2026 SITEFY. Todos os direitos reservados.</div>
-        <div>Engenharia e Design Minimalista</div>
+        <div>© 2026 SITEFY. TODOS OS DIREITOS RESERVADOS.</div>
+        <div>PRETO & BRANCO / MONOCHROME SYSTEM</div>
     </footer>
 
+    <!-- ENGINE JAVASCRIPT & THREE.JS -->
     <script>
-        /* --------------------------------------------------------------------------
-           1. LOADER COM PERCENTUAL
-           -------------------------------------------------------------------------- */
-        const loaderBar = document.getElementById('loaderBar');
-        const loaderText = document.getElementById('loaderText');
-        let progress = 0;
+        /* Loader Percentual */
+        let loadProgress = 0;
+        const loaderVal = document.getElementById('loaderVal');
+        const loaderEl = document.getElementById('loader');
 
-        const loaderInterval = setInterval(() => {
-            progress += Math.floor(Math.random() * 12) + 4;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(loaderInterval);
-                setTimeout(() => {
-                    document.getElementById('loader').classList.add('fade-out');
-                }, 200);
+        const loadTimer = setInterval(() => {
+            loadProgress += Math.floor(Math.random() * 15) + 5;
+            if (loadProgress >= 100) {
+                loadProgress = 100;
+                clearInterval(loadTimer);
+                setTimeout(() => loaderEl.classList.add('hidden'), 300);
             }
-            loaderBar.style.width = progress + '%';
-            loaderText.innerText = progress + '%';
-        }, 40);
+            loaderVal.innerText = loadProgress + '%';
+        }, 50);
 
-        /* --------------------------------------------------------------------------
-           2. MOTOR 3D EM THREE.JS (NEUTRO + ROXO VIOLETA)
-           -------------------------------------------------------------------------- */
-        const container = document.getElementById('canvas-container');
+        /* Motor 3D Monocromático (Geometria Abstrata em Preto/Branco) */
+        const container = document.getElementById('webgl-container');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -746,64 +641,37 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // Objeto Central 3D (Torus Knot Geométrico Tecnológico)
-        const geometry = new THREE.TorusKnotGeometry(1.8, 0.4, 128, 32);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x8b5cf6,
+        // Geometria de Linhas Monocromáticas
+        const geo = new THREE.IcosahedronGeometry(2.5, 2);
+        const mat = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
             wireframe: true,
             transparent: true,
-            opacity: 0.15
+            opacity: 0.08
         });
-        const torusKnot = new THREE.Mesh(geometry, material);
-        scene.add(torusKnot);
+        const sphere = new THREE.Mesh(geo, mat);
+        scene.add(sphere);
 
-        // Campo de Partículas
-        const isMobile = window.innerWidth < 768;
-        const count = isMobile ? 500 : 1500;
-        const partGeo = new THREE.BufferGeometry();
-        const posArray = new Float32Array(count * 3);
+        camera.position.z = 6;
 
-        for(let i=0; i<count*3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 18;
-        }
-
-        partGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const partMat = new THREE.PointsMaterial({
-            size: 0.025,
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.3
-        });
-
-        const particles = new THREE.Points(partGeo, partMat);
-        scene.add(particles);
-
-        camera.position.z = 5;
-
-        // Movimentação Dinâmica do Mouse
+        // Rotação no Mouse
         let mouseX = 0, mouseY = 0;
         document.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth) - 0.5;
             mouseY = (e.clientY / window.innerHeight) - 0.5;
         });
 
-        const clock = new THREE.Clock();
+        function render3D() {
+            requestAnimationFrame(render3D);
+            sphere.rotation.x += 0.002;
+            sphere.rotation.y += 0.003;
 
-        function animate3D() {
-            requestAnimationFrame(animate3D);
-            const elapsedTime = clock.getElapsedTime();
-
-            torusKnot.rotation.x = elapsedTime * 0.15;
-            torusKnot.rotation.y = elapsedTime * 0.2;
-
-            particles.rotation.y = elapsedTime * 0.02;
-
-            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.05;
 
             renderer.render(scene, camera);
         }
-        animate3D();
+        render3D();
 
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -811,13 +679,45 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        /* --------------------------------------------------------------------------
-           3. CURSOR PERSONALIZADO & INTERAÇÕES
-           -------------------------------------------------------------------------- */
-        const dot = document.getElementById('cursorDot');
-        const circle = document.getElementById('cursorCircle');
+        /* Cursor Personalizado B&W */
+        const dot = document.getElementById('dot');
+        const follower = document.getElementById('follower');
 
-        if(!isMobile) {
-            window.addEventListener('mousemove', (e) => {
-                dot.style.left = e.clientX + 'px';
-                dot.style.top = e.clientY + 'px';
+        window.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+
+            follower.animate({
+                left: e.clientX + 'px',
+                top: e.clientY + 'px'
+            }, { duration: 300, fill: 'forwards' });
+        });
+
+        document.querySelectorAll('.hover-target, a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('active-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('active-hover'));
+        });
+
+        /* Animação de Revelação ao Rolar */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /* Alteração do Header no Scroll */
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
