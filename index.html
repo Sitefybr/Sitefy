@@ -4,30 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <title>SITEFY — Engenharia Digital, 3D & Minimalismo</title>
+    <title>SITEFY — Engenharia Digital, 3D & Performance</title>
 
-    <!-- Fontes Premium Monocromáticas -->
+    <!-- Fontes Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syncopate:wght@700;800&display=swap" rel="stylesheet">
     
-    <!-- Frameworks de Animação e 3D -->
+    <!-- Frameworks Visual Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
     <style>
         /* ==========================================================================
-           1. SISTEMA VISUAL MONOCROMÁTICO E ULTRA-FLUIDO
+           1. SISTEMA VISUAL (PRETO, BRANCO & AZUL ELECTRIC CYAN)
            ========================================================================== */
         :root {
-            --bg-black: #000000;
-            --bg-card: #0a0a0a;
-            --bg-card-hover: #141414;
-            --border-dim: rgba(255, 255, 255, 0.1);
-            --border-bright: #ffffff;
+            --bg-black: #030304;
+            --bg-card: #090a0f;
+            --bg-card-hover: #0f121a;
+            
+            --border-dim: rgba(255, 255, 255, 0.08);
+            --border-bright: rgba(0, 210, 255, 0.5);
+            
             --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #8892b0;
+            --accent-blue: #00d2ff;
+            --accent-blue-glow: rgba(0, 210, 255, 0.15);
+
             --font-head: 'Syncopate', sans-serif;
             --font-body: 'Space Grotesk', sans-serif;
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -52,10 +57,10 @@
             background-color: var(--bg-black);
             position: relative;
             color: var(--text-main);
-            perspective: 1200px; /* Habilita profundidade 3D global */
+            perspective: 1200px;
         }
 
-        /* WebGL Background 3D */
+        /* Canvas 3D de Fundo */
         #webgl-container {
             position: fixed;
             top: 0; left: 0;
@@ -64,33 +69,36 @@
             pointer-events: none;
         }
 
-        /* Cursor Ultrassuave */
-        .cursor-dot, .cursor-follower {
-            position: fixed;
-            pointer-events: none;
-            border-radius: 50%;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-        }
-
+        /* Cursor Customizado Corrigido */
         .cursor-dot {
-            width: 4px; height: 4px;
-            background-color: #ffffff;
+            position: fixed;
+            top: 0; left: 0;
+            width: 6px; height: 6px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            box-shadow: 0 0 10px var(--accent-blue);
         }
 
         .cursor-follower {
+            position: fixed;
+            top: 0; left: 0;
             width: 40px; height: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.2s var(--ease-out), width 0.3s var(--ease-out), height 0.3s var(--ease-out), background-color 0.3s;
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), background-color 0.3s;
         }
 
         body.active-hover .cursor-follower {
             width: 65px; height: 65px;
-            background-color: rgba(255, 255, 255, 0.08);
-            border-color: #ffffff;
+            background-color: var(--accent-blue-glow);
+            border-color: var(--accent-blue);
         }
 
-        /* Preloader */
+        /* Preloader Moderno com Marquee Passando na Tela */
         .loader-overlay {
             position: fixed;
             inset: 0;
@@ -100,25 +108,49 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        .loader-brand {
-            font-family: var(--font-head);
-            font-size: 36px;
-            font-weight: 800;
-            letter-spacing: 8px;
-            margin-bottom: 20px;
             overflow: hidden;
         }
 
-        .loader-counter {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--text-muted);
+        .marquee-wrapper {
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
         }
 
-        /* Navegação */
+        .marquee-text {
+            font-family: var(--font-head);
+            font-size: clamp(60px, 12vw, 160px);
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            display: inline-block;
+            will-change: transform;
+        }
+
+        .loader-counter {
+            position: absolute;
+            bottom: 60px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loader-counter::before {
+            content: '';
+            width: 8px; height: 8px;
+            background: var(--accent-blue);
+            box-shadow: 0 0 8px var(--accent-blue);
+        }
+
+        /* Header */
         header {
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -132,7 +164,7 @@
 
         header.scrolled {
             padding: 20px 6%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(3, 3, 4, 0.85);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-dim);
         }
@@ -145,6 +177,8 @@
             text-decoration: none;
             letter-spacing: 2px;
         }
+
+        .brand-logo span { color: var(--accent-blue); }
 
         .nav-links {
             display: flex;
@@ -162,7 +196,7 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover { color: #ffffff; }
+        .nav-links a:hover { color: var(--accent-blue); }
 
         .btn-header {
             text-decoration: none;
@@ -178,7 +212,8 @@
         }
 
         .btn-header:hover {
-            background: #e0e0e0;
+            background: var(--accent-blue);
+            box-shadow: 0 0 20px var(--accent-blue-glow);
             transform: translateY(-2px);
         }
 
@@ -194,15 +229,19 @@
         .hero-content { max-width: 950px; }
 
         .hero-tag {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 3px;
-            padding: 6px 14px;
-            border: 1px solid var(--border-dim);
-            color: var(--text-muted);
+            padding: 8px 16px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            background: var(--accent-blue-glow);
+            color: var(--accent-blue);
             margin-bottom: 28px;
+            border-radius: 2px;
         }
 
         .hero h1 {
@@ -214,6 +253,8 @@
             margin-bottom: 32px;
             text-transform: uppercase;
         }
+
+        .hero h1 span.highlight { color: var(--accent-blue); }
 
         .hero h1 span.outline {
             color: transparent;
@@ -233,7 +274,7 @@
         .btn-main {
             text-decoration: none;
             color: #000000;
-            background: #ffffff;
+            background: var(--accent-blue);
             padding: 20px 42px;
             font-weight: 700;
             font-size: 12px;
@@ -241,10 +282,12 @@
             letter-spacing: 2px;
             border-radius: 2px;
             transition: all 0.3s var(--ease-out);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
         }
 
         .btn-main:hover {
-            background: #d8d8d8;
+            background: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
             transform: translateY(-3px);
         }
 
@@ -263,12 +306,12 @@
         }
 
         .btn-outline:hover {
-            border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-blue);
+            background: var(--accent-blue-glow);
             transform: translateY(-3px);
         }
 
-        /* Seções e Estrutura 3D */
+        /* Seções e Estrutura dos Cards (Afiados) */
         section {
             padding: 160px 6%;
             border-top: 1px solid var(--border-dim);
@@ -279,7 +322,7 @@
         .section-num {
             font-family: var(--font-head);
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--accent-blue);
             display: block;
             margin-bottom: 12px;
             letter-spacing: 2px;
@@ -293,7 +336,7 @@
             letter-spacing: -1px;
         }
 
-        /* Grid de Planos 3D */
+        /* Grid de Planos (Cantos Menos Redondos) */
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -304,36 +347,39 @@
         .pricing-card {
             background: var(--bg-card);
             border: 1px solid var(--border-dim);
+            border-radius: 2px; /* Reduzido radicalmente para visual retangular/afiado */
             padding: 50px 38px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             position: relative;
             transform-style: preserve-3d;
-            transition: border-color 0.4s, background-color 0.4s;
+            transition: border-color 0.4s, background-color 0.4s, box-shadow 0.4s;
             will-change: transform, opacity;
         }
 
         .pricing-card:hover {
             border-color: var(--border-bright);
             background: var(--bg-card-hover);
+            box-shadow: 0 10px 40px rgba(0, 210, 255, 0.08);
         }
 
         .pricing-card.highlight {
-            border-color: #ffffff;
-            background: #111111;
+            border-color: var(--accent-blue);
+            background: #0c1017;
         }
 
         .badge-pop {
             position: absolute;
             top: 0; right: 0;
-            background: #ffffff;
+            background: var(--accent-blue);
             color: #000000;
             font-size: 10px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1px;
             padding: 6px 14px;
+            border-radius: 0 0 0 2px;
         }
 
         .plan-title {
@@ -359,11 +405,12 @@
             margin-bottom: 32px;
             padding-bottom: 24px;
             border-bottom: 1px solid var(--border-dim);
+            color: #ffffff;
         }
 
         .plan-price span {
             font-size: 14px;
-            color: var(--text-muted);
+            color: var(--accent-blue);
             font-family: var(--font-body);
         }
 
@@ -385,7 +432,7 @@
 
         .feature-list li::before {
             content: "—";
-            color: var(--text-muted);
+            color: var(--accent-blue);
         }
 
         .btn-card {
@@ -395,6 +442,7 @@
             color: #ffffff;
             background: transparent;
             border: 1px solid var(--border-dim);
+            border-radius: 2px;
             padding: 18px;
             font-size: 11px;
             font-weight: 700;
@@ -405,11 +453,12 @@
 
         .btn-card:hover {
             color: #000000;
-            background: #ffffff;
-            border-color: #ffffff;
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px var(--accent-blue-glow);
         }
 
-        /* Grid de Recursos */
+        /* Grid de Recursos (Cantos Reduzidos) */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -420,18 +469,20 @@
         .feature-box {
             background: var(--bg-card);
             border: 1px solid var(--border-dim);
+            border-radius: 2px;
             padding: 48px;
             will-change: transform, opacity;
             transition: border-color 0.4s;
         }
 
-        .feature-box:hover { border-color: rgba(255, 255, 255, 0.4); }
+        .feature-box:hover { border-color: var(--accent-blue); }
 
         .feature-box h3 {
             font-family: var(--font-head);
             font-size: 18px;
             margin-bottom: 16px;
             text-transform: uppercase;
+            color: #ffffff;
         }
 
         .feature-box p {
@@ -440,7 +491,7 @@
             line-height: 1.6;
         }
 
-        /* Footer */
+        /* Rodapé */
         footer {
             padding: 60px 6%;
             border-top: 1px solid var(--border-dim);
@@ -453,7 +504,8 @@
             letter-spacing: 2px;
         }
 
-        /* Classes de Animação 3D GSAP */
+        footer span { color: var(--accent-blue); }
+
         .gsap-3d-entry {
             opacity: 0;
             will-change: transform, opacity;
@@ -469,22 +521,26 @@
 </head>
 <body>
 
-    <!-- Loader Percentual -->
+    <!-- Intro Moderno com Letreiro em Loop -->
     <div class="loader-overlay" id="loader">
-        <div class="loader-brand" id="loaderBrand">SITEFY</div>
+        <div class="marquee-wrapper">
+            <div class="marquee-text" id="marqueeText">
+                SITEFY &nbsp;•&nbsp; SITEFY &nbsp;•&nbsp; SITEFY &nbsp;•&nbsp; SITEFY &nbsp;•&nbsp;
+            </div>
+        </div>
         <div class="loader-counter" id="loaderVal">0%</div>
     </div>
 
     <!-- Background 3D Canvas -->
     <div id="webgl-container"></div>
 
-    <!-- Custom Cursor -->
+    <!-- Cursor Personalizado -->
     <div class="cursor-dot" id="dot"></div>
     <div class="cursor-follower" id="follower"></div>
 
     <!-- Header -->
     <header id="header">
-        <a href="#" class="brand-logo">SITEFY</a>
+        <a href="#" class="brand-logo">SITEFY<span>.</span></a>
         <ul class="nav-links">
             <li><a href="#inicio" class="hover-target">Início</a></li>
             <li><a href="#planos" class="hover-target">Planos</a></li>
@@ -496,13 +552,13 @@
     <!-- Hero Section -->
     <section class="hero" id="inicio">
         <div class="hero-content">
-            <span class="hero-tag gsap-hero">Desenvolvimento Web 3D & Performance</span>
+            <span class="hero-tag gsap-hero">Engenharia Digital & 3D</span>
             <h1 class="gsap-hero">
-                Interfaces <span class="outline">Sóbrias</span><br>
-                de Alto Impacto
+                Interfaces <span class="highlight">Azuis</span> &<br>
+                <span class="outline">Sóbrias</span> de Impacto
             </h1>
             <p class="gsap-hero">
-                Eliminamos distrações. Desenvolvemos ecossistemas web com física 3D avançada, navegação ultrassuave e arquitetura monocromática focado em autoridade corporativa.
+                Sistemas web construídos sob medida com tecnologia de aceleração gráfica WebGL, navegação sem atrito e estética contemporânea em azul elétrico e preto.
             </p>
             <div class="hero-actions gsap-hero">
                 <a href="#planos" class="btn-main hover-target">Conhecer Tabela</a>
@@ -549,7 +605,7 @@
                         <li>Otimização SEO Avançada</li>
                     </ul>
                 </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card" style="background: #ffffff; color: #000000;">Selecionar Pro</a>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card" style="background: var(--accent-blue); color: #000000;">Selecionar Pro</a>
             </article>
 
             <!-- ULTRA -->
@@ -580,50 +636,60 @@
         <div class="features-grid">
             <div class="feature-box gsap-3d-box hover-target">
                 <h3>01. Código Limpo</h3>
-                <p>Estrutura leve e altamente otimizada, garantindo resposta instantânea aos comandos do usuário.</p>
+                <p>Estrutura leve e otimizada, garantindo carregamento instantâneo em qualquer conexão.</p>
             </div>
             <div class="feature-box gsap-3d-box hover-target">
-                <h3>02. Estética Sóbria</h3>
-                <p>Layouts focados na legibilidade e na transmissão de credibilidade corporativa, sem elementos pueris.</p>
+                <h3>02. Estética Sóbria + Azul Electric</h3>
+                <p>Design sofisticado focado em legibilidade e autoridade visual, sem poluição de cores.</p>
             </div>
             <div class="feature-box gsap-3d-box hover-target">
                 <h3>03. Animações GSAP + WebGL</h3>
-                <p>Transições físicas com interpolação tridimensional contínua rodando a 60 FPS cravados.</p>
+                <p>Transições físicas tridimensionais a 60 FPS com interpolação ultrassuave.</p>
             </div>
             <div class="feature-box gsap-3d-box hover-target">
                 <h3>04. Foco em Conversão</h3>
-                <p>Hierarquia de informação construída para transformar tráfego em potenciais vendas.</p>
+                <p>Arquitetura construída estrategicamente para transformar tráfego em clientes qualificados.</p>
             </div>
         </div>
     </section>
 
     <!-- Rodapé -->
     <footer>
-        <div>© 2026 SITEFY. TODOS OS DIREITOS RESERVADOS.</div>
-        <div>MONOCHROME 3D ENGINE</div>
+        <div>© 2026 <span>SITEFY</span>. TODOS OS DIREITOS RESERVADOS.</div>
+        <div>ELECTRIC BLUE 3D SYSTEM</div>
     </footer>
 
-    <!-- ENGINE JAVASCRIPT: THREE.JS + GSAP 3D -->
+    <!-- ENGINE JAVASCRIPT: GSAP + THREE.JS -->
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
         /* --------------------------------------------------------------------------
-           1. LOADER COM TRANSIÇÃO GSAP
+           1. INTRO / MARQUEE ANIMADO PASSANDO NA TELA
            -------------------------------------------------------------------------- */
+        const marqueeText = document.getElementById('marqueeText');
+        
+        // Efeito de rolagem infinita do texto no loader
+        gsap.to(marqueeText, {
+            xPercent: -50,
+            repeat: -1,
+            duration: 8,
+            ease: "none"
+        });
+
         let loadProgress = 0;
         const loaderVal = document.getElementById('loaderVal');
         const loaderEl = document.getElementById('loader');
 
         const loadTimer = setInterval(() => {
-            loadProgress += Math.floor(Math.random() * 12) + 6;
+            loadProgress += Math.floor(Math.random() * 10) + 5;
             if (loadProgress >= 100) {
                 loadProgress = 100;
                 clearInterval(loadTimer);
                 
-                // Animação de saída ultra-suave
+                // Saída fluida do Loader
                 gsap.timeline()
-                    .to("#loaderBrand", { y: -50, opacity: 0, duration: 0.6, ease: "power4.in" })
-                    .to(loaderVal, { opacity: 0, duration: 0.4 }, "-=0.4")
+                    .to(".marquee-wrapper", { scale: 1.2, opacity: 0, duration: 0.8, ease: "power4.in" })
+                    .to(loaderVal, { opacity: 0, duration: 0.3 }, "-=0.6")
                     .to(loaderEl, { yPercent: -100, duration: 1, ease: "power4.inOut" })
                     .from(".gsap-hero", {
                         y: 80,
@@ -638,7 +704,7 @@
         }, 35);
 
         /* --------------------------------------------------------------------------
-           2. MOTOR 3D THREE.JS (ICOSAHEDRON DINÂMICO MONOCROMÁTICO)
+           2. MOTOR 3D THREE.JS (AZUL CYAN + WIREFRAME)
            -------------------------------------------------------------------------- */
         const container = document.getElementById('webgl-container');
         const scene = new THREE.Scene();
@@ -649,20 +715,19 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        // Objeto 3D Abstrato
+        // Geometria 3D
         const geo = new THREE.IcosahedronGeometry(2.8, 3);
         const mat = new THREE.MeshBasicMaterial({
-            color: 0xffffff,
+            color: 0x00d2ff,
             wireframe: true,
             transparent: true,
-            opacity: 0.07
+            opacity: 0.12
         });
         const sphere = new THREE.Mesh(geo, mat);
         scene.add(sphere);
 
         camera.position.z = 6;
 
-        // Animação fluida acoplada ao mouse
         let targetX = 0, targetY = 0;
         document.addEventListener('mousemove', (e) => {
             targetX = (e.clientX / window.innerWidth) - 0.5;
@@ -675,7 +740,6 @@
             sphere.rotation.x += 0.0015;
             sphere.rotation.y += 0.0025;
 
-            // Interpolação suave de posição 3D
             camera.position.x += (targetX * 1.2 - camera.position.x) * 0.04;
             camera.position.y += (-targetY * 1.2 - camera.position.y) * 0.04;
 
@@ -690,10 +754,37 @@
         });
 
         /* --------------------------------------------------------------------------
-           3. ANIMAÇÕES DE ENTRADA 3D COM GSAP & SCROLLTRIGGER
+           3. CURSOR ULTRASSUAVE (BUG CORRIGIDO VIA GSAP TICKER)
            -------------------------------------------------------------------------- */
-        
-        // Entrada 3D para Títulos das Seções
+        const dot = document.getElementById('dot');
+        const follower = document.getElementById('follower');
+
+        let mouse = { x: -100, y: -100 };
+        let pos = { x: -100, y: -100 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            
+            // Ponto centralização exata
+            gsap.set(dot, { x: mouse.x - 3, y: mouse.y - 3 });
+        });
+
+        // Interpolação contínua para eliminar descompasso ou bugs de lag
+        gsap.ticker.add(() => {
+            pos.x += (mouse.x - pos.x) * 0.15;
+            pos.y += (mouse.y - pos.y) * 0.15;
+            gsap.set(follower, { x: pos.x - 20, y: pos.y - 20 });
+        });
+
+        document.querySelectorAll('.hover-target, a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('active-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('active-hover'));
+        });
+
+        /* --------------------------------------------------------------------------
+           4. ANIMAÇÕES 3D E TILT DOS CARDS
+           -------------------------------------------------------------------------- */
         gsap.utils.toArray('.gsap-3d-header').forEach(header => {
             gsap.from(header, {
                 scrollTrigger: {
@@ -709,7 +800,6 @@
             });
         });
 
-        // Entrada 3D para Cartões de Preço (Efeito de Desdobramento 3D)
         gsap.from('.gsap-3d-card', {
             scrollTrigger: {
                 trigger: '.pricing-grid',
@@ -726,7 +816,6 @@
             ease: "power4.out"
         });
 
-        // Entrada 3D para Caixas de Recursos
         gsap.from('.gsap-3d-box', {
             scrollTrigger: {
                 trigger: '.features-grid',
@@ -741,35 +830,19 @@
             ease: "power3.out"
         });
 
-        /* --------------------------------------------------------------------------
-           4. CURSOR ULTRASSUAVE & TILT 3D NOS CARDS
-           -------------------------------------------------------------------------- */
-        const dot = document.getElementById('dot');
-        const follower = document.getElementById('follower');
-
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.4, ease: "power2.out" });
-        });
-
-        document.querySelectorAll('.hover-target, a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('active-hover'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('active-hover'));
-        });
-
-        // Tilt 3D Tridimensional reativo ao passar o mouse
+        // Tilt 3D reativo
         document.querySelectorAll('.pricing-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                const rX = ((y - rect.height/2) / (rect.height/2)) * -12;
-                const rY = ((x - rect.width/2) / (rect.width/2)) * 12;
+                const rX = ((y - rect.height/2) / (rect.height/2)) * -10;
+                const rY = ((x - rect.width/2) / (rect.width/2)) * 10;
 
                 gsap.to(card, {
                     rotateX: rX,
                     rotateY: rY,
-                    z: 20,
+                    z: 15,
                     duration: 0.3,
                     ease: "power1.out"
                 });
@@ -786,7 +859,6 @@
             });
         });
 
-        /* Efeito no Header */
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
             if (window.scrollY > 50) {
