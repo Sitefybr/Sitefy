@@ -440,6 +440,91 @@ nav{
    SECTION
 ========================= */
 
+/* =========================
+   LOGO MARQUEE
+========================= */
+
+.logo-marquee{
+    position:relative;
+    width:100%;
+    overflow:hidden;
+    padding:18px 0;
+    background:rgba(255,255,255,.96);
+    border-top:1px solid rgba(157,77,255,.35);
+    border-bottom:1px solid rgba(157,77,255,.35);
+    box-shadow:0 0 45px rgba(157,77,255,.12);
+    transform:translateZ(0);
+}
+
+.logo-marquee::before,
+.logo-marquee::after{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:120px;
+    z-index:2;
+    pointer-events:none;
+}
+
+.logo-marquee::before{
+    left:0;
+    background:linear-gradient(90deg,#fff,transparent);
+}
+
+.logo-marquee::after{
+    right:0;
+    background:linear-gradient(-90deg,#fff,transparent);
+}
+
+.logo-track{
+    display:flex;
+    width:max-content;
+    animation:logoMarquee 28s linear infinite;
+    will-change:transform;
+}
+
+.logo-set{
+    display:flex;
+    align-items:center;
+    flex-shrink:0;
+}
+
+.logo-marquee img{
+    width:250px;
+    height:105px;
+    object-fit:contain;
+    margin:0 34px;
+    filter:drop-shadow(0 8px 16px rgba(91,32,180,.18));
+}
+
+.logo-separator{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#8d3cff;
+    box-shadow:0 0 14px rgba(141,60,255,.8);
+    flex-shrink:0;
+}
+
+@keyframes logoMarquee{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+}
+
+@media(max-width:700px){
+    .logo-marquee img{
+        width:180px;
+        height:78px;
+        margin:0 20px;
+    }
+
+    .logo-marquee::before,
+    .logo-marquee::after{
+        width:60px;
+    }
+}
+
 section{
     padding:130px 6%;
     position:relative;
