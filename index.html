@@ -1,1879 +1,883 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sitefy — Sites que destacam sua marca</title>
-  <meta name="description" content="A Sitefy cria sites modernos, profissionais, responsivos e personalizados para empresas e marcas.">
-  <meta name="keywords" content="criação de sites, web design, sites profissionais, landing pages, e-commerce, desenvolvimento web">
-  <meta name="author" content="Sitefy">
-  
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://sitefy.com.br/">
-  <meta property="og:title" content="Sitefy — Sites que destacam sua marca">
-  <meta property="og:description" content="Transformamos ideias em experiências digitais modernas, rápidas e profissionais.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80">
-
-  <!-- Favicon Google Font Icon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-
-  <!-- FontAwesome Icons CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    /* ==========================================================================
-       RESET & BASE STYLES
-       ========================================================================== */
-    :root {
-      --bg-dark: #050508;
-      --bg-card: rgba(18, 16, 26, 0.6);
-      --bg-card-hover: rgba(28, 24, 42, 0.8);
-      --purple-main: #8a2be2;
-      --purple-neon: #a855f7;
-      --purple-glow: rgba(168, 85, 247, 0.4);
-      --purple-light: #c084fc;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: rgba(168, 85, 247, 0.15);
-      --border-glow: rgba(168, 85, 247, 0.4);
-      --font-main: 'Plus Jakarta Sans', sans-serif;
-      --font-display: 'Space Grotesk', sans-serif;
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      color-scheme: dark;
-    }
-
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: var(--font-main);
-      overflow-x: hidden;
-      line-height: 1.6;
-      cursor: default;
-    }
-
-    /* Selection */
-    ::selection {
-      background: var(--purple-main);
-      color: #fff;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-dark);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1e1b2e;
-      border-radius: 4px;
-      border: 1px solid var(--border-color);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--purple-main);
-    }
-
-    /* Background 3D Canvas */
-    #canvas-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Grid Overlay background */
-    .bg-grid {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 60%),
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 100% 100%, 50px 50px, 50px 50px;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    /* Custom Cursor */
-    .cursor-dot, .cursor-circle {
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      border-radius: 50%;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: opacity 0.3s ease;
-    }
-    .cursor-dot {
-      width: 6px;
-      height: 6px;
-      background-color: #fff;
-    }
-    .cursor-circle {
-      width: 32px;
-      height: 32px;
-      border: 1px solid var(--purple-neon);
-      box-shadow: 0 0 15px var(--purple-glow);
-      transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-    }
-    body.hovered .cursor-circle {
-      width: 50px;
-      height: 50px;
-      background-color: rgba(168, 85, 247, 0.15);
-      border-color: var(--purple-light);
-    }
-
-    /* Typography Utilities */
-    h1, h2, h3, h4 {
-      font-family: var(--font-display);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-    
-    .gradient-text {
-      background: linear-gradient(135deg, #ffffff 30%, var(--purple-neon) 70%, var(--purple-light) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 1.125rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .section-tag {
-      display: inline-block;
-      padding: 6px 16px;
-      background: rgba(168, 85, 247, 0.1);
-      border: 1px solid var(--border-color);
-      border-radius: 50px;
-      color: var(--purple-neon);
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-      backdrop-filter: blur(10px);
-    }
-
-    /* Container & Layout */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    section {
-      padding: 120px 0;
-      position: relative;
-    }
-
-    /* Glassmorphism Card Style */
-    .glass-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .glass-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--purple-neon), transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .glass-card:hover::before {
-      opacity: 1;
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 16px 32px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--purple-main), #5b21b6);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 25px var(--purple-glow);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 35px rgba(168, 85, 247, 0.7);
-      border-color: rgba(255, 255, 255, 0.5);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(168, 85, 247, 0.15);
-      border-color: var(--purple-neon);
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-    }
-
-    /* ==========================================================================
-       HEADER & NAVIGATION
-       ========================================================================== */
-    header {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 1200px;
-      z-index: 1000;
-      transition: all 0.4s ease;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 28px;
-      border-radius: 50px;
-      background: rgba(10, 8, 18, 0.6);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    header.scrolled .nav-container {
-      background: rgba(5, 5, 8, 0.85);
-      border-color: var(--border-color);
-      box-shadow: 0 10px 30px var(--purple-glow);
-    }
-
-    .logo {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #fff;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      letter-spacing: -0.5px;
-    }
-
-    .logo span {
-      color: var(--purple-neon);
-      text-shadow: 0 0 10px var(--purple-glow);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .nav-links a:hover {
-      color: #fff;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--purple-neon);
-      transition: width 0.3s ease;
-      box-shadow: 0 0 8px var(--purple-neon);
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .hamburger span {
-      width: 25px;
-      height: 2px;
-      background: #fff;
-      transition: all 0.3s ease;
-    }
-
-    /* ==========================================================================
-       HERO SECTION
-       ========================================================================== */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding-top: 140px;
-      position: relative;
-    }
-
-    .hero-content {
-      max-width: 900px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 800;
-      margin-bottom: 10px;
-      letter-spacing: -2px;
-    }
-
-    .hero .slogan {
-      font-size: clamp(1.2rem, 3vw, 2rem);
-      color: var(--purple-light);
-      font-weight: 600;
-      margin-bottom: 24px;
-      text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-    }
-
-    .hero p {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--text-muted);
-      max-width: 650px;
-      margin: 0 auto 40px auto;
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* Floating tech badges around Hero */
-    .hero-badge {
-      position: absolute;
-      padding: 10px 20px;
-      background: rgba(18, 16, 26, 0.7);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      backdrop-filter: blur(10px);
-      color: var(--text-main);
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      animation: float 6s ease-in-out infinite;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    .hero-badge i {
-      color: var(--purple-neon);
-      font-size: 1.1rem;
-    }
-
-    .badge-1 { top: 20%; left: -5%; animation-delay: 0s; }
-    .badge-2 { top: 60%; right: -5%; animation-delay: 2s; }
-    .badge-3 { bottom: 10%; left: 5%; animation-delay: 4s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(2deg); }
-    }
-
-    /* ==========================================================================
-       STATS SECTION
-       ========================================================================== */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-
-    .stat-card {
-      padding: 40px 30px;
-      text-align: center;
-    }
-
-    .stat-number {
-      font-family: var(--font-display);
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .stat-number span {
-      color: var(--purple-neon);
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      font-weight: 500;
-    }
-
-    /* ==========================================================================
-       SERVICES SECTION
-       ========================================================================== */
-    .services-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-    }
-
-    .service-card {
-      padding: 40px;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .service-card:hover {
-      transform: translateY(-10px) rotateX(4deg) rotateY(-2deg);
-      border-color: var(--purple-neon);
-      box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
-    }
-
-    .service-icon {
-      width: 60px;
-      height: 60px;
-      background: rgba(168, 85, 247, 0.1);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: var(--purple-neon);
-      margin-bottom: 24px;
-      box-shadow: 0 0 15px var(--purple-glow);
-    }
-
-    .service-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-      color: #fff;
-    }
-
-    .service-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    /* ==========================================================================
-       PORTFOLIO SECTION
-       ========================================================================== */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-    }
-
-    .portfolio-card {
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .portfolio-mockup {
-      width: 100%;
-      height: 220px;
-      background-size: cover;
-      background-position: top center;
-      position: relative;
-      transition: background-position 4s ease-in-out;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .portfolio-card:hover .portfolio-mockup {
-      background-position: bottom center;
-    }
-
-    .portfolio-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--purple-glow);
-    }
-
-    .portfolio-info {
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .portfolio-category {
-      font-size: 0.75rem;
-      color: var(--purple-light);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .portfolio-info h3 {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-    }
-
-    .portfolio-info p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-      flex-grow: 1;
-    }
-
-    .portfolio-btn {
-      align-self: flex-start;
-      padding: 10px 20px;
-      font-size: 0.85rem;
-    }
-
-    /* ==========================================================================
-       PRICING SECTION
-       ========================================================================== */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-      align-items: center;
-    }
-
-    .pricing-card {
-      padding: 40px 30px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .pricing-card.popular {
-      background: rgba(28, 20, 48, 0.85);
-      border: 2px solid var(--purple-neon);
-      box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
-      transform: scale(1.05);
-    }
-
-    .popular-tag {
-      position: absolute;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--purple-neon), var(--purple-main));
-      color: #fff;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      box-shadow: 0 0 15px var(--purple-glow);
-    }
-
-    .plan-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .plan-price {
-      font-family: var(--font-display);
-      font-size: 3rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .plan-price span {
-      font-size: 1rem;
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    .plan-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .plan-features {
-      list-style: none;
-      margin-bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .plan-features li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.9rem;
-      color: var(--text-main);
-    }
-
-    .plan-features li i {
-      color: var(--purple-neon);
-      font-size: 0.9rem;
-    }
-
-    /* ==========================================================================
-       PROCESS SECTION
-       ========================================================================== */
-    .timeline {
-      position: relative;
-      max-width: 900px;
-      margin: 50px auto 0 auto;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--purple-main), transparent);
-      transform: translateX(-50%);
-    }
-
-    .timeline-item {
-      display: flex;
-      justify-content: flex-end;
-      padding-right: 40px;
-      position: relative;
-      margin-bottom: 50px;
-      width: 50%;
-    }
-
-    .timeline-item:nth-child(even) {
-      align-self: flex-end;
-      justify-content: flex-start;
-      padding-right: 0;
-      padding-left: 40px;
-      margin-left: 50%;
-    }
-
-    .timeline-number {
-      position: absolute;
-      top: 0;
-      right: -25px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--bg-dark);
-      border: 2px solid var(--purple-neon);
-      color: var(--purple-neon);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-weight: 800;
-      box-shadow: 0 0 20px var(--purple-glow);
-      z-index: 2;
-    }
-
-    .timeline-item:nth-child(even) .timeline-number {
-      left: -25px;
-    }
-
-    .timeline-content {
-      padding: 30px;
-      width: 100%;
-    }
-
-    .timeline-content h3 {
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-
-    .timeline-content p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* ==========================================================================
-       WHY CHOOSE US
-       ========================================================================== */
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 24px;
-      margin-top: 50px;
-    }
-
-    .why-card {
-      padding: 30px;
-      text-align: center;
-    }
-
-    .why-card i {
-      font-size: 2rem;
-      color: var(--purple-neon);
-      margin-bottom: 16px;
-      text-shadow: 0 0 15px var(--purple-glow);
-    }
-
-    .why-card h3 {
-      font-size: 1.15rem;
-      margin-bottom: 8px;
-    }
-
-    .why-card p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    /* ==========================================================================
-       TESTIMONIALS SECTION
-       ========================================================================== */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-    }
-
-    .testimonial-card {
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .testimonial-stars {
-      color: #fbbf24;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-    }
-
-    .testimonial-text {
-      color: var(--text-main);
-      font-style: italic;
-      font-size: 0.95rem;
-      margin-bottom: 24px;
-      line-height: 1.7;
-    }
-
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .author-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple-main), #3b82f6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #fff;
-      border: 2px solid var(--border-glow);
-    }
-
-    .author-info h4 {
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .author-info p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* ==========================================================================
-       FAQ SECTION
-       ========================================================================== */
-    .faq-container {
-      max-width: 800px;
-      margin: 50px auto 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .faq-item {
-      padding: 20px 28px;
-      cursor: pointer;
-    }
-
-    .faq-question {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #fff;
-    }
-
-    .faq-question i {
-      color: var(--purple-neon);
-      transition: transform 0.3s ease;
-    }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, padding 0.4s ease;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    .faq-item.active .faq-question i {
-      transform: rotate(180deg);
-    }
-
-    .faq-item.active .faq-answer {
-      max-height: 200px;
-      padding-top: 16px;
-    }
-
-    /* ==========================================================================
-       CTA FINAL & CONTACT
-       ========================================================================== */
-    .cta-section {
-      text-align: center;
-      background: radial-gradient(circle at center, rgba(138, 43, 226, 0.2) 0%, transparent 70%);
-      padding: 100px 24px;
-      border-radius: 30px;
-      border: 1px solid var(--border-color);
-      margin-bottom: 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-section h2 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
-      margin-bottom: 16px;
-    }
-
-    .cta-section p {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 40px auto;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .contact-card {
-      padding: 24px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      text-decoration: none;
-      color: var(--text-main);
-    }
-
-    .contact-card:hover {
-      border-color: var(--purple-neon);
-      transform: translateY(-50px) scale(1.02);
-      box-shadow: 0 10px 25px var(--purple-glow);
-    }
-
-    .contact-card i {
-      font-size: 1.8rem;
-      color: var(--purple-neon);
-    }
-
-    .contact-info h4 {
-      font-size: 1rem;
-    }
-
-    .contact-info p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    /* ==========================================================================
-       FOOTER
-       ========================================================================== */
-    footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 40px 0;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    footer span {
-      color: var(--purple-neon);
-    }
-
-    /* ==========================================================================
-       RESPONSIVE DESIGN
-       ========================================================================== */
-    @media (max-width: 992px) {
-      .pricing-card.popular {
-        transform: none;
-      }
-      .timeline::before {
-        left: 20px;
-      }
-      .timeline-item {
-        width: 100%;
-        padding-left: 60px;
-        padding-right: 0;
-        margin-left: 0 !important;
-      }
-      .timeline-number {
-        left: -5px !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      /* Remove custom cursor on mobile */
-      .cursor-dot, .cursor-circle {
-        display: none !important;
-      }
-      body {
-        cursor: auto;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        height: 100vh;
-        background: rgba(10, 8, 18, 0.98);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 32px;
-        transition: right 0.4s ease;
-        border-left: 1px solid var(--border-color);
-      }
-
-      .nav-links.active {
-        right: 0;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .hero-badge {
-        display: none; /* Hide floating badges on smaller screens */
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050507">
+    <title>Sitefy — Experiências Digitais em 3D</title>
+
+    <!-- Google Fonts & Three.js CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #050507;
+            --card-bg: rgba(18, 16, 26, 0.65);
+            --card-border: rgba(157, 77, 255, 0.2);
+            --primary: #9d4dff;
+            --primary-glow: rgba(157, 77, 255, 0.4);
+            --secondary: #d38cff;
+            --text-main: #f3f3f6;
+            --text-muted: #8e8e9e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Cursor nativo oculto para uso do custom cursor */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            selection-background-color: var(--primary);
+        }
+
+        /* Canvas Three.js fixo de fundo */
+        #webgl-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--primary);
+            background: rgba(157, 77, 255, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s ease-out, width 0.2s, height 0.2s, border-color 0.2s;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        body.hovered .cursor-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--secondary);
+        }
+
+        body.hovered .cursor-outline {
+            width: 60px;
+            height: 60px;
+            border-color: var(--secondary);
+            background: rgba(211, 140, 255, 0.12);
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: #050507;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .loader.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .loader-logo span { color: var(--primary); }
+
+        .loader-bar {
+            width: 160px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-top: 24px;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: loading 1.2s infinite;
+        }
+
+        @keyframes loading {
+            100% { left: 100%; }
+        }
+
+        /* Header / Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 24px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: padding 0.4s, background 0.4s, backdrop-filter 0.4s;
+        }
+
+        nav.scrolled {
+            padding: 16px 8%;
+            background: rgba(5, 5, 7, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .logo span { color: var(--primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: #fff; }
+
+        .nav-btn {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 1px solid var(--card-border);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(157, 77, 255, 0.05);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 25px var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 140px 8% 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border: 1px solid var(--card-border);
+            border-radius: 100px;
+            background: rgba(18, 16, 26, 0.5);
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--secondary);
+            margin-bottom: 32px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(48px, 8vw, 100px);
+            line-height: 0.95;
+            letter-spacing: -4px;
+            font-weight: 700;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 .purple {
+            background: linear-gradient(135deg, #fff 30%, var(--primary) 70%, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .main-btn {
+            text-decoration: none;
+            color: #fff;
+            background: var(--primary);
+            padding: 18px 36px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 10px 30px var(--primary-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .main-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px var(--primary-glow);
+            background: #a85aff;
+        }
+
+        .secondary-btn {
+            text-decoration: none;
+            color: #fff;
+            padding: 18px 36px;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        /* Seções Genéricas */
+        section {
+            padding: 120px 8%;
+            position: relative;
+        }
+
+        .section-head {
+            max-width: 650px;
+            margin-bottom: 60px;
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .section-head h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(36px, 5vw, 64px);
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        /* Planos / Cards 3D */
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            transform-style: preserve-3d;
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(157, 77, 255, 0.15);
+        }
+
+        .card.featured {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, rgba(30, 20, 50, 0.7) 0%, var(--card-bg) 100%);
+            box-shadow: 0 15px 40px rgba(157, 77, 255, 0.2);
+        }
+
+        .popular {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--primary);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transform: translateZ(30px);
+        }
+
+        .card-number {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            transform: translateZ(20px);
+        }
+
+        .card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            margin-bottom: 12px;
+            transform: translateZ(25px);
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            transform: translateZ(20px);
+        }
+
+        .price {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
+            transform: translateZ(35px);
+        }
+
+        .features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 40px;
+            transform: translateZ(20px);
+        }
+
+        .features li {
+            color: var(--text-main);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .features li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .card-btn {
+            display: block;
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+            transform: translateZ(30px);
+        }
+
+        .card-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* Processo */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .process-item:hover {
+            transform: translateY(-8px);
+        }
+
+        .process-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .process-item h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .process-item p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* CTA & Footer */
+        .cta {
+            text-align: center;
+            padding: 140px 8%;
+        }
+
+        .cta-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(25, 15, 40, 0.8) 0%, rgba(10, 8, 15, 0.9) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            padding: 80px 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 80px rgba(157, 77, 255, 0.1);
+        }
+
+        .cta h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(36px, 5vw, 64px);
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            nav .nav-links { display: none; }
+            * { cursor: auto !important; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Background Grid & 3D Canvas -->
-  <div class="bg-grid"></div>
-  <div id="canvas-container"></div>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">Site<span>fy</span></div>
+        <div class="loader-bar"></div>
+    </div>
 
-  <!-- Custom Cursor -->
-  <div class="cursor-dot"></div>
-  <div class="cursor-circle"></div>
+    <!-- WebGL Three.js Background -->
+    <canvas id="webgl-bg"></canvas>
 
-  <!-- HEADER -->
-  <header id="header">
-    <div class="container">
-      <nav class="nav-container">
-        <a href="#" class="logo">SITEFY<span>.</span></a>
-        
-        <ul class="nav-links" id="nav-links">
-          <li><a href="#inicio">Início</a></li>
-          <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#portfolio">Portfólio</a></li>
-          <li><a href="#processo">Processo</a></li>
-          <li><a href="#precos">Preços</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#contato">Contato</a></li>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-outline" id="cursorOutline"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#" class="logo">Site<span>fy</span></a>
+        <ul class="nav-links">
+            <li><a href="#inicio" class="hover-target">Início</a></li>
+            <li><a href="#planos" class="hover-target">Planos</a></li>
+            <li><a href="#processo" class="hover-target">Processo</a></li>
         </ul>
+        <a href="#planos" class="nav-btn hover-target">Start Projeto</a>
+    </nav>
 
-        <div class="hamburger" id="hamburger" aria-label="Menu Mobile">
-          <span></span>
-          <span></span>
-          <span></span>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="badge">
+                <span class="badge-dot"></span>
+                DESIGN DIGITAL & EXPERIÊNCIAS 3D
+            </div>
+            <h1>
+                Seu site em <br>
+                <span class="purple">outra dimensão.</span>
+            </h1>
+            <p>
+                Desenvolvemos interfaces de alto impacto com gráficos 3D interativos, performance impecável e arquitetura focada em conversão.
+            </p>
+            <div class="hero-buttons">
+                <a href="#planos" class="main-btn hover-target">Ver Planos →</a>
+                <a href="#processo" class="secondary-btn hover-target">Como Funciona</a>
+            </div>
         </div>
-      </nav>
-    </div>
-  </header>
+    </section>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="inicio">
-    <div class="container">
-      <div class="hero-content">
-        <span class="section-tag">Agência Digital 3D</span>
-        <h1 class="gradient-text">SITEFY</h1>
-        <div class="slogan">Sites que destacam sua marca.</div>
-        <p>Transformamos ideias em experiências digitais modernas, rápidas e profissionais. Otimizados para altíssima conversão e performance surpreendente.</p>
+    <!-- Section Planos -->
+    <section id="planos">
+        <div class="section-head reveal">
+            <div class="eyebrow">Planos Exclusivos</div>
+            <h2>Escolha o nível ideal para o seu projeto</h2>
+        </div>
+
+        <div class="pricing">
+            <!-- Card 1 -->
+            <article class="card reveal hover-target">
+                <div class="card-number">01 / ESSENCIAL</div>
+                <h3>Site Start</h3>
+                <p class="card-desc">Para quem precisa de uma presença digital moderna e profissional com agilidade.</p>
+                <div class="price">R$ 19,90</div>
+                <ul class="features">
+                    <li>Landing Page Responsiva</li>
+                    <li>Design Futurista Nível 1</li>
+                    <li>Otimizado para Celulares</li>
+                    <li>Botões de Alta Conversão</li>
+                    <li>Publicação Imediata</li>
+                </ul>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="card-btn">Escolher Start</a>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card featured reveal hover-target">
+                <div class="popular">MAIS ESCOLHIDO</div>
+                <div class="card-number">02 / PROFISSIONAL</div>
+                <h3>Site Pro</h3>
+                <p class="card-desc">Estrutura completa com interações fluidas e identidade visual marcante.</p>
+                <div class="price">R$ 249,90</div>
+                <ul class="features">
+                    <li>Website Multi-páginas</li>
+                    <li>Animações e Efeitos 3D</li>
+                    <li>Design Totalmente Exclusivo</li>
+                    <li>Formulários Inteligentes</li>
+                    <li>SEO Avançado Inicial</li>
+                    <li>Suporte Prioritário</li>
+                </ul>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="card-btn">Escolher Pro</a>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card reveal hover-target">
+                <div class="card-number">03 / PREMIUM</div>
+                <h3>Site Ultra</h3>
+                <p class="card-desc">Experiência imersiva sob medida com elementos interativos e Three.js avançado.</p>
+                <div class="price">R$ 300,00</div>
+                <ul class="features">
+                    <li>Ambiente 3D Personalizado</li>
+                    <li>Experiência Visual de Elite</li>
+                    <li>Micro-interações Complexas</li>
+                    <li>Performance Otimizada (60 FPS)</li>
+                    <li>Integração Completa de APIs</li>
+                </ul>
+                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="card-btn">Escolher Ultra</a>
+            </article>
+        </div>
+    </section>
+
+    <!-- Section Processo -->
+    <section id="processo">
+        <div class="section-head reveal">
+            <div class="eyebrow">Metodologia</div>
+            <h2>Do conceito à publicação em 3 passos</h2>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-item reveal hover-target">
+                <div class="process-num">01</div>
+                <h3>Alinhamento de Visão</h3>
+                <p>Mapeamos seus objetivos e definimos a melhor estética visual e interativa para a sua marca.</p>
+            </div>
+            <div class="process-item reveal hover-target">
+                <div class="process-num">02</div>
+                <h3>Construção & Animação 3D</h3>
+                <p>Codificamos a estrutura com Three.js, efeitos de física e design responsivo impecável.</p>
+            </div>
+            <div class="process-item reveal hover-target">
+                <div class="process-num">03</div>
+                <h3>Lançamento Global</h3>
+                <p>Ajustes finos de velocidade, testes em múltiplos dispositivos e o seu site pronto para impactar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section CTA -->
+    <section class="cta">
+        <div class="cta-box reveal">
+            <div class="eyebrow">Próximo Passo</div>
+            <h2>Pronto para destacar sua marca?</h2>
+            <p>Transforme a presença digital da sua empresa com quem entende de design e tecnologia de ponta.</p>
+            <a href="#planos" class="main-btn hover-target">Iniciar Meu Projeto →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div>© 2026 <strong>Sitefy</strong>. Todos os direitos reservados.</div>
+        <div>Desenvolvimento Digital de Alta Performance</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        /* --- 1. Loader --- */
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hide');
+            }, 800);
+        });
+
+        /* --- 2. Three.js Background Engine --- */
+        const canvas = document.getElementById('webgl-bg');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
         
-        <div class="hero-btns">
-          <a href="#contato" class="btn btn-primary"><i class="fa-solid fa-rocket"></i> Criar Meu Site</a>
-          <a href="#portfolio" class="btn btn-secondary"><i class="fa-solid fa-eye"></i> Ver Portfólio</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Floating 3D Badges -->
-    <div class="hero-badge badge-1">
-      <i class="fa-solid fa-code"></i>
-      <span>Código Limpo & 60 FPS</span>
-    </div>
-    <div class="hero-badge badge-2">
-      <i class="fa-solid fa-mobile-screen"></i>
-      <span>100% Responsivo</span>
-    </div>
-    <div class="hero-badge badge-3">
-      <i class="fa-solid fa-bolt"></i>
-      <span>Alta Velocidade</span>
-    </div>
-  </section>
-
-  <!-- ESTATÍSTICAS -->
-  <section id="estatisticas">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="glass-card stat-card">
-          <div class="stat-number"><span class="counter" data-target="238">0</span>+</div>
-          <div class="stat-label">Sites Criados</div>
-        </div>
-        <div class="glass-card stat-card">
-          <div class="stat-number"><span class="counter" data-target="235">0</span>+</div>
-          <div class="stat-label">Clientes Satisfeitos</div>
-        </div>
-        <div class="glass-card stat-card">
-          <div class="stat-number"><span class="counter" data-target="93">0</span>+</div>
-          <div class="stat-label">Feedbacks Positivos</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SERVIÇOS -->
-  <section id="servicos">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Especialidades</span>
-        <h2>O que fazemos</h2>
-        <p class="subtitle">Soluções completas para levar a sua empresa ao próximo nível da web moderna.</p>
-      </div>
-
-      <div class="services-grid">
-        <div class="glass-card service-card">
-          <div class="service-icon"><i class="fa-solid fa-building"></i></div>
-          <h3>Sites Institucionais</h3>
-          <p>Sites profissionais para empresas e marcas transmitirem autoridade, confiança e credibilidade no mercado.</p>
-        </div>
-
-        <div class="glass-card service-card">
-          <div class="service-icon"><i class="fa-solid fa-bullseye"></i></div>
-          <h3>Landing Pages</h3>
-          <p>Páginas de alta conversão projetadas estrategicamente para transformar visitantes em clientes reais.</p>
-        </div>
-
-        <div class="glass-card service-card">
-          <div class="service-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-          <h3>Sites para Lojas</h3>
-          <p>Experiências digitais robustas e atraentes para apresentar seus negócios e produtos da melhor forma.</p>
-        </div>
-
-        <div class="glass-card service-card">
-          <div class="service-icon"><i class="fa-solid fa-display"></i></div>
-          <h3>Design Responsivo</h3>
-          <p>Adaptabilidade perfeita para todos os tamanhos de tela: computadores, notebooks, tablets e smartphones.</p>
-        </div>
-
-        <div class="glass-card service-card">
-          <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-          <h3>Animações 3D</h3>
-          <p>Experiências modernas com transições suaves, efeitos tridimensionais e interatividade avançada.</p>
-        </div>
-
-        <div class="glass-card service-card">
-          <div class="service-icon"><i class="fa-solid fa-gauge-high"></i></div>
-          <h3>Otimização SEO</h3>
-          <p>Sites ultra rápidos, leves e preparados para alcançar as primeiras posições nos mecanismos de busca.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PORTFÓLIO -->
-  <section id="portfolio">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Showcase</span>
-        <h2>Projetos que criamos</h2>
-        <p class="subtitle">Uma amostra da excelência e do cuidado visual em cada projeto entregue.</p>
-      </div>
-
-      <div class="portfolio-grid">
-        <!-- Project 1 -->
-        <div class="glass-card portfolio-card">
-          <div class="portfolio-mockup" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">Fintech / Tech</span>
-            <h3>Nexus Capital</h3>
-            <p>Plataforma financeira futurista com gráficos interativos e dashboard escuro elegante.</p>
-            <a href="#contato" class="btn btn-secondary portfolio-btn">Ver Projeto <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 2 -->
-        <div class="glass-card portfolio-card">
-          <div class="portfolio-mockup" style="background-image: url('https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">Arquitetura</span>
-            <h3>Aura Studios</h3>
-            <p>Site institucional minimalista voltado para arquitetura e design de interiores de luxo.</p>
-            <a href="#contato" class="btn btn-secondary portfolio-btn">Ver Projeto <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 3 -->
-        <div class="glass-card portfolio-card">
-          <div class="portfolio-mockup" style="background-image: url('https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">E-Commerce</span>
-            <h3>Vortex Gear</h3>
-            <p>Loja virtual para marca de periféricos gamer premium com interatividade 3D dos produtos.</p>
-            <a href="#contato" class="btn btn-secondary portfolio-btn">Ver Projeto <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 4 -->
-        <div class="glass-card portfolio-card">
-          <div class="portfolio-mockup" style="background-image: url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">Saúde & Estética</span>
-            <h3>Lumina Clinic</h3>
-            <p>Landing page responsiva de alta conversão para clínica médica e estética avançada.</p>
-            <a href="#contato" class="btn btn-secondary portfolio-btn">Ver Projeto <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 5 -->
-        <div class="glass-card portfolio-card">
-          <div class="portfolio-mockup" style="background-image: url('https://images.unsplash.com/photo-1542744094-3a31b272c490?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">Consultoria</span>
-            <h3>Apex Corporate</h3>
-            <p>Portal corporativo completo com sistema de agendamento online e animações fluidas.</p>
-            <a href="#contato" class="btn btn-secondary portfolio-btn">Ver Projeto <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <!-- Project 6 -->
-        <div class="glass-card portfolio-card">
-          <div class="portfolio-mockup" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="portfolio-info">
-            <span class="portfolio-category">Gastronomia</span>
-            <h3>Bistrô Noir</h3>
-            <p>Experiência digital imersiva para restaurante refinado, incluindo cardápio digital interativo.</p>
-            <a href="#contato" class="btn btn-secondary portfolio-btn">Ver Projeto <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PREÇOS -->
-  <section id="precos">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Investimento</span>
-        <h2>Escolha seu plano</h2>
-        <p class="subtitle">Valores transparentes e acessíveis para impulsionar sua presença digital.</p>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- Plan BÁSICO -->
-        <div class="glass-card pricing-card">
-          <div class="plan-name">BÁSICO</div>
-          <div class="plan-price">R$ 59,90 <span>/mês</span></div>
-          <p class="plan-desc">Para quem precisa de uma presença profissional na internet.</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check"></i> 1 Página (Landing Page)</li>
-            <li><i class="fa-solid fa-check"></i> Design 100% Responsivo</li>
-            <li><i class="fa-solid fa-check"></i> Botão WhatsApp Direto</li>
-            <li><i class="fa-solid fa-check"></i> Otimização Básica de SEO</li>
-            <li><i class="fa-solid fa-check"></i> Suporte via E-mail</li>
-          </ul>
-          <a href="#contato" class="btn btn-secondary">Escolher Básico</a>
-        </div>
-
-        <!-- Plan PRO (Popular) -->
-        <div class="glass-card pricing-card popular">
-          <div class="popular-tag">MAIS POPULAR</div>
-          <div class="plan-name">PRO</div>
-          <div class="plan-price">R$ 140,90 <span>/mês</span></div>
-          <p class="plan-desc">Para empresas que querem um site mais completo e moderno.</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check"></i> Até 5 Páginas Profissionais</li>
-            <li><i class="fa-solid fa-check"></i> Animações e Efeitos 3D Suaves</li>
-            <li><i class="fa-solid fa-check"></i> Formulário de Contato Integrado</li>
-            <li><i class="fa-solid fa-check"></i> SEO Avançado & Velocidade Máxima</li>
-            <li><i class="fa-solid fa-check"></i> Suporte Prioritário WhatsApp</li>
-          </ul>
-          <a href="#contato" class="btn btn-primary">Escolher PRO</a>
-        </div>
-
-        <!-- Plan ULTRA -->
-        <div class="glass-card pricing-card">
-          <div class="plan-name">ULTRA</div>
-          <div class="plan-price">R$ 249,90 <span>/mês</span></div>
-          <p class="plan-desc">Para projetos personalizados e experiências avançadas.</p>
-          <ul class="plan-features">
-            <li><i class="fa-solid fa-check"></i> Páginas Ilimitadas / E-commerce</li>
-            <li><i class="fa-solid fa-check"></i> Efeitos 3D Imersivos (Three.js)</li>
-            <li><i class="fa-solid fa-check"></i> Personalização Total Exclusiva</li>
-            <li><i class="fa-solid fa-check"></i> Integrações de APIs & Pagamentos</li>
-            <li><i class="fa-solid fa-check"></i> Suporte VIP 24/7 Dedicado</li>
-          </ul>
-          <a href="#contato" class="btn btn-secondary">Escolher ULTRA</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESSO -->
-  <section id="processo">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Etapas</span>
-        <h2>Como funciona?</h2>
-        <p class="subtitle">Um processo simples, ágil e transparente do primeiro contato até a entrega.</p>
-      </div>
-
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-number">01</div>
-          <div class="glass-card timeline-content">
-            <h3>Você entra em contato</h3>
-            <p>Conversamos para entender exatamente o que sua empresa precisa, suas ideias e objetivos.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-number">02</div>
-          <div class="glass-card timeline-content">
-            <h3>Definimos o projeto</h3>
-            <p>Planejamos a estrutura visual, o conteúdo, a paleta de cores e os recursos tecnológicos necessários.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-number">03</div>
-          <div class="glass-card timeline-content">
-            <h3>Criamos o site</h3>
-            <p>Desenvolvemos a interface com design premium, animações fluidas e otimização de performance.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-number">04</div>
-          <div class="glass-card timeline-content">
-            <h3>Você recebe seu site</h3>
-            <p>Fazemos os ajustes finais, configuramos o domínio e colocamos seu site no ar pronto para faturar!</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- POR QUE A SITEFY? -->
-  <section id="diferenciais">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Vantagens</span>
-        <h2>Por que a Sitefy?</h2>
-        <p class="subtitle">Diferenciais que garantem um projeto acima da média do mercado.</p>
-      </div>
-
-      <div class="why-grid">
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-pen-nib"></i>
-          <h3>Design Moderno</h3>
-          <p>Estética alinhada às maiores tendências globais de tecnologia.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-mobile"></i>
-          <h3>Responsividade</h3>
-          <p>Visual impecável em smartphones, tablets e desktops.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-tachograph-digital"></i>
-          <h3>Performance</h3>
-          <p>Carregamento ultrarrápido para não perder nenhum cliente.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-cubes"></i>
-          <h3>Animações 3D</h3>
-          <p>Interações memoráveis que destacam você dos concorrentes.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-sliders"></i>
-          <h3>Personalização</h3>
-          <p>Sites sob medida desenvolvidos para a identidade da sua marca.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-headset"></i>
-          <h3>Atendimento</h3>
-          <p>Suporte humano, ágil e direto para resolver qualquer questão.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-code-merge"></i>
-          <h3>Código Otimizado</h3>
-          <p>Estrutura semântica limpa que o Google adora pontuar alto.</p>
-        </div>
-
-        <div class="glass-card why-card">
-          <i class="fa-solid fa-shield-halved"></i>
-          <h3>Segurança</h3>
-          <p>Padrões de segurança modernos e certificados SSL inclusos.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEPOIMENTOS -->
-  <section id="depoimentos">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Avaliações</span>
-        <h2>O que nossos clientes dizem</h2>
-        <p class="subtitle">Depoimentos reais de demonstração da satisfação de quem trabalha conosco.</p>
-      </div>
-
-      <div class="testimonials-grid">
-        <div class="glass-card testimonial-card">
-          <div class="testimonial-stars">
-            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-          </div>
-          <p class="testimonial-text">"O novo site da nossa empresa ficou simplesmente surreal! As animações 3D e a velocidade impressionaram todos os nossos clientes. Recomendo de olhos fechados."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">RC</div>
-            <div class="author-info">
-              <h4>Ricardo Carvalho</h4>
-              <p>CEO, TechAdvance (Demonstração)</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="glass-card testimonial-card">
-          <div class="testimonial-stars">
-            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-          </div>
-          <p class="testimonial-text">"A quantidade de orçamentos pelo WhatsApp dobrou no primeiro mês após o lançamento da Landing Page. A Sitefy entendeu exatamente o que precisávamos."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">MS</div>
-            <div class="author-info">
-              <h4>Mariana Silva</h4>
-              <p>Diretora, Studio MS (Demonstração)</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="glass-card testimonial-card">
-          <div class="testimonial-stars">
-            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-          </div>
-          <p class="testimonial-text">"Trabalho impecável, prazo cumprido rigorosamente e um atendimento nota 10. O site parece de uma multinacional de tecnologia."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">LM</div>
-            <div class="author-info">
-              <h4>Lucas Mendes</h4>
-              <p>Fundador, Nexus Group (Demonstração)</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="container">
-      <div class="services-header">
-        <span class="section-tag">Dúvidas</span>
-        <h2>Perguntas Frequentes</h2>
-        <p class="subtitle">Tire suas dúvidas técnicas e comerciais de forma rápida.</p>
-      </div>
-
-      <div class="faq-container">
-        <div class="glass-card faq-item">
-          <div class="faq-question">
-            <span>Quanto custa criar um site?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            Nossos planos iniciam a partir de R$ 59,90/mês para Landing Pages até R$ 249,90/mês para projetos altamente personalizados e complexos.
-          </div>
-        </div>
-
-        <div class="glass-card faq-item">
-          <div class="faq-question">
-            <span>Quanto tempo demora?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            O prazo médio para entrega de uma Landing Page é de 3 a 7 dias úteis. Sites institucionais e projetos maiores costumam ser entregues entre 10 e 20 dias úteis.
-          </div>
-        </div>
-
-        <div class="glass-card faq-item">
-          <div class="faq-question">
-            <span>O site funciona no celular?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            Com certeza! Todos os nossos projetos são desenvolvidos com tecnologia 100% responsiva, garantindo visualização perfeita em computadores, tablets e smartphones.
-          </div>
-        </div>
-
-        <div class="glass-card faq-item">
-          <div class="faq-question">
-            <span>Posso pedir alterações?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            Sim! Durante a fase de homologação, apresentamos o projeto e realizamos todos os ajustes necessários até que esteja perfeitamente do seu agrado.
-          </div>
-        </div>
-
-        <div class="glass-card faq-item">
-          <div class="faq-question">
-            <span>A Sitefy faz sites personalizados?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            Sim, não utilizamos templates ultrapassados. Desenvolvemos designs exclusivos alinhados à identidade e aos objetivos estratégicos do seu negócio.
-          </div>
-        </div>
-
-        <div class="glass-card faq-item">
-          <div class="faq-question">
-            <span>Como entro em contato?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            Você pode clicar em qualquer um dos botões de contato nesta página, mandar uma mensagem no nosso WhatsApp, Instagram ou enviar um e-mail direto.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA FINAL & CONTATO -->
-  <section id="contato">
-    <div class="container">
-      <div class="cta-section glass-card">
-        <h2 class="gradient-text">Seu próximo site começa aqui.</h2>
-        <p>Vamos transformar sua ideia em uma experiência digital que realmente impressiona e gera resultados reais para seu negócio.</p>
-        <a href="https://wa.me/5500000000000?text=Olá!%20Quero%20criar%20meu%20site%20com%20a%20Sitefy." target="_blank" class="btn btn-primary" style="margin-bottom: 50px;">
-          <i class="fa-brands fa-whatsapp"></i> QUERO CRIAR MEU SITE
-        </a>
-
-        <div class="contact-grid">
-          <a href="https://instagram.com/sitefy" target="_blank" class="glass-card contact-card">
-            <i class="fa-brands fa-instagram"></i>
-            <div class="contact-info">
-              <h4>Instagram</h4>
-              <p>@sitefy</p>
-            </div>
-          </a>
-
-          <a href="https://wa.me/5500000000000?text=Olá!%20Vim%20pelo%20site." target="_blank" class="glass-card contact-card">
-            <i class="fa-brands fa-whatsapp"></i>
-            <div class="contact-info">
-              <h4>WhatsApp</h4>
-              <p>(00) 00000-0000</p>
-            </div>
-          </a>
-
-          <a href="mailto:contato@sitefy.com.br" class="glass-card contact-card">
-            <i class="fa-regular fa-envelope"></i>
-            <div class="contact-info">
-              <h4>E-mail</h4>
-              <p>contato@sitefy.com.br</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2026 <span>SITEFY</span>. Todos os direitos reservados. Sites que destacam sua marca.</p>
-    </div>
-  </footer>
-
-  <!-- ==========================================================================
-       LIBRARIES & SCRIPTS (THREE.JS + GSAP via CDN)
-       ========================================================================== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <script>
-    /* ==========================================================================
-       1. DEVICE CAPABILITY & PERFORMANCE DETECTION
-       ========================================================================== */
-    const isLowEndDevice = navigator.hardwareConcurrency ? navigator.hardwareConcurrency <= 4 : false;
-    const particleCount = isLowEndDevice ? 600 : 1800;
-
-    /* ==========================================================================
-       2. THREE.JS - 3D BACKGROUND PARTICLES & GEOMETRY
-       ========================================================================== */
-    const container = document.getElementById('canvas-container');
-    const scene = new THREE.Scene();
-    
-    // Camera
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
-
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isLowEndDevice });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    // Particles Spectrum Geometry
-    const particlesGeometry = new THREE.BufferGeometry();
-    const posArray = new Float32Array(particleCount * 3);
-
-    for (let i = 0; i < particleCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 80;
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-    // Material with Purple Light Tint
-    const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.15,
-      color: 0xa855f7,
-      transparent: true,
-      opacity: 0.7,
-      blending: THREE.AdditiveBlending
-    });
-
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
-
-    // Floating 3D Torus Knot Geometry in Hero background
-    const torusGeometry = new THREE.TorusKnotGeometry(6, 1.8, 100, 16);
-    const torusMaterial = new THREE.MeshBasicMaterial({
-      color: 0x8a2be2,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.25
-    });
-    const torusKnot = new THREE.Mesh(torusGeometry, torusMaterial);
-    torusKnot.position.set(0, 0, -10);
-    scene.add(torusKnot);
-
-    // Mouse Interaction Tracking
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
-
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-      mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
-    });
-
-    // Animation Loop
-    const clock = new THREE.Clock();
-
-    function animate3D() {
-      requestAnimationFrame(animate3D);
-
-      const elapsedTime = clock.getElapsedTime();
-
-      // Smooth camera motion
-      targetX = mouseX * 5;
-      targetY = -mouseY * 5;
-      camera.position.x += (targetX - camera.position.x) * 0.05;
-      camera.position.y += (targetY - camera.position.y) * 0.05;
-      camera.lookAt(scene.position);
-
-      // Rotate geometries
-      particlesMesh.rotation.y = elapsedTime * 0.03;
-      particlesMesh.rotation.x = elapsedTime * 0.015;
-
-      torusKnot.rotation.x = elapsedTime * 0.2;
-      torusKnot.rotation.y = elapsedTime * 0.25;
-
-      renderer.render(scene, camera);
-    }
-    animate3D();
-
-    // Window Resize Handler
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    /* ==========================================================================
-       3. CUSTOM CURSOR
-       ========================================================================== */
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorCircle = document.querySelector('.cursor-circle');
-
-    if (window.innerWidth > 768) {
-      window.addEventListener('mousemove', (e) => {
-        gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0.1 });
-        gsap.to(cursorCircle, { x: e.clientX, y: e.clientY, duration: 0.3 });
-      });
-
-      // Hover Effect on Interactive Elements
-      const hoverables = document.querySelectorAll('a, button, .glass-card, .faq-item');
-      hoverables.forEach(el => {
-        el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
-        el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
-      });
-    }
-
-    /* ==========================================================================
-       4. 3D CARD TILT EFFECT (Mouse Perspective)
-       ========================================================================== */
-    const cards = document.querySelectorAll('.glass-card');
-    
-    if (window.innerWidth > 768 && !isLowEndDevice) {
-      cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const rotateX = (y - centerY) / 15;
-          const rotateY = (centerX - x) / 15;
-          
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-        });
-      });
-    }
-
-    /* ==========================================================================
-       5. HEADER SCROLL & MOBILE MENU
-       ========================================================================== */
-    const header = document.getElementById('header');
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
-
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
-
-    // Close menu when clicking link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-      });
-    });
-
-    /* ==========================================================================
-       6. ACCORDION FAQ
-       ========================================================================== */
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    faqItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        faqItems.forEach(faq => faq.classList.remove('active'));
-        if (!isActive) {
-          item.classList.add('active');
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Partículas 3D
+        const particlesCount = 700;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 12;
         }
-      });
-    });
 
-    /* ==========================================================================
-       7. STATS COUNTER ANIMATION
-       ========================================================================== */
-    const counters = document.querySelectorAll('.counter');
-    let animatedStats = false;
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-    const statsSection = document.getElementById('estatisticas');
-
-    const observerStats = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !animatedStats) {
-        counters.forEach(counter => {
-          const target = +counter.getAttribute('data-target');
-          let count = 0;
-          const speed = target / 50;
-
-          const updateCount = () => {
-            count += speed;
-            if (count < target) {
-              counter.innerText = Math.ceil(count);
-              setTimeout(updateCount, 30);
-            } else {
-              counter.innerText = target;
-            }
-          };
-          updateCount();
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.025,
+            color: 0x9d4dff,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
         });
-        animatedStats = true;
-      }
-    }, { threshold: 0.5 });
 
-    observerStats.observe(statsSection);
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
 
-    /* ==========================================================================
-       8. GSAP SCROLL REVEAL ANIMATIONS
-       ========================================================================== */
-    gsap.registerPlugin(ScrollTrigger);
+        // Objeto Central 3D Wireframe (TorusKnot)
+        const geometry = new THREE.TorusKnotGeometry(1.2, 0.3, 100, 16);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x9d4dff, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+        const torusKnot = new THREE.Mesh(geometry, material);
+        scene.add(torusKnot);
 
-    // Hero Entry Animation
-    gsap.from('.hero-content > *', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2,
-      ease: 'power3.out'
-    });
+        camera.position.z = 4;
 
-    // Fade In Up for Sections
-    const sectionsToAnimate = [
-      '.stat-card', 
-      '.service-card', 
-      '.portfolio-card', 
-      '.pricing-card', 
-      '.timeline-item', 
-      '.why-card', 
-      '.testimonial-card',
-      '.faq-item'
-    ];
+        // Interação com o Mouse no 3D
+        let mouseX = 0;
+        let mouseY = 0;
 
-    sectionsToAnimate.forEach(selector => {
-      gsap.from(selector, {
-        scrollTrigger: {
-          trigger: selector,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power2.out'
-      });
-    });
-  </script>
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) - 0.5;
+            mouseY = (e.clientY / window.innerHeight) - 0.5;
+        });
+
+        // Loop de Animação
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            torusKnot.rotation.x = elapsedTime * 0.15;
+            torusKnot.rotation.y = elapsedTime * 0.2;
+
+            particlesMesh.rotation.y = -elapsedTime * 0.03;
+
+            // Parallax suave baseado no ponteiro do mouse
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Redimensionamento de Janela
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /* --- 3. Custom Cursor & Interactive Hover --- */
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorOutline = document.getElementById('cursorOutline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 400, fill: "forwards" });
+        });
+
+        document.querySelectorAll('.hover-target, a, button').forEach(element => {
+            element.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
+            element.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+        });
+
+        /* --- 4. Tilt 3D nos Cards --- */
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            });
+        });
+
+        /* --- 5. Scroll Header & Reveal Observer --- */
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
