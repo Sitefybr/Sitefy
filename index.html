@@ -1,872 +1,1431 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <title>SITEFY — Engenharia Digital, 3D & Performance</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050507">
 
-    <!-- Fontes Premium -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syncopate:wght@700;800&display=swap" rel="stylesheet">
-    
-    <!-- Frameworks Visual Engine -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<title>Sitefy — Sites que destacam sua marca</title>
 
-    <style>
-        /* ==========================================================================
-           1. SISTEMA VISUAL (PRETO, BRANCO & AZUL ELECTRIC CYAN)
-           ========================================================================== */
-        :root {
-            --bg-black: #030304;
-            --bg-card: #090a0f;
-            --bg-card-hover: #0f121a;
-            
-            --border-dim: rgba(255, 255, 255, 0.08);
-            --border-bright: rgba(0, 210, 255, 0.5);
-            
-            --text-main: #ffffff;
-            --text-muted: #8892b0;
-            --accent-blue: #00d2ff;
-            --accent-blue-glow: rgba(0, 210, 255, 0.15);
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-            --font-head: 'Syncopate', sans-serif;
-            --font-body: 'Space Grotesk', sans-serif;
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        html {
-            scroll-behavior: smooth;
-            background-color: var(--bg-black);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-        }
+body{
+    background:#050507;
+    color:#fff;
+    font-family:Inter,Arial,sans-serif;
+    overflow-x:hidden;
+}
 
-        body {
-            background-color: var(--bg-black);
-            position: relative;
-            color: var(--text-main);
-            perspective: 1200px;
-        }
+/* =========================
+   LOADING
+========================= */
 
-        /* Canvas 3D de Fundo */
-        #webgl-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
+.loader{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#050507;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:1s ease;
+}
 
-        /* Cursor Customizado Corrigido */
-        .cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 6px; height: 6px;
-            background-color: var(--accent-blue);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            box-shadow: 0 0 10px var(--accent-blue);
-        }
+.loader.hide{
+    opacity:0;
+    pointer-events:none;
+}
 
-        .cursor-follower {
-            position: fixed;
-            top: 0; left: 0;
-            width: 40px; height: 40px;
-            border: 1px solid rgba(0, 210, 255, 0.4);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99998;
-            transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), background-color 0.3s;
-        }
+.loader-logo{
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:-3px;
+    animation:logoPulse 1.5s infinite alternate;
+}
 
-        body.active-hover .cursor-follower {
-            width: 65px; height: 65px;
-            background-color: var(--accent-blue-glow);
-            border-color: var(--accent-blue);
-        }
+.loader-logo span{
+    color:#9d4dff;
+}
 
-        /* Preloader Moderno com Marquee Passando na Tela */
-        .loader-overlay {
-            position: fixed;
-            inset: 0;
-            background: #000000;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+.loader-line{
+    width:180px;
+    height:2px;
+    margin-top:25px;
+    background:#19191e;
+    overflow:hidden;
+}
 
-        .marquee-wrapper {
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-        }
+.loader-line::after{
+    content:"";
+    display:block;
+    width:60%;
+    height:100%;
+    background:#9d4dff;
+    animation:loading 1.2s infinite;
+}
 
-        .marquee-text {
-            font-family: var(--font-head);
-            font-size: clamp(60px, 12vw, 160px);
-            font-weight: 800;
-            color: transparent;
-            -webkit-text-stroke: 1.5px var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            display: inline-block;
-            will-change: transform;
-        }
+@keyframes loading{
+    from{transform:translateX(-120%)}
+    to{transform:translateX(300%)}
+}
 
-        .loader-counter {
-            position: absolute;
-            bottom: 60px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 4px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+@keyframes logoPulse{
+    from{opacity:.45;transform:scale(.97)}
+    to{opacity:1;transform:scale(1.03)}
+}
 
-        .loader-counter::before {
-            content: '';
-            width: 8px; height: 8px;
-            background: var(--accent-blue);
-            box-shadow: 0 0 8px var(--accent-blue);
-        }
+/* =========================
+   BACKGROUND
+========================= */
 
-        /* Header */
-        header {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            z-index: 1000;
-            padding: 32px 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: padding 0.4s var(--ease-out), background 0.4s, border-color 0.4s;
-        }
+.noise{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+    opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
 
-        header.scrolled {
-            padding: 20px 6%;
-            background: rgba(3, 3, 4, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-dim);
-        }
+.bg{
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    overflow:hidden;
+    pointer-events:none;
+}
 
-        .brand-logo {
-            font-family: var(--font-head);
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-            text-decoration: none;
-            letter-spacing: 2px;
-        }
+.glow{
+    position:absolute;
+    width:600px;
+    height:600px;
+    border-radius:50%;
+    filter:blur(120px);
+    opacity:.17;
+}
 
-        .brand-logo span { color: var(--accent-blue); }
+.glow.one{
+    background:#7d2cff;
+    top:-250px;
+    left:-180px;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
+.glow.two{
+    background:#b44cff;
+    right:-250px;
+    top:30%;
+}
 
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: color 0.3s;
-        }
+.glow.three{
+    background:#5217c9;
+    left:30%;
+    bottom:-400px;
+}
 
-        .nav-links a:hover { color: var(--accent-blue); }
+/* =========================
+   NAV
+========================= */
 
-        .btn-header {
-            text-decoration: none;
-            color: #000000;
-            background: #ffffff;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 12px 26px;
-            border-radius: 2px;
-            transition: all 0.3s var(--ease-out);
-        }
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:100;
+    padding:22px 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(to bottom,rgba(5,5,7,.85),transparent);
+    backdrop-filter:blur(8px);
+}
 
-        .btn-header:hover {
-            background: var(--accent-blue);
-            box-shadow: 0 0 20px var(--accent-blue-glow);
-            transform: translateY(-2px);
-        }
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1.5px;
+}
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            padding: 180px 6% 100px;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
+.logo span{
+    color:#a04dff;
+}
 
-        .hero-content { max-width: 950px; }
+.nav-links{
+    display:flex;
+    gap:32px;
+    list-style:none;
+}
 
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 8px 16px;
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            background: var(--accent-blue-glow);
-            color: var(--accent-blue);
-            margin-bottom: 28px;
-            border-radius: 2px;
-        }
+.nav-links a{
+    color:#a7a7ad;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
 
-        .hero h1 {
-            font-family: var(--font-head);
-            font-size: clamp(42px, 6.5vw, 92px);
-            font-weight: 800;
-            line-height: 1.02;
-            letter-spacing: -2px;
-            margin-bottom: 32px;
-            text-transform: uppercase;
-        }
+.nav-links a:hover{
+    color:white;
+}
 
-        .hero h1 span.highlight { color: var(--accent-blue); }
+.nav-btn{
+    color:white;
+    text-decoration:none;
+    padding:11px 18px;
+    border:1px solid #34343c;
+    border-radius:100px;
+    font-size:13px;
+    transition:.3s;
+}
 
-        .hero h1 span.outline {
-            color: transparent;
-            -webkit-text-stroke: 1px #ffffff;
-        }
+.nav-btn:hover{
+    background:#fff;
+    color:#050507;
+    transform:translateY(-2px);
+}
 
-        .hero p {
-            font-size: clamp(16px, 1.5vw, 20px);
-            color: var(--text-muted);
-            max-width: 620px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
+@media(max-width:700px){
+    .nav-links{
+        display:none;
+    }
 
-        .hero-actions { display: flex; gap: 20px; }
+    nav{
+        padding:20px;
+    }
+}
 
-        .btn-main {
-            text-decoration: none;
-            color: #000000;
-            background: var(--accent-blue);
-            padding: 20px 42px;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 2px;
-            transition: all 0.3s var(--ease-out);
-            box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
-        }
+/* =========================
+   HERO
+========================= */
 
-        .btn-main:hover {
-            background: #ffffff;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
-            transform: translateY(-3px);
-        }
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    perspective:1400px;
+    padding:120px 20px 80px;
+    overflow:hidden;
+}
 
-        .btn-outline {
-            text-decoration: none;
-            color: #ffffff;
-            background: transparent;
-            border: 1px solid var(--border-dim);
-            padding: 20px 42px;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-radius: 2px;
-            transition: all 0.3s var(--ease-out);
-        }
+.hero-content{
+    text-align:center;
+    max-width:1100px;
+    position:relative;
+    z-index:5;
+    transform-style:preserve-3d;
+    animation:heroIn 1.4s cubic-bezier(.16,1,.3,1) both;
+}
 
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            background: var(--accent-blue-glow);
-            transform: translateY(-3px);
-        }
+@keyframes heroIn{
+    from{
+        opacity:0;
+        transform:translateY(80px) rotateX(18deg) scale(.88);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) rotateX(0) scale(1);
+    }
+}
 
-        /* Seções e Estrutura dos Cards (Afiados) */
-        section {
-            padding: 160px 6%;
-            border-top: 1px solid var(--border-dim);
-        }
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 15px;
+    border:1px solid #292932;
+    border-radius:100px;
+    background:rgba(15,15,19,.7);
+    box-shadow:0 0 30px rgba(150,70,255,.08);
+    color:#bcbcc4;
+    font-size:12px;
+    margin-bottom:28px;
+}
 
-        .section-header { margin-bottom: 90px; }
+.badge-dot{
+    width:7px;
+    height:7px;
+    background:#a04dff;
+    border-radius:50%;
+    box-shadow:0 0 14px #a04dff;
+}
 
-        .section-num {
-            font-family: var(--font-head);
-            font-size: 12px;
-            color: var(--accent-blue);
-            display: block;
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-        }
+.hero h1{
+    font-size:clamp(58px,9vw,128px);
+    line-height:.88;
+    letter-spacing:-8px;
+    font-weight:900;
+    margin-bottom:30px;
+}
 
-        .section-title {
-            font-family: var(--font-head);
-            font-size: clamp(28px, 4vw, 56px);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
+.hero h1 .white{
+    display:block;
+}
 
-        /* Grid de Planos (Cantos Menos Redondos) */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            transform-style: preserve-3d;
-        }
+.hero h1 .purple{
+    display:block;
+    background:linear-gradient(90deg,#8d3cff,#d38cff,#8d3cff);
+    background-size:200%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:gradientMove 5s linear infinite;
+}
 
-        .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-dim);
-            border-radius: 2px; /* Reduzido radicalmente para visual retangular/afiado */
-            padding: 50px 38px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: border-color 0.4s, background-color 0.4s, box-shadow 0.4s;
-            will-change: transform, opacity;
-        }
+@keyframes gradientMove{
+    to{background-position:200%}
+}
 
-        .pricing-card:hover {
-            border-color: var(--border-bright);
-            background: var(--bg-card-hover);
-            box-shadow: 0 10px 40px rgba(0, 210, 255, 0.08);
-        }
+.hero p{
+    color:#92929a;
+    max-width:620px;
+    margin:auto;
+    font-size:17px;
+    line-height:1.7;
+}
 
-        .pricing-card.highlight {
-            border-color: var(--accent-blue);
-            background: #0c1017;
-        }
+.hero-buttons{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:14px;
+}
 
-        .badge-pop {
-            position: absolute;
-            top: 0; right: 0;
-            background: var(--accent-blue);
-            color: #000000;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 6px 14px;
-            border-radius: 0 0 0 2px;
-        }
+.main-btn{
+    position:relative;
+    overflow:hidden;
+    display:inline-block;
+    text-decoration:none;
+    color:#fff;
+    background:#8c3cff;
+    padding:16px 25px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:14px;
+    box-shadow:
+        0 10px 40px rgba(140,60,255,.25),
+        inset 0 1px rgba(255,255,255,.25);
+    transition:.35s;
+}
 
-        .plan-title {
-            font-family: var(--font-head);
-            font-size: 22px;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
+.main-btn::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:70%;
+    height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+    transform:skewX(-20deg);
+    transition:.6s;
+}
 
-        .plan-desc {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 32px;
-            min-height: 42px;
-        }
+.main-btn:hover::before{
+    left:140%;
+}
 
-        .plan-price {
-            font-family: var(--font-head);
-            font-size: 46px;
-            font-weight: 800;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border-dim);
-            color: #ffffff;
-        }
+.main-btn:hover{
+    transform:translateY(-5px) scale(1.03);
+    box-shadow:0 20px 60px rgba(140,60,255,.38);
+}
 
-        .plan-price span {
-            font-size: 14px;
-            color: var(--accent-blue);
-            font-family: var(--font-body);
-        }
+.secondary-btn{
+    text-decoration:none;
+    color:#bbb;
+    padding:16px 25px;
+    border:1px solid #29292f;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    transition:.3s;
+}
 
-        .feature-list {
-            list-style: none;
-            margin-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+.secondary-btn:hover{
+    color:white;
+    border-color:#55555f;
+    transform:translateY(-4px);
+}
 
-        .feature-list li {
-            font-size: 14px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+/* =========================
+   3D OBJECT
+========================= */
 
-        .feature-list li::before {
-            content: "—";
-            color: var(--accent-blue);
-        }
+.scene{
+    position:absolute;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    transform-style:preserve-3d;
+}
 
-        .btn-card {
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            color: #ffffff;
-            background: transparent;
-            border: 1px solid var(--border-dim);
-            border-radius: 2px;
-            padding: 18px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s var(--ease-out);
-        }
+.orb{
+    position:absolute;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:radial-gradient(circle at 30% 25%,#e6c9ff,#8a32ff 35%,#260052 70%,#0a0013);
+    box-shadow:
+        0 0 40px #862cff,
+        0 0 100px rgba(134,44,255,.5),
+        inset -15px -20px 30px rgba(0,0,0,.7);
+    animation:orbFloat 7s ease-in-out infinite;
+    opacity:.8;
+}
 
-        .btn-card:hover {
-            color: #000000;
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 20px var(--accent-blue-glow);
-        }
+.orb.o1{
+    left:12%;
+    top:28%;
+}
 
-        /* Grid de Recursos (Cantos Reduzidos) */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            transform-style: preserve-3d;
-        }
+.orb.o2{
+    right:12%;
+    top:23%;
+    width:60px;
+    height:60px;
+    animation-delay:-2s;
+}
 
-        .feature-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-dim);
-            border-radius: 2px;
-            padding: 48px;
-            will-change: transform, opacity;
-            transition: border-color 0.4s;
-        }
+.orb.o3{
+    right:18%;
+    bottom:15%;
+    width:35px;
+    height:35px;
+    animation-delay:-4s;
+}
 
-        .feature-box:hover { border-color: var(--accent-blue); }
+@keyframes orbFloat{
+    0%,100%{transform:translate3d(0,0,0) rotate(0)}
+    50%{transform:translate3d(30px,-50px,100px) rotate(180deg)}
+}
 
-        .feature-box h3 {
-            font-family: var(--font-head);
-            font-size: 18px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            color: #ffffff;
-        }
+.ring{
+    position:absolute;
+    width:500px;
+    height:500px;
+    border:1px solid rgba(157,77,255,.18);
+    border-radius:50%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) rotateX(68deg) rotateZ(15deg);
+    animation:ringSpin 15s linear infinite;
+}
 
-        .feature-box p {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.6;
-        }
+.ring::after{
+    content:"";
+    position:absolute;
+    inset:50px;
+    border:1px solid rgba(157,77,255,.1);
+    border-radius:50%;
+}
 
-        /* Rodapé */
-        footer {
-            padding: 60px 6%;
-            border-top: 1px solid var(--border-dim);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+@keyframes ringSpin{
+    to{
+        transform:translate(-50%,-50%) rotateX(68deg) rotateZ(375deg);
+    }
+}
 
-        footer span { color: var(--accent-blue); }
+/* =========================
+   SECTION
+========================= */
 
-        .gsap-3d-entry {
-            opacity: 0;
-            will-change: transform, opacity;
-        }
+/* =========================
+   LOGO MARQUEE
+========================= */
 
-        @media (max-width: 900px) {
-            .pricing-grid, .features-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
-            .cursor-dot, .cursor-follower { display: none; }
-            * { cursor: auto !important; }
-        }
-    </style>
+.logo-marquee{
+    position:relative;
+    width:100%;
+    overflow:hidden;
+    padding:18px 0;
+    background:rgba(255,255,255,.96);
+    border-top:1px solid rgba(157,77,255,.35);
+    border-bottom:1px solid rgba(157,77,255,.35);
+    box-shadow:0 0 45px rgba(157,77,255,.12);
+    transform:translateZ(0);
+}
+
+.logo-marquee::before,
+.logo-marquee::after{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:120px;
+    z-index:2;
+    pointer-events:none;
+}
+
+.logo-marquee::before{
+    left:0;
+    background:linear-gradient(90deg,#fff,transparent);
+}
+
+.logo-marquee::after{
+    right:0;
+    background:linear-gradient(-90deg,#fff,transparent);
+}
+
+.logo-track{
+    display:flex;
+    width:max-content;
+    animation:logoMarquee 28s linear infinite;
+    will-change:transform;
+}
+
+.logo-set{
+    display:flex;
+    align-items:center;
+    flex-shrink:0;
+}
+
+.logo-marquee img{
+    width:250px;
+    height:105px;
+    object-fit:contain;
+    margin:0 34px;
+    filter:drop-shadow(0 8px 16px rgba(91,32,180,.18));
+}
+
+.logo-separator{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#8d3cff;
+    box-shadow:0 0 14px rgba(141,60,255,.8);
+    flex-shrink:0;
+}
+
+@keyframes logoMarquee{
+    from{transform:translateX(0)}
+    to{transform:translateX(-50%)}
+}
+
+@media(max-width:700px){
+    .logo-marquee img{
+        width:180px;
+        height:78px;
+        margin:0 20px;
+    }
+
+    .logo-marquee::before,
+    .logo-marquee::after{
+        width:60px;
+    }
+}
+
+section{
+    padding:130px 6%;
+    position:relative;
+}
+
+.section-head{
+    max-width:700px;
+    margin-bottom:60px;
+}
+
+.eyebrow{
+    color:#a04dff;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:18px;
+}
+
+.section-head h2{
+    font-size:clamp(38px,6vw,72px);
+    letter-spacing:-4px;
+    line-height:.95;
+}
+
+.section-head p{
+    color:#85858d;
+    margin-top:20px;
+    line-height:1.7;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.pricing{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+    max-width:1250px;
+    margin:auto;
+    perspective:1200px;
+}
+
+.card{
+    position:relative;
+    min-height:520px;
+    padding:35px;
+    border-radius:25px;
+    border:1px solid #27272e;
+    background:
+        linear-gradient(145deg,rgba(26,26,32,.95),rgba(9,9,12,.96));
+    overflow:hidden;
+    transform-style:preserve-3d;
+    transition:
+        transform .15s ease,
+        border-color .4s,
+        box-shadow .4s;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:#8d3cff;
+    filter:blur(120px);
+    opacity:.06;
+    top:-150px;
+    right:-100px;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:25px;
+    background:linear-gradient(
+        120deg,
+        transparent 20%,
+        rgba(255,255,255,.06),
+        transparent 80%
+    );
+    transform:translateX(-120%);
+    transition:1s;
+}
+
+.card:hover::after{
+    transform:translateX(120%);
+}
+
+.card:hover{
+    border-color:#7532bd;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55),
+        0 0 50px rgba(130,50,255,.08);
+}
+
+.card.featured{
+    border-color:#7c38c9;
+    transform:translateY(-15px);
+    box-shadow:0 25px 90px rgba(110,40,210,.16);
+}
+
+.card.featured::before{
+    opacity:.14;
+}
+
+.popular{
+    position:absolute;
+    right:25px;
+    top:25px;
+    background:#9d4dff;
+    color:white;
+    padding:7px 11px;
+    border-radius:100px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.card-number{
+    font-size:11px;
+    color:#62626b;
+    font-weight:800;
+    letter-spacing:2px;
+    margin-bottom:50px;
+}
+
+.card h3{
+    font-size:25px;
+    margin-bottom:12px;
+}
+
+.card-desc{
+    color:#777780;
+    font-size:13px;
+    line-height:1.6;
+    min-height:62px;
+}
+
+.price{
+    margin:30px 0;
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:-2px;
+}
+
+.price small{
+    font-size:13px;
+    color:#686870;
+    font-weight:500;
+    letter-spacing:0;
+}
+
+.features{
+    list-style:none;
+    display:grid;
+    gap:14px;
+    padding-top:25px;
+    border-top:1px solid #222229;
+}
+
+.features li{
+    color:#a2a2aa;
+    font-size:13px;
+    display:flex;
+    gap:10px;
+}
+
+.features li::before{
+    content:"✓";
+    color:#a04dff;
+    font-weight:900;
+}
+
+.card-btn{
+    position:absolute;
+    left:35px;
+    right:35px;
+    bottom:30px;
+    text-align:center;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #2c2c33;
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.card-btn:hover{
+    background:#9d4dff;
+    border-color:#9d4dff;
+    transform:translateY(-3px);
+}
+
+@media(max-width:900px){
+    .pricing{
+        grid-template-columns:1fr;
+        max-width:500px;
+    }
+
+    .card.featured{
+        transform:none;
+    }
+}
+
+/* =========================
+   PROCESS
+========================= */
+
+.process{
+    max-width:1100px;
+    margin:auto;
+}
+
+.process-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:40px;
+}
+
+.process-item{
+    position:relative;
+}
+
+.process-num{
+    font-size:70px;
+    font-weight:900;
+    color:#16161b;
+    letter-spacing:-5px;
+}
+
+.process-item h3{
+    margin-top:-12px;
+    font-size:20px;
+}
+
+.process-item p{
+    color:#777780;
+    font-size:13px;
+    line-height:1.7;
+    margin-top:12px;
+}
+
+@media(max-width:700px){
+    .process-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+/* =========================
+   CTA
+========================= */
+
+.cta{
+    text-align:center;
+    min-height:600px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.cta-box{
+    position:relative;
+    max-width:900px;
+    padding:80px 30px;
+}
+
+.cta-box::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:300px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:#8b35ff;
+    filter:blur(150px);
+    opacity:.13;
+    z-index:-1;
+}
+
+.cta h2{
+    font-size:clamp(45px,7vw,85px);
+    line-height:.9;
+    letter-spacing:-5px;
+}
+
+.cta p{
+    max-width:550px;
+    color:#777780;
+    margin:25px auto 35px;
+    line-height:1.7;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:1px solid #18181d;
+    padding:35px 6%;
+    display:flex;
+    justify-content:space-between;
+    color:#5e5e66;
+    font-size:12px;
+}
+
+footer strong{
+    color:#aaa;
+}
+
+@media(max-width:600px){
+    footer{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+.reveal{
+    opacity:0;
+    transform:translateY(70px) scale(.96);
+    transition:1s cubic-bezier(.16,1,.3,1);
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0) scale(1);
+}
+
+/* =========================
+   CURSOR LIGHT
+========================= */
+
+.cursor-light{
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:0;
+    background:radial-gradient(circle,rgba(139,55,255,.09),transparent 65%);
+    transform:translate(-50%,-50%);
+}
+
+/* =========================
+   PARTICLES
+========================= */
+
+.particle{
+    position:fixed;
+    width:2px;
+    height:2px;
+    background:#9d4dff;
+    border-radius:50%;
+    pointer-events:none;
+    opacity:.35;
+    z-index:-1;
+    animation:particleMove linear infinite;
+}
+
+@keyframes particleMove{
+    from{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+    20%{opacity:.5}
+    80%{opacity:.3}
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Intro Moderno com Letreiro em Loop -->
-    <div class="loader-overlay" id="loader">
-        <div class="marquee-wrapper">
-            <div class="marquee-text" id="marqueeText">
-                SITEFY &nbsp;•&nbsp; SITEFY &nbsp;•&nbsp; SITEFY &nbsp;•&nbsp; SITEFY &nbsp;•&nbsp;
-            </div>
-        </div>
-        <div class="loader-counter" id="loaderVal">0%</div>
+<div class="loader" id="loader">
+    <div class="loader-logo">Site<span>fy</span></div>
+    <div class="loader-line"></div>
+</div>
+
+<div class="noise"></div>
+
+<div class="bg">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+    <div class="glow three"></div>
+</div>
+
+<div class="cursor-light" id="cursorLight"></div>
+
+<nav>
+    <div class="logo">Site<span>fy</span></div>
+
+    <ul class="nav-links">
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#processo">Processo</a></li>
+    </ul>
+
+    <a href="#planos" class="nav-btn">Começar projeto</a>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero" id="inicio">
+
+    <div class="scene">
+        <div class="ring"></div>
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="orb o3"></div>
     </div>
 
-    <!-- Background 3D Canvas -->
-    <div id="webgl-container"></div>
+    <div class="hero-content">
 
-    <!-- Cursor Personalizado -->
-    <div class="cursor-dot" id="dot"></div>
-    <div class="cursor-follower" id="follower"></div>
+        <div class="badge">
+            <span class="badge-dot"></span>
+            DESIGN DIGITAL · DESENVOLVIMENTO
+        </div>
 
-    <!-- Header -->
-    <header id="header">
-        <a href="#" class="brand-logo">SITEFY<span>.</span></a>
-        <ul class="nav-links">
-            <li><a href="#inicio" class="hover-target">Início</a></li>
-            <li><a href="#planos" class="hover-target">Planos</a></li>
-            <li><a href="#diferenciais" class="hover-target">Diferenciais</a></li>
-        </ul>
-        <a href="#planos" class="btn-header hover-target">Iniciar Projeto</a>
-    </header>
+        <h1>
+            <span class="white">Seu site.</span>
+            <span class="purple">Outro nível.</span>
+        </h1>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <span class="hero-tag gsap-hero">Engenharia Digital & 3D</span>
-            <h1 class="gsap-hero">
-                Interfaces <span class="highlight">Azuis</span> &<br>
-                <span class="outline">Sóbrias</span> de Impacto
-            </h1>
-            <p class="gsap-hero">
-                Sistemas web construídos sob medida com tecnologia de aceleração gráfica WebGL, navegação sem atrito e estética contemporânea em azul elétrico e preto.
+        <p>
+            Criamos sites modernos, rápidos e visualmente marcantes
+            para transformar ideias em experiências digitais que
+            realmente chamam atenção.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#planos" class="main-btn">Ver planos →</a>
+            <a href="#processo" class="secondary-btn">Como funciona</a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PLANOS -->
+
+<section id="planos">
+
+    <div class="section-head reveal">
+        <div class="eyebrow">Planos Sitefy</div>
+
+        <h2>
+            Escolha o nível<br>
+            do seu projeto.
+        </h2>
+
+        <p>
+            Do projeto essencial à experiência completa.
+            Você escolhe o nível e nós transformamos a ideia em um site.
+        </p>
+    </div>
+
+    <div class="pricing">
+
+        <!-- CARD 1 -->
+
+        <article class="card reveal">
+
+            <div class="card-number">01 / ESSENCIAL</div>
+
+            <h3>Site Start</h3>
+
+            <p class="card-desc">
+                Para quem precisa colocar uma presença profissional
+                na internet sem complicação.
             </p>
-            <div class="hero-actions gsap-hero">
-                <a href="#planos" class="btn-main hover-target">Conhecer Tabela</a>
-                <a href="#diferenciais" class="btn-outline hover-target">Ver Métricas</a>
+
+            <div class="price">
+                R$ 19,90
             </div>
-        </div>
-    </section>
 
-    <!-- Seção de Planos com Entrada 3D -->
-    <section id="planos">
-        <div class="section-header gsap-3d-header">
-            <span class="section-num">// 01</span>
-            <h2 class="section-title">Investimento Estratégico</h2>
-        </div>
+            <ul class="features">
+                <li>Landing page profissional</li>
+                <li>Design responsivo</li>
+                <li>Visual moderno</li>
+                <li>Botões para contato</li>
+                <li>Publicação online</li>
+            </ul>
 
-        <div class="pricing-grid">
-            <!-- START -->
-            <article class="pricing-card gsap-3d-card hover-target">
-                <div>
-                    <h3 class="plan-title">Start</h3>
-                    <p class="plan-desc">Presença digital essencial, rápida e otimizada.</p>
-                    <div class="plan-price">R$ 59<span>,90</span></div>
-                    <ul class="feature-list">
-                        <li>Landing Page Exclusiva</li>
-                        <li>Design 100% Responsivo</li>
-                        <li>Integração WhatsApp</li>
-                        <li>Carregamento Ultrarrápido</li>
-                    </ul>
-                </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card">Selecionar Start</a>
-            </article>
+            <a href="https://wa.me/" class="card-btn">
+                Escolher plano
+            </a>
 
-            <!-- PRO -->
-            <article class="pricing-card highlight gsap-3d-card hover-target">
-                <div class="badge-pop">Popular</div>
-                <div>
-                    <h3 class="plan-title">Pro</h3>
-                    <p class="plan-desc">Estrutura completa para empresas em expansão.</p>
-                    <div class="plan-price">R$ 140<span>,90</span></div>
-                    <ul class="feature-list">
-                        <li>Website Multi-páginas</li>
-                        <li>Animações Interativas 3D</li>
-                        <li>Formulários de Captura</li>
-                        <li>Otimização SEO Avançada</li>
-                    </ul>
-                </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card" style="background: var(--accent-blue); color: #000000;">Selecionar Pro</a>
-            </article>
+        </article>
 
-            <!-- ULTRA -->
-            <article class="pricing-card gsap-3d-card hover-target">
-                <div>
-                    <h3 class="plan-title">Ultra</h3>
-                    <p class="plan-desc">Experiência 3D imersiva de nível internacional.</p>
-                    <div class="plan-price">R$ 249<span>,90</span></div>
-                    <ul class="feature-list">
-                        <li>Engine WebGL 3D Personalizado</li>
-                        <li>Animações de Scroll Complexas</li>
-                        <li>Arquitetura de Alta Conversão</li>
-                        <li>Suporte Técnico Dedicado</li>
-                    </ul>
-                </div>
-                <a href="https://www.instagram.com/sitefydesign" target="_blank" class="btn-card">Selecionar Ultra</a>
-            </article>
-        </div>
-    </section>
 
-    <!-- Seção de Diferenciais -->
-    <section id="diferenciais">
-        <div class="section-header gsap-3d-header">
-            <span class="section-num">// 02</span>
-            <h2 class="section-title">Padrões Técnicos</h2>
-        </div>
+        <!-- CARD 2 -->
 
-        <div class="features-grid">
-            <div class="feature-box gsap-3d-box hover-target">
-                <h3>01. Código Limpo</h3>
-                <p>Estrutura leve e otimizada, garantindo carregamento instantâneo em qualquer conexão.</p>
+        <article class="card featured reveal">
+
+            <div class="popular">MAIS ESCOLHIDO</div>
+
+            <div class="card-number">02 / PROFISSIONAL</div>
+
+            <h3>Site Pro</h3>
+
+            <p class="card-desc">
+                Uma presença digital mais completa, com mais páginas,
+                interações e identidade visual.
+            </p>
+
+            <div class="price">
+                R$ 249,90
             </div>
-            <div class="feature-box gsap-3d-box hover-target">
-                <h3>02. Estética Sóbria + Azul Electric</h3>
-                <p>Design sofisticado focado em legibilidade e autoridade visual, sem poluição de cores.</p>
+
+            <ul class="features">
+                <li>Site completo</li>
+                <li>Design personalizado</li>
+                <li>Animações e interações</li>
+                <li>Otimização para celular</li>
+                <li>Formulário de contato</li>
+                <li>Publicação online</li>
+            </ul>
+
+            <a href="https://wa.me/" class="card-btn">
+                Escolher plano
+            </a>
+
+        </article>
+
+
+        <!-- CARD 3 -->
+
+        <article class="card reveal">
+
+            <div class="card-number">03 / PREMIUM</div>
+
+            <h3>Site Ultra</h3>
+
+            <p class="card-desc">
+                Para projetos que precisam de uma experiência
+                digital diferenciada e totalmente personalizada.
+            </p>
+
+            <div class="price">
+                R$ 300,00
             </div>
-            <div class="feature-box gsap-3d-box hover-target">
-                <h3>03. Animações GSAP + WebGL</h3>
-                <p>Transições físicas tridimensionais a 60 FPS com interpolação ultrassuave.</p>
-            </div>
-            <div class="feature-box gsap-3d-box hover-target">
-                <h3>04. Foco em Conversão</h3>
-                <p>Arquitetura construída estrategicamente para transformar tráfego em clientes qualificados.</p>
-            </div>
+
+            <ul class="features">
+                <li>Projeto personalizado</li>
+                <li>Experiência visual premium</li>
+                <li>Animações avançadas</li>
+                <li>Seções personalizadas</li>
+                <li>Otimização mobile</li>
+                <li>Publicação online</li>
+            </ul>
+
+            <a href="https://wa.me/" class="card-btn">
+                Escolher plano
+            </a>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- PROCESSO -->
+
+<section id="processo">
+
+    <div class="process">
+
+        <div class="section-head reveal">
+
+            <div class="eyebrow">Processo</div>
+
+            <h2>
+                Do zero ao<br>
+                site publicado.
+            </h2>
+
         </div>
-    </section>
 
-    <!-- Rodapé -->
-    <footer>
-        <div>© 2026 <span>SITEFY</span>. TODOS OS DIREITOS RESERVADOS.</div>
-        <div>ELECTRIC BLUE 3D SYSTEM</div>
-    </footer>
+        <div class="process-grid">
 
-    <!-- ENGINE JAVASCRIPT: GSAP + THREE.JS -->
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+            <div class="process-item reveal">
 
-        /* --------------------------------------------------------------------------
-           1. INTRO / MARQUEE ANIMADO PASSANDO NA TELA
-           -------------------------------------------------------------------------- */
-        const marqueeText = document.getElementById('marqueeText');
-        
-        // Efeito de rolagem infinita do texto no loader
-        gsap.to(marqueeText, {
-            xPercent: -50,
-            repeat: -1,
-            duration: 8,
-            ease: "none"
-        });
+                <div class="process-num">01</div>
 
-        let loadProgress = 0;
-        const loaderVal = document.getElementById('loaderVal');
-        const loaderEl = document.getElementById('loader');
+                <h3>Você explica a ideia.</h3>
 
-        const loadTimer = setInterval(() => {
-            loadProgress += Math.floor(Math.random() * 10) + 5;
-            if (loadProgress >= 100) {
-                loadProgress = 100;
-                clearInterval(loadTimer);
-                
-                // Saída fluida do Loader
-                gsap.timeline()
-                    .to(".marquee-wrapper", { scale: 1.2, opacity: 0, duration: 0.8, ease: "power4.in" })
-                    .to(loaderVal, { opacity: 0, duration: 0.3 }, "-=0.6")
-                    .to(loaderEl, { yPercent: -100, duration: 1, ease: "power4.inOut" })
-                    .from(".gsap-hero", {
-                        y: 80,
-                        rotateX: -20,
-                        opacity: 0,
-                        duration: 1.2,
-                        stagger: 0.15,
-                        ease: "power4.out"
-                    }, "-=0.4");
-            }
-            loaderVal.innerText = loadProgress + '%';
-        }, 35);
+                <p>
+                    Entendemos seu negócio, seu objetivo e o estilo
+                    que você quer transmitir.
+                </p>
 
-        /* --------------------------------------------------------------------------
-           2. MOTOR 3D THREE.JS (AZUL CYAN + WIREFRAME)
-           -------------------------------------------------------------------------- */
-        const container = document.getElementById('webgl-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            </div>
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
+            <div class="process-item reveal">
 
-        // Geometria 3D
-        const geo = new THREE.IcosahedronGeometry(2.8, 3);
-        const mat = new THREE.MeshBasicMaterial({
-            color: 0x00d2ff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.12
-        });
-        const sphere = new THREE.Mesh(geo, mat);
-        scene.add(sphere);
+                <div class="process-num">02</div>
 
-        camera.position.z = 6;
+                <h3>Nós construímos.</h3>
 
-        let targetX = 0, targetY = 0;
-        document.addEventListener('mousemove', (e) => {
-            targetX = (e.clientX / window.innerWidth) - 0.5;
-            targetY = (e.clientY / window.innerHeight) - 0.5;
-        });
+                <p>
+                    Transformamos a ideia em um projeto visual,
+                    responsivo e pensado para seus visitantes.
+                </p>
 
-        function render3D() {
-            requestAnimationFrame(render3D);
+            </div>
 
-            sphere.rotation.x += 0.0015;
-            sphere.rotation.y += 0.0025;
+            <div class="process-item reveal">
 
-            camera.position.x += (targetX * 1.2 - camera.position.x) * 0.04;
-            camera.position.y += (-targetY * 1.2 - camera.position.y) * 0.04;
+                <div class="process-num">03</div>
 
-            renderer.render(scene, camera);
+                <h3>Seu site vai ao ar.</h3>
+
+                <p>
+                    Depois dos ajustes finais, seu projeto fica
+                    pronto para ser apresentado ao mundo.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <div class="cta-box reveal">
+
+        <div class="eyebrow">Seu próximo projeto</div>
+
+        <h2>
+            Vamos criar algo<br>
+            impossível de ignorar.
+        </h2>
+
+        <p>
+            Sua empresa merece mais do que um site comum.
+            Vamos transformar sua ideia em uma experiência digital.
+        </p>
+
+        <a href="#planos" class="main-btn">
+            Começar agora →
+        </a>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div>
+        © 2026 <strong>Sitefy</strong>. Todos os direitos reservados.
+    </div>
+
+    <div>
+        Sites que destacam sua marca.
+    </div>
+
+</footer>
+
+<script>
+
+/* =========================
+   LOADER
+========================= */
+
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+        document.getElementById("loader").classList.add("hide");
+    }, 900);
+
+});
+
+
+/* =========================
+   PARTICLES
+========================= */
+
+for(let i = 0; i < 45; i++){
+
+    const p = document.createElement("div");
+
+    p.className = "particle";
+
+    p.style.left = Math.random() * 100 + "%";
+
+    p.style.animationDuration =
+        (Math.random() * 10 + 8) + "s";
+
+    p.style.animationDelay =
+        (Math.random() * 8) + "s";
+
+    p.style.opacity =
+        Math.random() * .5;
+
+    document.body.appendChild(p);
+}
+
+
+/* =========================
+   CURSOR GLOW
+========================= */
+
+const cursorLight =
+    document.getElementById("cursorLight");
+
+document.addEventListener("mousemove", e => {
+
+    cursorLight.animate(
+        {
+            left: e.clientX + "px",
+            top: e.clientY + "px"
+        },
+        {
+            duration:500,
+            fill:"forwards"
         }
-        render3D();
+    );
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+
+/* =========================
+   PARALLAX HERO
+========================= */
+
+const hero =
+    document.querySelector(".hero");
+
+const heroContent =
+    document.querySelector(".hero-content");
+
+const orbs =
+    document.querySelectorAll(".orb");
+
+document.addEventListener("mousemove", e => {
+
+    const x =
+        (window.innerWidth / 2 - e.clientX) / 35;
+
+    const y =
+        (window.innerHeight / 2 - e.clientY) / 35;
+
+    if(window.scrollY < window.innerHeight){
+
+        heroContent.style.transform =
+            `rotateX(${y * .25}deg) rotateY(${-x * .25}deg)`;
+
+        orbs.forEach((orb,index)=>{
+
+            const amount =
+                (index + 1) * 1.5;
+
+            orb.style.translate =
+                `${x * amount}px ${y * amount}px`;
+
         });
 
-        /* --------------------------------------------------------------------------
-           3. CURSOR ULTRASSUAVE (BUG CORRIGIDO VIA GSAP TICKER)
-           -------------------------------------------------------------------------- */
-        const dot = document.getElementById('dot');
-        const follower = document.getElementById('follower');
+    }
 
-        let mouse = { x: -100, y: -100 };
-        let pos = { x: -100, y: -100 };
+});
 
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            
-            // Ponto centralização exata
-            gsap.set(dot, { x: mouse.x - 3, y: mouse.y - 3 });
-        });
 
-        // Interpolação contínua para eliminar descompasso ou bugs de lag
-        gsap.ticker.add(() => {
-            pos.x += (mouse.x - pos.x) * 0.15;
-            pos.y += (mouse.y - pos.y) * 0.15;
-            gsap.set(follower, { x: pos.x - 20, y: pos.y - 20 });
-        });
+/* =========================
+   3D CARD TILT
+========================= */
 
-        document.querySelectorAll('.hover-target, a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => document.body.classList.add('active-hover'));
-            el.addEventListener('mouseleave', () => document.body.classList.remove('active-hover'));
-        });
+document.querySelectorAll(".card").forEach(card => {
 
-        /* --------------------------------------------------------------------------
-           4. ANIMAÇÕES 3D E TILT DOS CARDS
-           -------------------------------------------------------------------------- */
-        gsap.utils.toArray('.gsap-3d-header').forEach(header => {
-            gsap.from(header, {
-                scrollTrigger: {
-                    trigger: header,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                },
-                y: 60,
-                rotateX: -30,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
+    card.addEventListener("mousemove", e => {
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const x =
+            e.clientX - rect.left;
+
+        const y =
+            e.clientY - rect.top;
+
+        const rotateY =
+            ((x / rect.width) - .5) * 12;
+
+        const rotateX =
+            ((y / rect.height) - .5) * -12;
+
+        card.style.transform =
+            `perspective(900px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateZ(12px)`;
+
+    });
+
+    card.addEventListener("mouseleave", () => {
+
+        if(card.classList.contains("featured")){
+
+            card.style.transform =
+                "translateY(-15px)";
+
+        }else{
+
+            card.style.transform =
+                "translateY(0)";
+
+        }
+
+    });
+
+});
+
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(entry => {
+
+                if(entry.isIntersecting){
+
+                    entry.target.classList.add("active");
+
+                }
+
             });
-        });
 
-        gsap.from('.gsap-3d-card', {
-            scrollTrigger: {
-                trigger: '.pricing-grid',
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-            },
-            y: 120,
-            rotateX: -45,
-            rotateY: 15,
-            z: -100,
-            opacity: 0,
-            duration: 1.4,
-            stagger: 0.2,
-            ease: "power4.out"
-        });
+        },
+        {
+            threshold:.12
+        }
+    );
 
-        gsap.from('.gsap-3d-box', {
-            scrollTrigger: {
-                trigger: '.features-grid',
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-            },
-            y: 80,
-            rotateX: -25,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.15,
-            ease: "power3.out"
-        });
+document.querySelectorAll(".reveal")
+    .forEach(el => observer.observe(el));
 
-        // Tilt 3D reativo
-        document.querySelectorAll('.pricing-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const rX = ((y - rect.height/2) / (rect.height/2)) * -10;
-                const rY = ((x - rect.width/2) / (rect.width/2)) * 10;
 
-                gsap.to(card, {
-                    rotateX: rX,
-                    rotateY: rY,
-                    z: 15,
-                    duration: 0.3,
-                    ease: "power1.out"
-                });
+/* =========================
+   STAGGER CARDS
+========================= */
+
+document.querySelectorAll(".pricing .card")
+.forEach((card,index)=>{
+
+    card.style.transitionDelay =
+        `${index * 120}ms`;
+
+});
+
+
+/* =========================
+   SMOOTH NAV
+========================= */
+
+document.querySelectorAll('a[href^="#"]')
+.forEach(link => {
+
+    link.addEventListener("click", e => {
+
+        const target =
+            document.querySelector(
+                link.getAttribute("href")
+            );
+
+        if(target){
+
+            e.preventDefault();
+
+            target.scrollIntoView({
+                behavior:"smooth"
             });
 
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, {
-                    rotateX: 0,
-                    rotateY: 0,
-                    z: 0,
-                    duration: 0.6,
-                    ease: "power2.out"
-                });
-            });
-        });
+        }
 
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
+    });
+
+});
+
+</script>
+
 </body>
 </html>
+```
