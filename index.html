@@ -1478,4 +1478,386 @@
             <div class="faq-container">
                 <div class="faq-item reveal">
                     <button class="faq-question">
-                        <span>Em quanto
+                        <span>Em quanto tempo meu site fica pronto?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        O prazo varia de acordo com o plano escolhido. Páginas simples ou Landing Pages costumam ser entregues entre 3 a 7 dias úteis. Sites mais complexos levam entre 10 a 20 dias.
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>O site vai funcionar bem em celulares?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Com certeza. Todos os nossos projetos são desenvolvidos com conceito Mobile-First, garantindo perfeito funcionamento em celulares, tablets e computadores.
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>Preciso já ter um domínio e hospedagem?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Não se preocupe se não tiver. Nós te orientamos em todo o processo de registro do seu domínio (.com.br) e configuração da hospedagem adequada.
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>Quais são as formas de pagamento?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        Aceitamos PIX, boleto e cartão de crédito. Podemos parcelar o investimento para facilitar a entrada da sua empresa no meio digital.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contato">
+        <div class="container">
+            <div class="cta-box reveal">
+                <h2 class="cta-title">Seu próximo site <span class="text-gradient">começa aqui.</span></h2>
+                <p class="cta-subtitle">Não perca mais clientes para concorrentes por causa de um site desatualizado. Vamos criar algo incrível juntos.</p>
+                <button class="btn btn-primary open-modal" data-plan="Geral / Dúvida">
+                    Solicitar Orçamento <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">S</div>
+                        SITEFY
+                    </a>
+                    <p>Desenvolvimento web moderno, focado em alta performance, estética premium e conversão real de clientes.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Navegação</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#sobre">Sobre Nós</a></li>
+                        <li><a href="#servicos">Serviços</a></li>
+                        <li><a href="#planos">Planos</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Serviços</h4>
+                    <ul class="footer-links">
+                        <li><a href="#servicos">Criação de Sites</a></li>
+                        <li><a href="#servicos">Landing Pages</a></li>
+                        <li><a href="#servicos">SEO & Performance</a></li>
+                        <li><a href="#servicos">Design Responsivo</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Contato</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">contato@sitefy.com.br</a></li>
+                        <li><a href="#">+55 (11) 99999-9999</a></li>
+                        <li><a href="#">São Paulo, SP - Brasil</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 SITEFY - Todos os direitos reservados.</p>
+                <p>Desenvolvido com tecnologia e alta performance.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="glass-card modal-card">
+            <button class="modal-close" id="modal-close"><i data-lucide="x"></i></button>
+            <h3 style="margin-bottom: 0.5rem;" id="modal-title">Iniciar Projeto</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Preencha os dados abaixo e entraremos em contato imediatamente.</p>
+            
+            <form id="contact-form">
+                <input type="hidden" id="selected-plan" value="">
+                <div class="form-group">
+                    <label for="name">Seu Nome</label>
+                    <input type="text" id="name" class="form-control" placeholder="Digite seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">Seu WhatsApp</label>
+                    <input type="tel" id="whatsapp" class="form-control" placeholder="(00) 00000-0000" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensagem (Opcional)</label>
+                    <textarea id="message" class="form-control" placeholder="Conte brevemente sobre seu projeto..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem via WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        /* --------------------------------------------------------------------------
+           1. THREE.JS 3D BACKGROUND SYSTEM
+           -------------------------------------------------------------------------- */
+        const init3DBackground = () => {
+            const container = document.getElementById('webgl-container');
+            if (!container || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Create Particle System
+            const particlesCount = window.innerWidth < 768 ? 250 : 600;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particlesCount * 3);
+            const colors = new Float32Array(particlesCount * 3);
+
+            const color1 = new THREE.Color('#8b5cf6');
+            const color2 = new THREE.Color('#3b82f6');
+
+            for (let i = 0; i < particlesCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 60;
+                positions[i + 1] = (Math.random() - 0.5) * 60;
+                positions[i + 2] = (Math.random() - 0.5) * 60;
+
+                const mixedColor = color1.clone().lerp(color2, Math.random());
+                colors[i] = mixedColor.r;
+                colors[i + 1] = mixedColor.g;
+                colors[i + 2] = mixedColor.b;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.35,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6
+            });
+
+            const particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+
+            // Mouse Interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.0005;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.0005;
+            });
+
+            // Scroll Effect Variables
+            let scrollY = 0;
+            window.addEventListener('scroll', () => {
+                scrollY = window.scrollY;
+            });
+
+            // Animation Loop
+            const clock = new THREE.Clock();
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+
+                targetX += (mouseX - targetX) * 0.05;
+                targetY += (mouseY - targetY) * 0.05;
+
+                particleSystem.rotation.y = elapsedTime * 0.05 + targetX;
+                particleSystem.rotation.x = elapsedTime * 0.02 + targetY;
+                particleSystem.position.y = -scrollY * 0.005;
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+
+            // Responsive Window Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        init3DBackground();
+
+        /* --------------------------------------------------------------------------
+           2. NAVIGATION & MOBILE MENU
+           -------------------------------------------------------------------------- */
+        const navbar = document.getElementById('navbar');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        /* --------------------------------------------------------------------------
+           3. INTERSECTION OBSERVER (SCROLL ANIMATIONS & COUNTERS)
+           -------------------------------------------------------------------------- */
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Animated Counters
+        const counters = document.querySelectorAll('.counter');
+        let animatedCounters = false;
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animatedCounters) {
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        let count = 0;
+                        const speed = target / 50;
+
+                        const updateCount = () => {
+                            count += speed;
+                            if (count < target) {
+                                counter.innerText = Math.ceil(count);
+                                setTimeout(updateCount, 30);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCount();
+                    });
+                    animatedCounters = true;
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (counters.length > 0) {
+            counterObserver.observe(counters[0].parentElement.parentElement);
+        }
+
+        /* --------------------------------------------------------------------------
+           4. 3D TILT EFFECT ON CARDS
+           -------------------------------------------------------------------------- */
+        const cards = document.querySelectorAll('.glass-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                if (window.innerWidth < 768) return;
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
+            });
+        });
+
+        /* --------------------------------------------------------------------------
+           5. FAQ ACCORDION
+           -------------------------------------------------------------------------- */
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const questionBtn = item.querySelector('.faq-question');
+            questionBtn.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        /* --------------------------------------------------------------------------
+           6. MODAL & CONTACT FORM (WHATSAPP INTEGRATION)
+           -------------------------------------------------------------------------- */
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalClose = document.getElementById('modal-close');
+        const openModalBtns = document.querySelectorAll('.open-modal');
+        const selectedPlanInput = document.getElementById('selected-plan');
+        const contactForm = document.getElementById('contact-form');
+
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const plan = btn.getAttribute('data-plan') || 'Geral';
+                selectedPlanInput.value = plan;
+                modalOverlay.classList.add('active');
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const message = document.getElementById('message').value;
+            const plan = selectedPlanInput.value;
+
+            const text = `Olá! Meu nome é ${name}. Tenho interesse no plano: *${plan}*.\n\nMeu WhatsApp: ${whatsapp}\nMensagem: ${message || 'Gostaria de solicitar um orçamento!'}`;
+            const encodedText = encodeURIComponent(text);
+            
+            // Redireciona para o WhatsApp da empresa
+            window.open(`https://wa.me/5511999999999?text=${encodedText}`, '_blank');
+            modalOverlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
