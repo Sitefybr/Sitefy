@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SITEFY | Sites Profissionais, Modernos e de Alta Performance</title>
     <meta name="description" content="A SITEFY cria sites modernos, rápidos e focados em conversão. Transforme a presença digital da sua marca hoje mesmo.">
-    <meta name="theme-color" content="#0a0518">
+    <meta name="theme-color" content="#ffffff">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,37 +13,41 @@
     
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <style>
         /* ==========================================================================
-           1. CORE STYLES & CSS VARIABLES
+           1. CORE STYLES & CSS VARIABLES (LIGHT THEME TRANSITION TO DARK FOOTER)
            ========================================================================== */
         :root {
-            --bg-dark: #05020a;
-            --bg-card: rgba(18, 10, 36, 0.5);
-            --bg-card-hover: rgba(30, 16, 58, 0.7);
-            --border-color: rgba(139, 92, 246, 0.15);
-            --border-glow: rgba(139, 92, 246, 0.4);
+            --bg-light: #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-card: #ffffff;
+            --bg-dark: #09090b;
+            --bg-dark-surface: #121215;
             
-            --purple-main: #8b5cf6;
-            --purple-light: #a78bfa;
+            --border-light: rgba(226, 232, 240, 0.8);
+            --border-glow: rgba(139, 92, 246, 0.3);
+            
+            --purple-main: #7c3aed;
+            --purple-light: #8b5cf6;
             --purple-dark: #5b21b6;
-            --blue-accent: #3b82f6;
-            --cyan-accent: #06b6d4;
+            --blue-accent: #2563eb;
+            --cyan-accent: #0891b2;
             
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-dark: #64748b;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --text-light: #f8fafc;
+            --text-light-muted: #94a3b8;
             
-            --gradient-primary: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 50%, #3b82f6 100%);
-            --gradient-glow: radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(5,2,10,0) 70%);
+            --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #0891b2 100%);
+            --gradient-text: linear-gradient(135deg, #6d28d9 0%, #2563eb 100%);
             
             --font-sans: 'Plus Jakarta Sans', sans-serif;
             --font-display: 'Space Grotesk', sans-serif;
             
-            --container-max: 1200px;
+            --container-max: 1240px;
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+            --shadow-hover: 0 20px 40px -15px rgba(124, 58, 237, 0.2);
         }
 
         /* Base Reset */
@@ -55,39 +59,44 @@
 
         html {
             scroll-behavior: smooth;
-            color-scheme: dark;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
             font-family: var(--font-sans);
             overflow-x: hidden;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            position: relative;
         }
 
-        /* Background WebGL Canvas */
-        #webgl-container {
+        /* Mouse Follower Glow Light */
+        #mouse-spotlight {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, rgba(37, 99, 235, 0.03) 40%, transparent 70%);
             pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.05s ease-out;
         }
 
-        /* Typography Helper */
+        /* Typography Helpers */
         h1, h2, h3, h4, .font-display {
             font-family: var(--font-display);
             letter-spacing: -0.02em;
         }
 
-        .text-gradient {
-            background: var(--gradient-primary);
+        .highlight-text {
+            background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
 
         /* Container Layout */
@@ -99,71 +108,72 @@
         }
 
         section {
-            padding: 6rem 0;
+            padding: 7rem 0;
             position: relative;
         }
 
         /* Section Headings */
         .section-header {
             text-align: center;
-            max-width: 700px;
-            margin: 0 auto 4rem auto;
+            max-width: 750px;
+            margin: 0 auto 4.5rem auto;
         }
 
         .section-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 1rem;
+            padding: 0.4rem 1.1rem;
             border-radius: 9999px;
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid var(--border-color);
-            color: var(--purple-light);
+            background: rgba(124, 58, 237, 0.08);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            color: var(--purple-main);
             font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .section-title {
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            font-weight: 700;
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 800;
             line-height: 1.2;
-            margin-bottom: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 1.25rem;
         }
 
         .section-subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
         ::-webkit-scrollbar-track {
-            background: var(--bg-dark);
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #2e1065;
-            border-radius: 4px;
+            background: #cbd5e1;
+            border-radius: 5px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--purple-dark);
+            background: var(--purple-main);
         }
 
         /* ==========================================================================
-           2. BUTTONS & UI COMPONENTS
+           2. BUTTONS & CARD COMPONENTS
            ========================================================================== */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            padding: 0.875rem 2rem;
+            padding: 1rem 2.25rem;
             border-radius: 9999px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1rem;
             text-decoration: none;
             cursor: pointer;
@@ -172,62 +182,45 @@
             outline: none;
             position: relative;
             z-index: 1;
-            overflow: hidden;
         }
 
         .btn-primary {
-            background: var(--purple-main);
+            background: var(--gradient-primary);
             color: #ffffff;
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--purple-light), var(--blue-accent));
-            opacity: 0;
-            z-index: -1;
-            transition: var(--transition-smooth);
-        }
-
-        .btn-primary:hover::before {
-            opacity: 1;
+            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.4);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.6);
+            box-shadow: 0 15px 35px -5px rgba(124, 58, 237, 0.6);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
+            background: var(--bg-surface);
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: #f8fafc;
             border-color: var(--purple-light);
             transform: translateY(-3px);
+            color: var(--purple-main);
         }
 
-        /* Card Glassmorphism Effect */
-        .glass-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: 1.25rem;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
+        .site-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-smooth);
         }
 
-        .glass-card:hover {
+        .site-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
             border-color: var(--border-glow);
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
         }
 
         /* ==========================================================================
@@ -241,13 +234,15 @@
             z-index: 1000;
             padding: 1.25rem 0;
             transition: var(--transition-smooth);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid transparent;
         }
 
         .navbar.scrolled {
-            padding: 0.75rem 0;
-            background: rgba(5, 2, 10, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         }
 
         .nav-container {
@@ -259,30 +254,31 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
+            gap: 0.6rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--text-dark);
             text-decoration: none;
             font-family: var(--font-display);
         }
 
         .logo-icon {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             background: var(--gradient-primary);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 2.2rem;
             list-style: none;
         }
 
@@ -290,19 +286,19 @@
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.95rem;
-            font-weight: 500;
+            font-weight: 600;
             transition: var(--transition-smooth);
         }
 
         .nav-links a:hover {
-            color: var(--purple-light);
+            color: var(--purple-main);
         }
 
         .mobile-toggle {
             display: none;
             background: none;
             border: none;
-            color: var(--text-main);
+            color: var(--text-dark);
             cursor: pointer;
         }
 
@@ -310,86 +306,119 @@
            4. HERO SECTION
            ========================================================================== */
         .hero {
-            min-height: 100vh;
-            display: flex;
+            padding-top: 10.5rem;
+            padding-bottom: 6rem;
+            background: radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.05) 0%, transparent 60%);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
             align-items: center;
-            padding-top: 8rem;
-            padding-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
         }
 
         .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            z-index: 2;
+            text-align: left;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.15;
+            color: var(--text-dark);
             margin-bottom: 1.5rem;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            font-size: 1.2rem;
             color: var(--text-muted);
             margin-bottom: 2.5rem;
-            max-width: 650px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .hero-actions {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 1.25rem;
             flex-wrap: wrap;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            border-radius: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-light);
+        }
+
+        .hero-badge-float {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: var(--bg-surface);
+            padding: 1.25rem 1.75rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .hero-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 5rem;
+            margin-top: 4.5rem;
             padding-top: 2.5rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-light);
         }
 
         .stat-item h3 {
             font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-main);
+            font-weight: 800;
+            color: var(--text-dark);
         }
 
         .stat-item p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 0.25rem;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         /* ==========================================================================
-           5. ABOUT SECTION
+           5. SOBRE A SITEFY
            ========================================================================== */
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 4.5rem;
             align-items: center;
         }
 
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 1.75rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
+        }
+
         .about-text h2 {
-            font-size: 2.25rem;
+            font-size: 2.4rem;
             margin-bottom: 1.5rem;
         }
 
         .about-text p {
             color: var(--text-muted);
             margin-bottom: 1.25rem;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
         }
 
         .about-features {
@@ -400,97 +429,61 @@
         }
 
         .about-feature-card {
-            padding: 1.25rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
+            padding: 1.5rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
 
         .about-feature-card h4 {
-            color: var(--purple-light);
+            color: var(--purple-main);
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .about-visual {
-            position: relative;
-            padding: 2rem;
-        }
-
-        .about-visual-box {
-            width: 100%;
-            height: 380px;
-            background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.1));
-            border-radius: 1.5rem;
-            border: 1px solid var(--border-glow);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        /* Floating Cards Effect */
-        .floating-card {
-            position: absolute;
-            padding: 1rem 1.5rem;
-            background: rgba(18, 10, 36, 0.9);
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .fc-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .fc-2 { bottom: 15%; right: 5%; animation-delay: 3s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            gap: 0.6rem;
+            font-size: 1.1rem;
         }
 
         /* ==========================================================================
-           6. SERVICES SECTION
+           6. SERVIÇOS
            ========================================================================== */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2rem;
         }
 
         .service-card {
-            padding: 2.5rem 2rem;
+            padding: 2.75rem 2.25rem;
             display: flex;
             flex-direction: column;
             gap: 1.25rem;
         }
 
         .service-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 1rem;
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid var(--border-color);
+            width: 60px;
+            height: 60px;
+            border-radius: 1.25rem;
+            background: rgba(124, 58, 237, 0.08);
+            border: 1px solid rgba(124, 58, 237, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--purple-light);
+            color: var(--purple-main);
         }
 
         .service-card h3 {
-            font-size: 1.35rem;
+            font-size: 1.4rem;
         }
 
         .service-card p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         /* ==========================================================================
-           7. PRICING SECTION
+           7. PLANOS
            ========================================================================== */
         .pricing-grid {
             display: grid;
@@ -500,59 +493,60 @@
         }
 
         .pricing-card {
-            padding: 2.5rem 2rem;
+            padding: 3rem 2.25rem;
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
         .pricing-card.featured {
-            border-color: var(--purple-main);
-            background: linear-gradient(180deg, rgba(139, 92, 246, 0.15) 0%, rgba(18, 10, 36, 0.6) 100%);
-            transform: scale(1.03);
+            border: 2px solid var(--purple-main);
+            box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.2);
+            transform: scale(1.04);
         }
 
         .pricing-badge {
             position: absolute;
-            top: -12px;
-            right: 20px;
+            top: -14px;
+            right: 25px;
             background: var(--gradient-primary);
             color: white;
             font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.25rem 0.85rem;
+            font-weight: 800;
+            padding: 0.35rem 1rem;
             border-radius: 9999px;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .pricing-header h3 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 0.5rem;
         }
 
         .pricing-header p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            min-height: 40px;
+            font-size: 0.95rem;
+            min-height: 44px;
         }
 
         .pricing-price {
-            margin: 1.5rem 0;
+            margin: 1.75rem 0;
             display: flex;
             align-items: baseline;
             gap: 0.25rem;
         }
 
         .pricing-price .currency {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.35rem;
+            font-weight: 700;
             color: var(--text-muted);
         }
 
         .pricing-price .amount {
-            font-size: 2.75rem;
+            font-size: 3.25rem;
             font-weight: 800;
-            color: var(--text-main);
+            color: var(--text-dark);
             font-family: var(--font-display);
         }
 
@@ -561,7 +555,7 @@
             margin: 1.5rem 0 2.5rem 0;
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: 0.95rem;
             flex-grow: 1;
         }
 
@@ -569,55 +563,55 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             color: var(--text-muted);
         }
 
         .pricing-features li i {
-            color: var(--purple-light);
-            width: 18px;
-            height: 18px;
+            color: var(--purple-main);
+            width: 20px;
+            height: 20px;
         }
 
         /* ==========================================================================
-           8. WHY CHOOSE US
+           8. POR QUE ESCOLHER A SITEFY
            ========================================================================== */
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.75rem;
         }
 
         .benefit-card {
-            padding: 1.75rem;
+            padding: 2rem;
             display: flex;
             align-items: flex-start;
             gap: 1.25rem;
         }
 
         .benefit-icon {
-            padding: 0.75rem;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 0.75rem;
+            padding: 0.85rem;
+            background: rgba(37, 99, 235, 0.08);
+            border-radius: 1rem;
             color: var(--blue-accent);
         }
 
         .benefit-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.35rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
         }
 
         .benefit-info p {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         /* ==========================================================================
-           9. PROCESS SECTION (TIMELINE)
+           9. PROCESSO (TIMELINE)
            ========================================================================== */
         .timeline {
             position: relative;
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
         }
 
@@ -628,15 +622,15 @@
             transform: translateX(-50%);
             width: 2px;
             height: 100%;
-            background: var(--border-color);
+            background: var(--border-light);
         }
 
         .timeline-item {
             display: flex;
             justify-content: flex-end;
-            padding-right: 30px;
+            padding-right: 35px;
             position: relative;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
             width: 50%;
         }
 
@@ -644,164 +638,137 @@
             align-self: flex-end;
             justify-content: flex-start;
             padding-right: 0;
-            padding-left: 30px;
+            padding-left: 35px;
             margin-left: auto;
         }
 
         .timeline-dot {
             position: absolute;
-            top: 0; right: -12px;
-            width: 24px;
-            height: 24px;
+            top: 0; right: -13px;
+            width: 26px;
+            height: 26px;
             background: var(--purple-main);
-            border: 4px solid var(--bg-dark);
+            border: 4px solid #ffffff;
             border-radius: 50%;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.4);
             z-index: 2;
         }
 
         .timeline-item:nth-child(even) .timeline-dot {
             right: auto;
-            left: -12px;
+            left: -13px;
         }
 
         .timeline-content {
-            padding: 1.5rem;
-            border-radius: 1rem;
+            padding: 2rem;
             width: 100%;
         }
 
         .timeline-step {
             font-family: var(--font-display);
-            color: var(--purple-light);
+            color: var(--purple-main);
             font-weight: 700;
-            font-size: 0.85rem;
-            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.35rem;
         }
 
         /* ==========================================================================
-           10. PORTFOLIO SECTION
+           10. PORTFÓLIO
            ========================================================================== */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.25rem;
         }
 
         .portfolio-card {
             overflow: hidden;
-            border-radius: 1.25rem;
         }
 
         .portfolio-img {
             width: 100%;
-            height: 220px;
-            background: rgba(255,255,255,0.03);
-            position: relative;
+            height: 240px;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
-        .portfolio-mockup {
-            width: 85%;
-            height: 80%;
-            background: #1e1b2e;
-            border-radius: 0.5rem 0.5rem 0 0;
-            border: 1px solid var(--border-glow);
-            padding: 0.5rem;
-            transition: var(--transition-smooth);
+        .portfolio-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        .portfolio-card:hover .portfolio-mockup {
-            transform: translateY(-10px) scale(1.02);
-        }
-
-        .mockup-header {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 0.5rem;
-        }
-
-        .mockup-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-        }
-
-        .mockup-body {
-            height: calc(100% - 14px);
-            background: rgba(255,255,255,0.02);
-            border-radius: 0.25rem;
+        .portfolio-card:hover .portfolio-img img {
+            transform: scale(1.08);
         }
 
         .portfolio-info {
-            padding: 1.5rem;
+            padding: 1.75rem;
         }
 
         .portfolio-info h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.25rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.35rem;
         }
 
         .portfolio-info p {
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.95rem;
         }
 
         /* ==========================================================================
-           11. FAQ SECTION
+           11. FAQ SECTION (CORRIGIDO SEM BUGS)
            ========================================================================== */
         .faq-container {
-            max-width: 750px;
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.25rem;
         }
 
         .faq-item {
-            border: 1px solid var(--border-color);
-            border-radius: 0.75rem;
-            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 1.25rem;
+            background: var(--bg-surface);
+            box-shadow: var(--shadow-card);
             overflow: hidden;
             transition: var(--transition-smooth);
         }
 
         .faq-question {
             width: 100%;
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 1.75rem;
             text-align: left;
             background: none;
             border: none;
-            color: var(--text-main);
-            font-size: 1.05rem;
-            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 700;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
+            gap: 1rem;
         }
 
         .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
-            padding: 0 1.5rem;
+            display: none;
+            padding: 0 1.75rem 1.5rem 1.75rem;
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .faq-item.active .faq-answer {
-            max-height: 200px;
-            padding-bottom: 1.25rem;
-            transition: max-height 0.3s cubic-bezier(0.5, 0, 0.5, 1);
+            display: block;
         }
 
         .faq-icon {
             transition: transform 0.3s ease;
+            color: var(--purple-main);
+            flex-shrink: 0;
         }
 
         .faq-item.active .faq-icon {
@@ -812,69 +779,72 @@
            12. CTA FINAL
            ========================================================================== */
         .cta-section {
-            padding: 8rem 0;
-            text-align: center;
+            padding: 6rem 0 8rem 0;
         }
 
         .cta-box {
-            padding: 4rem 2rem;
-            border-radius: 2rem;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(5, 2, 10, 0.8) 100%);
+            padding: 4.5rem 2rem;
+            border-radius: 2.5rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.06) 0%, rgba(37, 99, 235, 0.06) 100%);
             border: 1px solid var(--border-glow);
-            position: relative;
-            overflow: hidden;
+            text-align: center;
         }
 
         .cta-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 1rem;
+            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+            margin-bottom: 1.25rem;
         }
 
         .cta-subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
+            font-size: 1.15rem;
+            max-width: 650px;
+            margin: 0 auto 2.5rem auto;
         }
 
         /* ==========================================================================
-           13. FOOTER
+           13. FOOTER (PRETO PROFUNDO MODERNO)
            ========================================================================== */
         .footer {
-            border-top: 1px solid var(--border-color);
-            background: rgba(2, 1, 5, 0.95);
-            padding: 4rem 0 2rem 0;
-            font-size: 0.9rem;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            padding: 5rem 0 2.5rem 0;
+            font-size: 0.95rem;
+            position: relative;
         }
 
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr repeat(3, 1fr);
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 3.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand .logo {
+            color: var(--text-light);
         }
 
         .footer-brand p {
-            color: var(--text-muted);
-            margin-top: 1rem;
-            max-width: 300px;
+            color: var(--text-light-muted);
+            margin-top: 1.25rem;
+            max-width: 320px;
         }
 
         .footer-column h4 {
-            color: var(--text-main);
-            margin-bottom: 1.25rem;
-            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
         }
 
         .footer-links {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.85rem;
         }
 
         .footer-links a {
-            color: var(--text-muted);
+            color: var(--text-light-muted);
             text-decoration: none;
             transition: var(--transition-smooth);
         }
@@ -884,21 +854,22 @@
         }
 
         .footer-bottom {
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--text-dark);
+            color: var(--text-light-muted);
             flex-wrap: wrap;
             gap: 1rem;
+            font-size: 0.9rem;
         }
 
         /* Modal Contact Form */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(8px);
             z-index: 2000;
             display: flex;
@@ -916,11 +887,12 @@
 
         .modal-card {
             width: 100%;
-            max-width: 500px;
-            padding: 2.5rem;
+            max-width: 520px;
+            padding: 2.75rem;
             position: relative;
-            transform: scale(0.9);
+            transform: scale(0.92);
             transition: transform 0.3s ease;
+            background: var(--bg-surface);
         }
 
         .modal-overlay.active .modal-card {
@@ -929,8 +901,8 @@
 
         .modal-close {
             position: absolute;
-            top: 1.25rem;
-            right: 1.25rem;
+            top: 1.5rem;
+            right: 1.5rem;
             background: none;
             border: none;
             color: var(--text-muted);
@@ -944,36 +916,38 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
         }
 
         .form-control {
             width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            color: var(--text-main);
+            padding: 0.85rem 1.1rem;
+            background: var(--bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            color: var(--text-dark);
             outline: none;
             transition: var(--transition-smooth);
+            font-family: inherit;
         }
 
         .form-control:focus {
-            border-color: var(--purple-light);
-            background: rgba(255,255,255,0.08);
+            border-color: var(--purple-main);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
 
         textarea.form-control {
             resize: vertical;
-            min-height: 100px;
+            min-height: 110px;
         }
 
         /* Animation utilities */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .reveal.active {
@@ -982,10 +956,10 @@
         }
 
         /* ==========================================================================
-           14. MEDIA QUERIES (RESPONSIVENESS)
+           14. RESPONSIVIDADE
            ========================================================================== */
         @media (max-width: 992px) {
-            .about-grid, .pricing-grid {
+            .hero-grid, .about-grid, .pricing-grid {
                 grid-template-columns: 1fr;
             }
             .pricing-card.featured {
@@ -994,21 +968,29 @@
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .hero-content {
+                text-align: center;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
         }
 
         @media (max-width: 768px) {
+            #mouse-spotlight {
+                display: none;
+            }
             .nav-links {
                 position: fixed;
                 top: 0; right: -100%;
                 width: 80%;
-                max-width: 300px;
+                max-width: 320px;
                 height: 100vh;
-                background: rgba(5, 2, 10, 0.98);
-                backdrop-filter: blur(20px);
+                background: #ffffff;
                 flex-direction: column;
                 justify-content: center;
                 transition: var(--transition-smooth);
-                border-left: 1px solid var(--border-color);
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1);
             }
 
             .nav-links.active {
@@ -1031,7 +1013,7 @@
 
             .timeline-item, .timeline-item:nth-child(even) {
                 width: 100%;
-                padding-left: 50px;
+                padding-left: 55px;
                 padding-right: 0;
             }
 
@@ -1043,21 +1025,11 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
-            #webgl-container {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <div id="webgl-container"></div>
+    <div id="mouse-spotlight"></div>
 
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
@@ -1078,47 +1050,62 @@
                 <li><a href="#processo">Processo</a></li>
                 <li><a href="#portfolio">Portfólio</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contato" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Contato</a></li>
+                <li><a href="#contato" class="btn btn-primary" style="padding: 0.6rem 1.5rem;">Contato</a></li>
             </ul>
         </div>
     </nav>
 
     <section class="hero" id="inicio">
-        <div class="container hero-content">
-            <div class="section-badge reveal">
-                <i data-lucide="sparkles" style="width: 14px;"></i>
-                Desenvolvimento Web de Alta Performance
-            </div>
-            
-            <h1 class="hero-title reveal">
-                Sites que fazem sua marca ser <span class="text-gradient">lembrada.</span>
-            </h1>
-            
-            <p class="hero-subtitle reveal">
-                Criamos experiências digitais sob medida, ultrarrápidas, modernas e focadas em converter visitantes em clientes fiéis.
-            </p>
-            
-            <div class="hero-actions reveal">
-                <a href="#planos" class="btn btn-primary">
-                    Criar meu site <i data-lucide="arrow-right"></i>
-                </a>
-                <a href="#portfolio" class="btn btn-secondary">
-                    Ver Projetos
-                </a>
-            </div>
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content reveal">
+                    <div class="section-badge">
+                        <i data-lucide="sparkles" style="width: 15px;"></i>
+                        Desenvolvimento Web de Alta Performance
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Sites que fazem sua marca ser <span class="highlight-text">lembrada.</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        Criamos <span class="highlight-text">experiências digitais</span> sob medida, ultrarrápidas, elegantes e projetadas para converter visitantes em clientes fiéis.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <a href="#planos" class="btn btn-primary">
+                            Criar meu site <i data-lucide="arrow-right"></i>
+                        </a>
+                        <a href="#portfolio" class="btn btn-secondary">
+                            Ver Projetos
+                        </a>
+                    </div>
 
-            <div class="hero-stats reveal">
-                <div class="stat-item">
-                    <h3 class="counter" data-target="99">0</h3>
-                    <p>% de satisfação dos clientes</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3 class="counter" data-target="99">0</h3>
+                            <p>% de satisfação dos clientes</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 class="counter" data-target="100">0</h3>
+                            <p>% Responsivo e Otimizado</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 class="counter" data-target="3">0</h3>
+                            <p>x Mais rápido que a média</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <h3 class="counter" data-target="100">0</h3>
-                    <p>% Responsivo e Otimizado</p>
-                </div>
-                <div class="stat-item">
-                    <h3 class="counter" data-target="3">0</h3>
-                    <p>x Mais rápido que a média</p>
+
+                <div class="hero-image-wrapper reveal">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop" alt="Criação de Sites Profissionais">
+                    <div class="hero-badge-float">
+                        <i data-lucide="check-circle-2" style="color: #10b981; width: 28px; height: 28px;"></i>
+                        <div>
+                            <strong style="display: block; font-size: 0.95rem;">Sites de Alto Impacto</strong>
+                            <span style="color: var(--text-muted); font-size: 0.85rem;">Prontos para Vender</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1127,40 +1114,28 @@
     <section id="sobre">
         <div class="container">
             <div class="about-grid">
+                <div class="about-image reveal">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop" alt="Equipe de desenvolvimento web da Sitefy">
+                </div>
+
                 <div class="about-text reveal">
                     <div class="section-badge">Sobre Nós</div>
-                    <h2>Elevando o nível da sua presença digital</h2>
+                    <h2>Elevando o nível da sua <span class="highlight-text">presença digital</span></h2>
                     <p>
-                        A <strong>SITEFY</strong> é uma empresa especializada em desenvolvimento web de alta qualidade. Nosso objetivo é transformar empresas comuns em referências no mercado através de sites modernos, elegantes e extremamente eficientes.
+                        A <strong>SITEFY</strong> é uma empresa especializada no desenvolvimento de sites profissionais e landing pages estratégicas. Transformamos marcas comuns em líderes no mercado digital.
                     </p>
                     <p>
-                        Acreditamos que um site não deve ser apenas "bonito", mas sim uma ferramenta de vendas automatizada que passa credibilidade e autoridade para sua marca 24 horas por dia.
+                        Seu site não deve ser apenas bonito — ele precisa funcionar como um <span class="highlight-text">canal de vendas ativo</span> gerando resultados 24 horas por dia.
                     </p>
 
                     <div class="about-features">
                         <div class="about-feature-card">
                             <h4><i data-lucide="zap"></i> Velocidade</h4>
-                            <p>Carregamento instantâneo otimizado para SEO.</p>
+                            <p>Carregamento ultrarrápido focado em SEO.</p>
                         </div>
                         <div class="about-feature-card">
                             <h4><i data-lucide="shield-check"></i> Segurança</h4>
-                            <p>Código limpo e seguindo as melhores práticas.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-visual reveal">
-                    <div class="about-visual-box">
-                        <i data-lucide="code-2" style="width: 80px; height: 80px; color: var(--purple-light); opacity: 0.5;"></i>
-                        
-                        <div class="floating-card fc-1">
-                            <i data-lucide="check-circle" style="color: #10b981; inline-size: 16px;"></i>
-                            <strong>Design Exclusivo</strong>
-                        </div>
-                        
-                        <div class="floating-card fc-2">
-                            <i data-lucide="layout" style="color: var(--blue-accent); inline-size: 16px;"></i>
-                            <strong>100% Responsivo</strong>
+                            <p>Código limpo e de alta estabilidade.</p>
                         </div>
                     </div>
                 </div>
@@ -1172,45 +1147,45 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-badge">Serviços</div>
-                <h2 class="section-title">O que fazemos por você</h2>
-                <p class="section-subtitle">Soluções digitais completas para atender à necessidade específica do seu negócio.</p>
+                <h2 class="section-title">Soluções feitas para o seu <span class="highlight-text">crescimento</span></h2>
+                <p class="section-subtitle">Tudo o que sua empresa precisa para se destacar no ambiente online.</p>
             </div>
 
             <div class="services-grid">
-                <div class="glass-card service-card reveal">
+                <div class="site-card service-card reveal">
                     <div class="service-icon"><i data-lucide="globe"></i></div>
                     <h3>Criação de Sites</h3>
-                    <p>Sites institucionais completos para empresas que buscam transmitir máxima credibilidade e estrutura profissional no mercado.</p>
+                    <p>Sites institucionais completos projetados para transmitir autoridade máxima e engajar seus novos clientes.</p>
                 </div>
 
-                <div class="glass-card service-card reveal">
+                <div class="site-card service-card reveal">
                     <div class="service-icon"><i data-lucide="rocket"></i></div>
                     <h3>Landing Pages</h3>
-                    <p>Páginas de alta conversão projetadas cirurgicamente para campanhas de tráfego pago e vendas diretas de produtos ou serviços.</p>
+                    <p>Páginas direcionadas especificamente para campanhas de anúncios com foco total em conversão rápida de vendas.</p>
                 </div>
 
-                <div class="glass-card service-card reveal">
+                <div class="site-card service-card reveal">
                     <div class="service-icon"><i data-lucide="smartphone"></i></div>
-                    <h3>Sites Responsivos</h3>
-                    <p>Experiência perfeita adaptada para todos os tipos de telas: smartphones, tablets, notebooks e monitores ultrawide.</p>
+                    <h3>Design Responsivo</h3>
+                    <p>Ajuste dinâmico e perfeito para qualquer tela: smartphones, notebooks, tablets e grandes monitores.</p>
                 </div>
 
-                <div class="glass-card service-card reveal">
+                <div class="site-card service-card reveal">
                     <div class="service-icon"><i data-lucide="search"></i></div>
                     <h3>Otimização SEO</h3>
-                    <p>Estruturação de código e conteúdo para garantir que seu site seja facilmente encontrado pelos motores de busca como o Google.</p>
+                    <p>Sites construídos com as melhores práticas de SEO para que seu negócio seja facilmente encontrado no Google.</p>
                 </div>
 
-                <div class="glass-card service-card reveal">
+                <div class="site-card service-card reveal">
                     <div class="service-icon"><i data-lucide="gauge"></i></div>
                     <h3>Alta Performance</h3>
-                    <p>Otimização severa de velocidade de carregamento para garantir retenção de usuários e pontuações máximas no PageSpeed.</p>
+                    <p>Desempenho máximo com carregamento em milissegundos para evitar a perda de visitantes exigentes.</p>
                 </div>
 
-                <div class="glass-card service-card reveal">
+                <div class="site-card service-card reveal">
                     <div class="service-icon"><i data-lucide="sliders"></i></div>
-                    <h3>Sites Personalizados</h3>
-                    <p>Desenvolvimento sob medida para necessidades específicas, com layouts totalmente originais e sem uso de templates prontos.</p>
+                    <h3>Projetos Personalizados</h3>
+                    <p>Soluções criadas do zero para alinhar perfeitamente com a identidade visual e objetivos do seu negócio.</p>
                 </div>
             </div>
         </div>
@@ -1220,15 +1195,15 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-badge">Nossos Planos</div>
-                <h2 class="section-title">Investimento transparente</h2>
-                <p class="section-subtitle">Escolha o plano ideal para impulsionar a sua empresa hoje mesmo.</p>
+                <h2 class="section-title">Investimento <span class="highlight-text">transparente</span> e justo</h2>
+                <p class="section-subtitle">Escolha o plano ideal e comece a transformar a história da sua marca hoje.</p>
             </div>
 
             <div class="pricing-grid">
-                <div class="glass-card pricing-card reveal">
+                <div class="site-card pricing-card reveal">
                     <div class="pricing-header">
                         <h3>SITE BÁSICO</h3>
-                        <p>Ideal para quem está começando e precisa de presença online rápida.</p>
+                        <p>A melhor opção para criar rapidamente sua presença digital.</p>
                     </div>
                     <div class="pricing-price">
                         <span class="currency">R$</span>
@@ -1236,49 +1211,49 @@
                     </div>
                     <ul class="pricing-features">
                         <li><i data-lucide="check"></i> Page Única / Landing Page</li>
-                        <li><i data-lucide="check"></i> Design Responsivo (Mobile)</li>
-                        <li><i data-lucide="check"></i> Botão WhatsApp Integrado</li>
-                        <li><i data-lucide="check"></i> Hospedagem Grátis Inicial</li>
+                        <li><i data-lucide="check"></i> Design Responsivo para Celulares</li>
+                        <li><i data-lucide="check"></i> Botão Direto para WhatsApp</li>
+                        <li><i data-lucide="check"></i> Hospedagem Otimizada</li>
                         <li><i data-lucide="check"></i> Entrega Rápida</li>
                     </ul>
                     <button class="btn btn-secondary open-modal" data-plan="SITE BÁSICO (R$ 59,90)">Contratar Plano</button>
                 </div>
 
-                <div class="glass-card pricing-card reveal">
+                <div class="site-card pricing-card reveal">
                     <div class="pricing-header">
                         <h3>SITE PRO</h3>
-                        <p>A escolha perfeita para empresas em crescimento se destacarem.</p>
+                        <p>O plano mais indicado para empresas em pleno crescimento.</p>
                     </div>
                     <div class="pricing-price">
                         <span class="currency">R$</span>
                         <span class="amount">140,90</span>
                     </div>
                     <ul class="pricing-features">
-                        <li><i data-lucide="check"></i> Até 5 Páginas Individuais</li>
+                        <li><i data-lucide="check"></i> Até 5 Páginas Exclusivas</li>
                         <li><i data-lucide="check"></i> Design Exclusivo e Moderno</li>
                         <li><i data-lucide="check"></i> Otimização Básico para SEO</li>
-                        <li><i data-lucide="check"></i> Formulário de Contato</li>
+                        <li><i data-lucide="check"></i> Formulário de Contato Direto</li>
                         <li><i data-lucide="check"></i> Integração com Redes Sociais</li>
                     </ul>
                     <button class="btn btn-secondary open-modal" data-plan="SITE PRO (R$ 140,90)">Contratar Plano</button>
                 </div>
 
-                <div class="glass-card pricing-card featured reveal">
-                    <div class="pricing-badge">Mais Completo</div>
+                <div class="site-card pricing-card featured reveal">
+                    <div class="pricing-badge">Mais Recomendado</div>
                     <div class="pricing-header">
                         <h3>SITE ULTRA</h3>
-                        <p>Solução definitiva de autoridade e performance máxima.</p>
+                        <p>Solução robusta e completa para domínio total do seu segmento.</p>
                     </div>
                     <div class="pricing-price">
                         <span class="currency">R$</span>
                         <span class="amount">249,90</span>
                     </div>
                     <ul class="pricing-features">
-                        <li><i data-lucide="check"></i> Páginas Ilimitadas</li>
-                        <li><i data-lucide="check"></i> Design Premium Interativo</li>
-                        <li><i data-lucide="check"></i> SEO Avançado para Google</li>
-                        <li><i data-lucide="check"></i> Animações e Efeitos 3D Suaves</li>
-                        <li><i data-lucide="check"></i> Suporte Prioritário VIP</li>
+                        <li><i data-lucide="check"></i> Páginas Múltiplas / Estrutura Completa</li>
+                        <li><i data-lucide="check"></i> Design Premium com Animações</li>
+                        <li><i data-lucide="check"></i> Otimização SEO Avançada</li>
+                        <li><i data-lucide="check"></i> Efeitos Visuais de Alto Impacto</li>
+                        <li><i data-lucide="check"></i> Suporte VIP Prioritário</li>
                         <li><i data-lucide="check"></i> Relatório de Performance</li>
                     </ul>
                     <button class="btn btn-primary open-modal" data-plan="SITE ULTRA (R$ 249,90)">Contratar Ultra</button>
@@ -1291,56 +1266,56 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-badge">Diferenciais</div>
-                <h2 class="section-title">Por que escolher a Sitefy?</h2>
-                <p class="section-subtitle">Construímos soluções com foco total em experiência, qualidade técnica e retorno visual.</p>
+                <h2 class="section-title">Por que <span class="highlight-text">trabalhar</span> conosco?</h2>
+                <p class="section-subtitle">Garantimos a melhor entrega alinhando tecnologia, pontualidade e suporte humano.</p>
             </div>
 
             <div class="benefits-grid">
-                <div class="glass-card benefit-card reveal">
+                <div class="site-card benefit-card reveal">
                     <div class="benefit-icon"><i data-lucide="palette"></i></div>
                     <div class="benefit-info">
-                        <h4>Design Moderno</h4>
-                        <p>Layouts elegantes baseados nas últimas tendências visuais do mercado mundial.</p>
+                        <h4>Design Atraente</h4>
+                        <p>Projetos visuais que destacam os pontos fortes do seu negócio.</p>
                     </div>
                 </div>
 
-                <div class="glass-card benefit-card reveal">
+                <div class="site-card benefit-card reveal">
                     <div class="benefit-icon"><i data-lucide="monitor"></i></div>
                     <div class="benefit-info">
-                        <h4>Responsividade</h4>
-                        <p>Seu site perfeito visualmente em smartphones, tablets e computadores.</p>
+                        <h4>Responsivo</h4>
+                        <p>Navegação perfeita adaptada a todos os dispositivos e telas.</p>
                     </div>
                 </div>
 
-                <div class="glass-card benefit-card reveal">
+                <div class="site-card benefit-card reveal">
                     <div class="benefit-icon"><i data-lucide="cpu"></i></div>
                     <div class="benefit-info">
                         <h4>Performance</h4>
-                        <p>Carregamento ultrarrápido para que seus clientes não desistam da navegação.</p>
+                        <p>Páginas carregadas em velocidade máxima para retenção dos usuários.</p>
                     </div>
                 </div>
 
-                <div class="glass-card benefit-card reveal">
+                <div class="site-card benefit-card reveal">
                     <div class="benefit-icon"><i data-lucide="award"></i></div>
                     <div class="benefit-info">
-                        <h4>Experiência Profissional</h4>
-                        <p>Equipe dedicada a entender e entregar exatamente o que seu negócio exige.</p>
+                        <h4>Qualidade Técnica</h4>
+                        <p>Desenvolvimento em código moderno, limpo e estruturado.</p>
                     </div>
                 </div>
 
-                <div class="glass-card benefit-card reveal">
+                <div class="site-card benefit-card reveal">
                     <div class="benefit-icon"><i data-lucide="sliders"></i></div>
                     <div class="benefit-info">
                         <h4>Personalização</h4>
-                        <p>Nada de sites genéricos. Cada detalhe alinhado à identidade da sua marca.</p>
+                        <p>Projetos totalmente alinhados à essência da sua marca.</p>
                     </div>
                 </div>
 
-                <div class="glass-card benefit-card reveal">
+                <div class="site-card benefit-card reveal">
                     <div class="benefit-icon"><i data-lucide="headphones"></i></div>
                     <div class="benefit-info">
-                        <h4>Suporte Atencioso</h4>
-                        <p>Atendimento humanizado para tirar todas as suas dúvidas antes e pós-lançamento.</p>
+                        <h4>Suporte Dedicado</h4>
+                        <p>Acompanhamento total durante e após a entrega do projeto.</p>
                     </div>
                 </div>
             </div>
@@ -1350,54 +1325,54 @@
     <section id="processo">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-badge">Metodologia</div>
-                <h2 class="section-title">Como funciona o processo</h2>
-                <p class="section-subtitle">Um fluxo simples, ágil e sem complicações para colocar seu projeto no ar.</p>
+                <div class="section-badge">Etapas</div>
+                <h2 class="section-title">Nosso processo de <span class="highlight-text">trabalho</span></h2>
+                <p class="section-subtitle">Trabalho transparente e estruturado em 5 etapas simples.</p>
             </div>
 
             <div class="timeline">
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="glass-card timeline-content">
-                        <div class="timeline-step">PASSO 01</div>
+                    <div class="site-card timeline-content">
+                        <div class="timeline-step">01 — CONTATO</div>
                         <h3>Você entra em contato</h3>
-                        <p>Conversamos para entender os seus objetivos, preferências de design e necessidades comerciais.</p>
+                        <p>Conversamos para conhecer suas necessidades, preferências visuais e objetivos comerciais.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="glass-card timeline-content">
-                        <div class="timeline-step">PASSO 02</div>
+                    <div class="site-card timeline-content">
+                        <div class="timeline-step">02 — ALINHAMENTO</div>
                         <h3>Definimos o projeto</h3>
-                        <p>Alinhamos o plano ideal, prazo de entrega, estrutura de conteúdos e detalhes visuais do site.</p>
+                        <p>Escolhemos o plano ideal, alinhando prazos de entrega e a estrutura necessária para o site.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="glass-card timeline-content">
-                        <div class="timeline-step">PASSO 03</div>
-                        <h3>Criamos o site</h3>
-                        <p>Nossa equipe desenvolve a estrutura do site aplicando design moderno, animações e otimização.</p>
+                    <div class="site-card timeline-content">
+                        <div class="timeline-step">03 — DESENVOLVIMENTO</div>
+                        <h3>Criamos o seu site</h3>
+                        <p>Desenvolvemos o layout, as animações e aplicamos as otimizações necessárias.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="glass-card timeline-content">
-                        <div class="timeline-step">PASSO 04</div>
+                    <div class="site-card timeline-content">
+                        <div class="timeline-step">04 — VALIDAÇÃO</div>
                         <h3>Você aprova</h3>
-                        <p>Apresentamos a versão de validação para que você avalie e solicite os ajustes necessários.</p>
+                        <p>Apresentamos o projeto para a sua avaliação e fazemos os ajustes solicitados.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="glass-card timeline-content">
-                        <div class="timeline-step">PASSO 05</div>
-                        <h3>Publicamos</h3>
-                        <p>Seu site é colocado oficialmente no ar, configurado e pronto para receber seus clientes!</p>
+                    <div class="site-card timeline-content">
+                        <div class="timeline-step">05 — LANÇAMENTO</div>
+                        <h3>Seu site vai ao ar</h3>
+                        <p>Configuramos seu site oficialmente para começar a receber novos clientes imediamente.</p>
                     </div>
                 </div>
             </div>
@@ -1407,60 +1382,39 @@
     <section id="portfolio">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-badge">Projetos</div>
-                <h2 class="section-title">Demonstração de Projetos</h2>
-                <p class="section-subtitle">Confira alguns conceitos visuais e estruturas que desenvolvemos.</p>
+                <div class="section-badge">Exemplos de Trabalho</div>
+                <h2 class="section-title">Projetos de <span class="highlight-text">exemplo</span></h2>
+                <p class="section-subtitle">Confira alguns estilos e estruturas que desenvolvemos.</p>
             </div>
 
             <div class="portfolio-grid">
-                <div class="glass-card portfolio-card reveal">
+                <div class="site-card portfolio-card reveal">
                     <div class="portfolio-img">
-                        <div class="portfolio-mockup">
-                            <div class="mockup-header">
-                                <div class="mockup-dot"></div>
-                                <div class="mockup-dot"></div>
-                                <div class="mockup-dot"></div>
-                            </div>
-                            <div class="mockup-body"></div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" alt="Projeto de dashboard e plataforma para tecnologia">
                     </div>
                     <div class="portfolio-info">
-                        <h4>TechNova Solutions</h4>
-                        <p>Site institucional para empresa de tecnologia e SaaS com foco em conversão B2B.</p>
+                        <h4>Plataforma SaaS & Tech</h4>
+                        <p>Layout para sistemas web com design limpo e foco em conversões B2B.</p>
                     </div>
                 </div>
 
-                <div class="glass-card portfolio-card reveal">
+                <div class="site-card portfolio-card reveal">
                     <div class="portfolio-img">
-                        <div class="portfolio-mockup">
-                            <div class="mockup-header">
-                                <div class="mockup-dot"></div>
-                                <div class="mockup-dot"></div>
-                                <div class="mockup-dot"></div>
-                            </div>
-                            <div class="mockup-body"></div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800&auto=format&fit=crop" alt="Design de site corporativo em laptop">
                     </div>
                     <div class="portfolio-info">
-                        <h4>Lummina Consultoria</h4>
-                        <p>Landing page estratégica para captação de clientes para consultoria financeira.</p>
+                        <h4>Consultoria Empresarial</h4>
+                        <p>Site institucional moderno criado para gerar credibilidade e atrair novos clientes.</p>
                     </div>
                 </div>
 
-                <div class="glass-card portfolio-card reveal">
+                <div class="site-card portfolio-card reveal">
                     <div class="portfolio-img">
-                        <div class="portfolio-mockup">
-                            <div class="mockup-header">
-                                <div class="mockup-dot"></div>
-                                <div class="mockup-dot"></div>
-                                <div class="mockup-dot"></div>
-                            </div>
-                            <div class="mockup-body"></div>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" alt="Desenvolvimento de loja e e-commerce">
                     </div>
                     <div class="portfolio-info">
-                        <h4>Aura Fitness Club</h4>
-                        <p>Plataforma moderna e dinamizada para rede de academias e personal trainers.</p>
+                        <h4>Landing Page para E-commerce</h4>
+                        <p>Página de produto com seções estratégicas focadas no aumento de vendas.</p>
                     </div>
                 </div>
             </div>
@@ -1471,8 +1425,8 @@
         <div class="container">
             <div class="section-header reveal">
                 <div class="section-badge">Dúvidas</div>
-                <h2 class="section-title">Perguntas Frequentes</h2>
-                <p class="section-subtitle">Tire suas dúvidas técnicas e comerciais de forma transparente.</p>
+                <h2 class="section-title">Perguntas <span class="highlight-text">frequentes</span></h2>
+                <p class="section-subtitle">Esclareça suas principais dúvidas de forma clara e rápida.</p>
             </div>
 
             <div class="faq-container">
@@ -1482,17 +1436,17 @@
                         <i data-lucide="chevron-down" class="faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        O prazo varia de acordo com o plano escolhido. Páginas simples ou Landing Pages costumam ser entregues entre 3 a 7 dias úteis. Sites mais complexos levam entre 10 a 20 dias.
+                        O prazo médio de entrega para páginas simples ou Landing Pages é de 3 a 7 dias úteis. Projetos maiores levam entre 10 e 15 dias úteis, dependendo do volume de conteúdos fornecidos.
                     </div>
                 </div>
 
                 <div class="faq-item reveal">
                     <button class="faq-question">
-                        <span>O site vai funcionar bem em celulares?</span>
+                        <span>O site vai funcionar perfeitamente em celulares?</span>
                         <i data-lucide="chevron-down" class="faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        Com certeza. Todos os nossos projetos são desenvolvidos com conceito Mobile-First, garantindo perfeito funcionamento em celulares, tablets e computadores.
+                        Sim! Todos os sites da SITEFY são desenvolvidos com tecnologia responsiva, adaptando-se perfeitamente a smartphones, tablets, notebooks e monitores de alta resolução.
                     </div>
                 </div>
 
@@ -1502,17 +1456,17 @@
                         <i data-lucide="chevron-down" class="faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        Não se preocupe se não tiver. nós Da Sitefy, Conseguimos Um Dominio Totalmente Gratuito Para Sua marca.
+                        Não é necessário ter domínio ou hospedagem antecipadamente. Nós auxiliamos você na escolha e em todas as configurações técnicas do seu endereço digital (.com.br).
                     </div>
                 </div>
 
                 <div class="faq-item reveal">
                     <button class="faq-question">
-                        <span>Quais são as formas de pagamento?</span>
+                        <span>Quais são as formas de pagamento aceitas?</span>
                         <i data-lucide="chevron-down" class="faq-icon"></i>
                     </button>
                     <div class="faq-answer">
-                        Aceitamos Somente Pix Ou Divulgação.
+                        Oferecemos facilidade no pagamento via PIX, boleto bancário e parcelamento no cartão de crédito para que você invista no seu negócio sem complicações.
                     </div>
                 </div>
             </div>
@@ -1522,10 +1476,10 @@
     <section class="cta-section" id="contato">
         <div class="container">
             <div class="cta-box reveal">
-                <h2 class="cta-title">Seu próximo site <span class="text-gradient">começa aqui.</span></h2>
-                <p class="cta-subtitle">Não perca mais clientes para concorrentes por causa de um site desatualizado. Vamos criar algo incrível juntos.</p>
+                <h2 class="cta-title">Seu próximo site <span class="highlight-text">começa aqui.</span></h2>
+                <p class="cta-subtitle">Acelere o crescimento da sua empresa com uma presença digital atraente e focada em resultados.</p>
                 <button class="btn btn-primary open-modal" data-plan="Geral / Dúvida">
-                    Solicitar Orçamento <i data-lucide="arrow-right"></i>
+                    Solicitar Orçamento Agora <i data-lucide="arrow-right"></i>
                 </button>
             </div>
         </div>
@@ -1539,7 +1493,7 @@
                         <div class="logo-icon">S</div>
                         SITEFY
                     </a>
-                    <p>Desenvolvimento web moderno, focado em alta performance, estética premium e conversão real de clientes.</p>
+                    <p>Desenvolvimento web profissional para marcas e empresas que buscam se destacar no mercado digital com alta qualidade e estética sofisticada.</p>
                 </div>
 
                 <div class="footer-column">
@@ -1557,7 +1511,7 @@
                     <ul class="footer-links">
                         <li><a href="#servicos">Criação de Sites</a></li>
                         <li><a href="#servicos">Landing Pages</a></li>
-                        <li><a href="#servicos">SEO & Performance</a></li>
+                        <li><a href="#servicos">Otimização SEO</a></li>
                         <li><a href="#servicos">Design Responsivo</a></li>
                     </ul>
                 </div>
@@ -1567,29 +1521,29 @@
                     <ul class="footer-links">
                         <li><a href="#">contato@sitefy.com.br</a></li>
                         <li><a href="#">+55 (11) 99999-9999</a></li>
-                        <li><a href="#">São Paulo, SP - Brasil</a></li>
+                        <li><a href="#">Atendimento em todo o Brasil</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 SITEFY - Todos os direitos reservados.</p>
-                <p>Desenvolvido com tecnologia e alta performance.</p>
+                <p>&copy; 2026 SITEFY. Todos os direitos reservados.</p>
+                <p>Criado com excelência e foco em alta performance.</p>
             </div>
         </div>
     </footer>
 
     <div class="modal-overlay" id="modal-overlay">
-        <div class="glass-card modal-card">
+        <div class="site-card modal-card">
             <button class="modal-close" id="modal-close"><i data-lucide="x"></i></button>
             <h3 style="margin-bottom: 0.5rem;" id="modal-title">Iniciar Projeto</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Preencha os dados abaixo e entraremos em contato imediatamente.</p>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Preencha seus dados para conversarmos sobre seu novo site.</p>
             
             <form id="contact-form">
                 <input type="hidden" id="selected-plan" value="">
                 <div class="form-group">
                     <label for="name">Seu Nome</label>
-                    <input type="text" id="name" class="form-control" placeholder="Digite seu nome" required>
+                    <input type="text" id="name" class="form-control" placeholder="Digite seu nome completo" required>
                 </div>
                 <div class="form-group">
                     <label for="whatsapp">Seu WhatsApp</label>
@@ -1597,7 +1551,7 @@
                 </div>
                 <div class="form-group">
                     <label for="message">Mensagem (Opcional)</label>
-                    <textarea id="message" class="form-control" placeholder="Conte brevemente sobre seu projeto..."></textarea>
+                    <textarea id="message" class="form-control" placeholder="Conte brevemente sobre seu projeto ou empresa..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem via WhatsApp</button>
             </form>
@@ -1609,109 +1563,22 @@
         lucide.createIcons();
 
         /* --------------------------------------------------------------------------
-           1. THREE.JS 3D BACKGROUND SYSTEM
+           1. MOUSE FOLLOW SPOTLIGHT
            -------------------------------------------------------------------------- */
-        const init3DBackground = () => {
-            const container = document.getElementById('webgl-container');
-            if (!container || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 30;
-
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            container.appendChild(renderer.domElement);
-
-            // Create Particle System
-            const particlesCount = window.innerWidth < 768 ? 250 : 600;
-            const geometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particlesCount * 3);
-            const colors = new Float32Array(particlesCount * 3);
-
-            const color1 = new THREE.Color('#8b5cf6');
-            const color2 = new THREE.Color('#3b82f6');
-
-            for (let i = 0; i < particlesCount * 3; i += 3) {
-                positions[i] = (Math.random() - 0.5) * 60;
-                positions[i + 1] = (Math.random() - 0.5) * 60;
-                positions[i + 2] = (Math.random() - 0.5) * 60;
-
-                const mixedColor = color1.clone().lerp(color2, Math.random());
-                colors[i] = mixedColor.r;
-                colors[i + 1] = mixedColor.g;
-                colors[i + 2] = mixedColor.b;
-            }
-
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            const material = new THREE.PointsMaterial({
-                size: 0.35,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.6
-            });
-
-            const particleSystem = new THREE.Points(geometry, material);
-            scene.add(particleSystem);
-
-            // Mouse Interaction
-            let mouseX = 0;
-            let mouseY = 0;
-            let targetX = 0;
-            let targetY = 0;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX - window.innerWidth / 2) * 0.0005;
-                mouseY = (e.clientY - window.innerHeight / 2) * 0.0005;
-            });
-
-            // Scroll Effect Variables
-            let scrollY = 0;
-            window.addEventListener('scroll', () => {
-                scrollY = window.scrollY;
-            });
-
-            // Animation Loop
-            const clock = new THREE.Clock();
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-                const elapsedTime = clock.getElapsedTime();
-
-                targetX += (mouseX - targetX) * 0.05;
-                targetY += (mouseY - targetY) * 0.05;
-
-                particleSystem.rotation.y = elapsedTime * 0.05 + targetX;
-                particleSystem.rotation.x = elapsedTime * 0.02 + targetY;
-                particleSystem.position.y = -scrollY * 0.005;
-
-                renderer.render(scene, camera);
-            };
-
-            animate();
-
-            // Responsive Window Resize
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        };
-
-        init3DBackground();
+        const spotlight = document.getElementById('mouse-spotlight');
+        document.addEventListener('mousemove', (e) => {
+            spotlight.style.transform = `translate(${e.clientX - 225}px, ${e.clientY - 225}px)`;
+        });
 
         /* --------------------------------------------------------------------------
-           2. NAVIGATION & MOBILE MENU
+           2. NAVBAR SCROLL EFFECT & MOBILE MENU
            -------------------------------------------------------------------------- */
         const navbar = document.getElementById('navbar');
         const mobileToggle = document.getElementById('mobile-toggle');
         const navLinks = document.getElementById('nav-links');
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            if (window.scrollY > 40) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
@@ -1729,7 +1596,7 @@
         });
 
         /* --------------------------------------------------------------------------
-           3. INTERSECTION OBSERVER (SCROLL ANIMATIONS & COUNTERS)
+           3. INTERSECTION OBSERVER (ANIMATIONS & COUNTERS)
            -------------------------------------------------------------------------- */
         const revealElements = document.querySelectorAll('.reveal');
 
@@ -1753,7 +1620,7 @@
                     counters.forEach(counter => {
                         const target = +counter.getAttribute('data-target');
                         let count = 0;
-                        const speed = target / 50;
+                        const speed = target / 40;
 
                         const updateCount = () => {
                             count += speed;
@@ -1776,49 +1643,29 @@
         }
 
         /* --------------------------------------------------------------------------
-           4. 3D TILT EFFECT ON CARDS
+           4. FAQ ACCORDION (CORRIGIDO)
            -------------------------------------------------------------------------- */
-        const cards = document.querySelectorAll('.glass-card');
+        const faqQuestions = document.querySelectorAll('.faq-question');
 
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                if (window.innerWidth < 768) return;
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = (y - centerY) / 15;
-                const rotateY = (centerX - x) / 15;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
-            });
-        });
-
-        /* --------------------------------------------------------------------------
-           5. FAQ ACCORDION
-           -------------------------------------------------------------------------- */
-        const faqItems = document.querySelectorAll('.faq-item');
-
-        faqItems.forEach(item => {
-            const questionBtn = item.querySelector('.faq-question');
+        faqQuestions.forEach(questionBtn => {
             questionBtn.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                faqItems.forEach(i => i.classList.remove('active'));
+                const faqItem = questionBtn.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                // Fecha todas as respostas ativas
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Se o item clicado não estava ativo, abre ele
                 if (!isActive) {
-                    item.classList.add('active');
+                    faqItem.classList.add('active');
                 }
             });
         });
 
         /* --------------------------------------------------------------------------
-           6. MODAL & CONTACT FORM (WHATSAPP INTEGRATION)
+           5. MODAL DE CONTATO E WHATSAPP
            -------------------------------------------------------------------------- */
         const modalOverlay = document.getElementById('modal-overlay');
         const modalClose = document.getElementById('modal-close');
@@ -1854,7 +1701,7 @@
             const text = `Olá! Meu nome é ${name}. Tenho interesse no plano: *${plan}*.\n\nMeu WhatsApp: ${whatsapp}\nMensagem: ${message || 'Gostaria de solicitar um orçamento!'}`;
             const encodedText = encodeURIComponent(text);
             
-            // Redireciona para o WhatsApp da empresa
+            // Redirecionamento dinâmico para o WhatsApp
             window.open(`https://wa.me/5511999999999?text=${encodedText}`, '_blank');
             modalOverlay.classList.remove('active');
         });
