@@ -986,4 +986,496 @@
            ========================================================================== */
         @media (max-width: 992px) {
             .about-grid, .pricing-grid {
-                grid-template-columns:
+                grid-template-columns: 1fr;
+            }
+            .pricing-card.featured {
+                transform: none;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(5, 2, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                transition: var(--transition-smooth);
+                border-left: 1px solid var(--border-color);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+                z-index: 1001;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item, .timeline-item:nth-child(even) {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 0;
+            }
+
+            .timeline-dot, .timeline-item:nth-child(even) .timeline-dot {
+                left: 8px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            #webgl-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="webgl-container"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">S</div>
+                SITEFY
+            </a>
+            
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir Menu">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#planos">Planos</a></li>
+                <li><a href="#processo">Processo</a></li>
+                <li><a href="#portfolio">Portfólio</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contato" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">Contato</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="inicio">
+        <div class="container hero-content">
+            <div class="section-badge reveal">
+                <i data-lucide="sparkles" style="width: 14px;"></i>
+                Desenvolvimento Web de Alta Performance
+            </div>
+            
+            <h1 class="hero-title reveal">
+                Sites que fazem sua marca ser <span class="text-gradient">lembrada.</span>
+            </h1>
+            
+            <p class="hero-subtitle reveal">
+                Criamos experiências digitais sob medida, ultrarrápidas, modernas e focadas em converter visitantes em clientes fiéis.
+            </p>
+            
+            <div class="hero-actions reveal">
+                <a href="#planos" class="btn btn-primary">
+                    Criar meu site <i data-lucide="arrow-right"></i>
+                </a>
+                <a href="#portfolio" class="btn btn-secondary">
+                    Ver Projetos
+                </a>
+            </div>
+
+            <div class="hero-stats reveal">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="99">0</h3>
+                    <p>% de satisfação dos clientes</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="100">0</h3>
+                    <p>% Responsivo e Otimizado</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="3">0</h3>
+                    <p>x Mais rápido que a média</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <div class="section-badge">Sobre Nós</div>
+                    <h2>Elevando o nível da sua presença digital</h2>
+                    <p>
+                        A <strong>SITEFY</strong> é uma empresa especializada em desenvolvimento web de alta qualidade. Nosso objetivo é transformar empresas comuns em referências no mercado através de sites modernos, elegantes e extremamente eficientes.
+                    </p>
+                    <p>
+                        Acreditamos que um site não deve ser apenas "bonito", mas sim uma ferramenta de vendas automatizada que passa credibilidade e autoridade para sua marca 24 horas por dia.
+                    </p>
+
+                    <div class="about-features">
+                        <div class="about-feature-card">
+                            <h4><i data-lucide="zap"></i> Velocidade</h4>
+                            <p>Carregamento instantâneo otimizado para SEO.</p>
+                        </div>
+                        <div class="about-feature-card">
+                            <h4><i data-lucide="shield-check"></i> Segurança</h4>
+                            <p>Código limpo e seguindo as melhores práticas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-visual reveal">
+                    <div class="about-visual-box">
+                        <i data-lucide="code-2" style="width: 80px; height: 80px; color: var(--purple-light); opacity: 0.5;"></i>
+                        
+                        <div class="floating-card fc-1">
+                            <i data-lucide="check-circle" style="color: #10b981; inline-size: 16px;"></i>
+                            <strong>Design Exclusivo</strong>
+                        </div>
+                        
+                        <div class="floating-card fc-2">
+                            <i data-lucide="layout" style="color: var(--blue-accent); inline-size: 16px;"></i>
+                            <strong>100% Responsivo</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">Serviços</div>
+                <h2 class="section-title">O que fazemos por você</h2>
+                <p class="section-subtitle">Soluções digitais completas para atender à necessidade específica do seu negócio.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="glass-card service-card reveal">
+                    <div class="service-icon"><i data-lucide="globe"></i></div>
+                    <h3>Criação de Sites</h3>
+                    <p>Sites institucionais completos para empresas que buscam transmitir máxima credibilidade e estrutura profissional no mercado.</p>
+                </div>
+
+                <div class="glass-card service-card reveal">
+                    <div class="service-icon"><i data-lucide="rocket"></i></div>
+                    <h3>Landing Pages</h3>
+                    <p>Páginas de alta conversão projetadas cirurgicamente para campanhas de tráfego pago e vendas diretas de produtos ou serviços.</p>
+                </div>
+
+                <div class="glass-card service-card reveal">
+                    <div class="service-icon"><i data-lucide="smartphone"></i></div>
+                    <h3>Sites Responsivos</h3>
+                    <p>Experiência perfeita adaptada para todos os tipos de telas: smartphones, tablets, notebooks e monitores ultrawide.</p>
+                </div>
+
+                <div class="glass-card service-card reveal">
+                    <div class="service-icon"><i data-lucide="search"></i></div>
+                    <h3>Otimização SEO</h3>
+                    <p>Estruturação de código e conteúdo para garantir que seu site seja facilmente encontrado pelos motores de busca como o Google.</p>
+                </div>
+
+                <div class="glass-card service-card reveal">
+                    <div class="service-icon"><i data-lucide="gauge"></i></div>
+                    <h3>Alta Performance</h3>
+                    <p>Otimização severa de velocidade de carregamento para garantir retenção de usuários e pontuações máximas no PageSpeed.</p>
+                </div>
+
+                <div class="glass-card service-card reveal">
+                    <div class="service-icon"><i data-lucide="sliders"></i></div>
+                    <h3>Sites Personalizados</h3>
+                    <p>Desenvolvimento sob medida para necessidades específicas, com layouts totalmente originais e sem uso de templates prontos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planos">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">Nossos Planos</div>
+                <h2 class="section-title">Investimento transparente</h2>
+                <p class="section-subtitle">Escolha o plano ideal para impulsionar a sua empresa hoje mesmo.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="glass-card pricing-card reveal">
+                    <div class="pricing-header">
+                        <h3>SITE BÁSICO</h3>
+                        <p>Ideal para quem está começando e precisa de presença online rápida.</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="currency">R$</span>
+                        <span class="amount">59,90</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Page Única / Landing Page</li>
+                        <li><i data-lucide="check"></i> Design Responsivo (Mobile)</li>
+                        <li><i data-lucide="check"></i> Botão WhatsApp Integrado</li>
+                        <li><i data-lucide="check"></i> Hospedagem Grátis Inicial</li>
+                        <li><i data-lucide="check"></i> Entrega Rápida</li>
+                    </ul>
+                    <button class="btn btn-secondary open-modal" data-plan="SITE BÁSICO (R$ 59,90)">Contratar Plano</button>
+                </div>
+
+                <div class="glass-card pricing-card reveal">
+                    <div class="pricing-header">
+                        <h3>SITE PRO</h3>
+                        <p>A escolha perfeita para empresas em crescimento se destacarem.</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="currency">R$</span>
+                        <span class="amount">140,90</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Até 5 Páginas Individuais</li>
+                        <li><i data-lucide="check"></i> Design Exclusivo e Moderno</li>
+                        <li><i data-lucide="check"></i> Otimização Básico para SEO</li>
+                        <li><i data-lucide="check"></i> Formulário de Contato</li>
+                        <li><i data-lucide="check"></i> Integração com Redes Sociais</li>
+                    </ul>
+                    <button class="btn btn-secondary open-modal" data-plan="SITE PRO (R$ 140,90)">Contratar Plano</button>
+                </div>
+
+                <div class="glass-card pricing-card featured reveal">
+                    <div class="pricing-badge">Mais Completo</div>
+                    <div class="pricing-header">
+                        <h3>SITE ULTRA</h3>
+                        <p>Solução definitiva de autoridade e performance máxima.</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="currency">R$</span>
+                        <span class="amount">249,90</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i data-lucide="check"></i> Páginas Ilimitadas</li>
+                        <li><i data-lucide="check"></i> Design Premium Interativo</li>
+                        <li><i data-lucide="check"></i> SEO Avançado para Google</li>
+                        <li><i data-lucide="check"></i> Animações e Efeitos 3D Suaves</li>
+                        <li><i data-lucide="check"></i> Suporte Prioritário VIP</li>
+                        <li><i data-lucide="check"></i> Relatório de Performance</li>
+                    </ul>
+                    <button class="btn btn-primary open-modal" data-plan="SITE ULTRA (R$ 249,90)">Contratar Ultra</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">Diferenciais</div>
+                <h2 class="section-title">Por que escolher a Sitefy?</h2>
+                <p class="section-subtitle">Construímos soluções com foco total em experiência, qualidade técnica e retorno visual.</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="glass-card benefit-card reveal">
+                    <div class="benefit-icon"><i data-lucide="palette"></i></div>
+                    <div class="benefit-info">
+                        <h4>Design Moderno</h4>
+                        <p>Layouts elegantes baseados nas últimas tendências visuais do mercado mundial.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card benefit-card reveal">
+                    <div class="benefit-icon"><i data-lucide="monitor"></i></div>
+                    <div class="benefit-info">
+                        <h4>Responsividade</h4>
+                        <p>Seu site perfeito visualmente em smartphones, tablets e computadores.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card benefit-card reveal">
+                    <div class="benefit-icon"><i data-lucide="cpu"></i></div>
+                    <div class="benefit-info">
+                        <h4>Performance</h4>
+                        <p>Carregamento ultrarrápido para que seus clientes não desistam da navegação.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card benefit-card reveal">
+                    <div class="benefit-icon"><i data-lucide="award"></i></div>
+                    <div class="benefit-info">
+                        <h4>Experiência Profissional</h4>
+                        <p>Equipe dedicada a entender e entregar exatamente o que seu negócio exige.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card benefit-card reveal">
+                    <div class="benefit-icon"><i data-lucide="sliders"></i></div>
+                    <div class="benefit-info">
+                        <h4>Personalização</h4>
+                        <p>Nada de sites genéricos. Cada detalhe alinhado à identidade da sua marca.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card benefit-card reveal">
+                    <div class="benefit-icon"><i data-lucide="headphones"></i></div>
+                    <div class="benefit-info">
+                        <h4>Suporte Atencioso</h4>
+                        <p>Atendimento humanizado para tirar todas as suas dúvidas antes e pós-lançamento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="processo">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">Metodologia</div>
+                <h2 class="section-title">Como funciona o processo</h2>
+                <p class="section-subtitle">Um fluxo simples, ágil e sem complicações para colocar seu projeto no ar.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-card timeline-content">
+                        <div class="timeline-step">PASSO 01</div>
+                        <h3>Você entra em contato</h3>
+                        <p>Conversamos para entender os seus objetivos, preferências de design e necessidades comerciais.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-card timeline-content">
+                        <div class="timeline-step">PASSO 02</div>
+                        <h3>Definimos o projeto</h3>
+                        <p>Alinhamos o plano ideal, prazo de entrega, estrutura de conteúdos e detalhes visuais do site.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-card timeline-content">
+                        <div class="timeline-step">PASSO 03</div>
+                        <h3>Criamos o site</h3>
+                        <p>Nossa equipe desenvolve a estrutura do site aplicando design moderno, animações e otimização.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-card timeline-content">
+                        <div class="timeline-step">PASSO 04</div>
+                        <h3>Você aprova</h3>
+                        <p>Apresentamos a versão de validação para que você avalie e solicite os ajustes necessários.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-card timeline-content">
+                        <div class="timeline-step">PASSO 05</div>
+                        <h3>Publicamos</h3>
+                        <p>Seu site é colocado oficialmente no ar, configurado e pronto para receber seus clientes!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">Projetos</div>
+                <h2 class="section-title">Demonstração de Projetos</h2>
+                <p class="section-subtitle">Confira alguns conceitos visuais e estruturas que desenvolvemos.</p>
+            </div>
+
+            <div class="portfolio-grid">
+                <div class="glass-card portfolio-card reveal">
+                    <div class="portfolio-img">
+                        <div class="portfolio-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                            </div>
+                            <div class="mockup-body"></div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>TechNova Solutions</h4>
+                        <p>Site institucional para empresa de tecnologia e SaaS com foco em conversão B2B.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card portfolio-card reveal">
+                    <div class="portfolio-img">
+                        <div class="portfolio-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                            </div>
+                            <div class="mockup-body"></div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Lummina Consultoria</h4>
+                        <p>Landing page estratégica para captação de clientes para consultoria financeira.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card portfolio-card reveal">
+                    <div class="portfolio-img">
+                        <div class="portfolio-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                                <div class="mockup-dot"></div>
+                            </div>
+                            <div class="mockup-body"></div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Aura Fitness Club</h4>
+                        <p>Plataforma moderna e dinamizada para rede de academias e personal trainers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="section-badge">Dúvidas</div>
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <p class="section-subtitle">Tire suas dúvidas técnicas e comerciais de forma transparente.</p>
+            </div>
+
+            <div class="faq-container">
+                <div class="faq-item reveal">
+                    <button class="faq-question">
+                        <span>Em quanto
