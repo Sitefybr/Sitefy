@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>SITEFY | Sites Profissionais, Modernos e de Alta Performance</title>
     <meta name="description" content="A SITEFY cria sites modernos, rápidos e focados em conversão. Transforme a presença digital da sua marca hoje mesmo.">
     <meta name="theme-color" content="#ffffff">
@@ -839,6 +840,70 @@
         .faq-answer-inner {
             margin: 0;
             padding: 0;
+        }
+
+
+        /* FAQ — animações suaves de abertura, brilho e resposta */
+        .faq-item {
+            transform-origin: center top;
+            will-change: transform, box-shadow;
+        }
+
+        .faq-item::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 0;
+            border-radius: 0 0 8px 8px;
+            background: var(--gradient-primary);
+            transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .faq-item[open]::before {
+            height: 100%;
+        }
+
+        .faq-question {
+            transition: color 0.3s ease, padding-left 0.35s ease;
+        }
+
+        .faq-question:hover {
+            padding-left: 2rem;
+        }
+
+        .faq-item[open] .faq-question {
+            color: #ffffff;
+        }
+
+        .faq-answer {
+            animation: faqAnswerIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes faqAnswerIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq-item[open] .faq-icon {
+            filter: drop-shadow(0 0 7px rgba(139, 92, 246, 0.65));
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .faq-item,
+            .faq-question,
+            .faq-answer,
+            .faq-icon {
+                animation: none !important;
+                transition: none !important;
+            }
         }
 
         /* ==========================================================================
@@ -1792,9 +1857,18 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
             counterObserver.observe(counters[0].parentElement.parentElement);
         }
 
-        /* 5. FAQ — usa <details>/<summary> nativos para abertura estável */
-        // O navegador controla a abertura/fechamento do FAQ sem depender de
-        // alturas calculadas por JavaScript, evitando conflitos com as animações.
+        /* 5. FAQ — abertura suave + apenas uma pergunta aberta por vez */
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            item.addEventListener('toggle', () => {
+                if (!item.open) return;
+
+                faqItems.forEach(other => {
+                    if (other !== item) other.removeAttribute('open');
+                });
+            });
+        });
 
         /* 6. MODAL & FORMULÁRIO WHATSAPP */
         const modalOverlay = document.getElementById('modal-overlay');
