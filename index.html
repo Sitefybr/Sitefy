@@ -13,7 +13,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest">
+
+        document.querySelectorAll('.portfolio-card').forEach(card => {
+            const image = card.querySelector('.portfolio-img');
+            if (!image) return;
+            image.addEventListener('pointermove', e => {
+                const r = image.getBoundingClientRect();
+                image.style.setProperty('--mx', `${((e.clientX-r.left)/r.width)*100}%`);
+                image.style.setProperty('--my', `${((e.clientY-r.top)/r.height)*100}%`);
+            });
+        });
+    </script>
 
     <style>
         /* ==========================================================================
@@ -1276,6 +1287,297 @@
                 font-size: 0.92rem;
             }
         }
+    
+/* ==========================================================================
+   SITEFY V2 — NAVBAR ADAPTATIVA + PORTFÓLIO + TRANSIÇÃO PREMIUM
+   ========================================================================== */
+
+/* Navbar acompanha a cor da seção que está atrás dela */
+.navbar {
+    background: rgba(255,255,255,0.88);
+    color: #0f172a;
+    transition:
+        background 0.75s cubic-bezier(0.16,1,0.3,1),
+        color 0.75s cubic-bezier(0.16,1,0.3,1),
+        box-shadow 0.75s cubic-bezier(0.16,1,0.3,1),
+        border-color 0.75s cubic-bezier(0.16,1,0.3,1),
+        padding 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.navbar.nav-dark {
+    background: rgba(5,5,7,0.90);
+    color: #fff;
+    border-bottom-color: rgba(255,255,255,0.10);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.20);
+}
+
+.navbar.nav-dark .logo,
+.navbar.nav-dark .nav-links a,
+.navbar.nav-dark .mobile-toggle {
+    color: #fff;
+}
+
+.navbar.nav-dark .nav-links a:hover {
+    color: var(--purple-light);
+}
+
+.navbar.nav-light {
+    background: rgba(255,255,255,0.90);
+    color: #0f172a;
+    border-bottom-color: rgba(226,232,240,0.85);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+}
+
+.navbar.nav-light .logo,
+.navbar.nav-light .nav-links a,
+.navbar.nav-light .mobile-toggle {
+    color: #0f172a;
+}
+
+/* Um brilho discreto deixa a troca da navbar mais "viva" */
+.navbar::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124,58,237,.35), transparent);
+    opacity: .65;
+    pointer-events: none;
+}
+
+/* PORTFÓLIO — botão Analisar sobre a imagem */
+.portfolio-img {
+    isolation: isolate;
+}
+
+.portfolio-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(7,7,9,0.02) 15%,
+        rgba(7,7,9,0.72) 100%
+    );
+    opacity: 0;
+    transition: opacity .45s cubic-bezier(.16,1,.3,1);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.portfolio-card:hover .portfolio-img::after {
+    opacity: 1;
+}
+
+.portfolio-analyze {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    transform: translate(-50%, 18px);
+    opacity: 0;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    min-width: 130px;
+    padding: .72rem 1.15rem;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    background: rgba(7,7,9,.76);
+    color: #fff;
+    text-decoration: none;
+    font: 700 .9rem var(--font-sans);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.30);
+    transition:
+        opacity .45s cubic-bezier(.16,1,.3,1),
+        transform .45s cubic-bezier(.16,1,.3,1),
+        background .3s ease,
+        border-color .3s ease;
+}
+
+.portfolio-card:hover .portfolio-analyze,
+.portfolio-analyze:focus-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.portfolio-analyze:hover {
+    background: var(--purple-main);
+    border-color: rgba(255,255,255,.55);
+    box-shadow: 0 14px 34px rgba(124,58,237,.42);
+}
+
+.portfolio-analyze:focus-visible {
+    outline: 2px solid var(--purple-light);
+    outline-offset: 4px;
+}
+
+/* TRANSIÇÃO PRETA/BRANCA — movimento suave no "quebradinho" */
+.sitefy-split-transition {
+    isolation: isolate;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(124,58,237,.16), transparent 34%),
+        var(--bg-dark);
+}
+
+.sitefy-split-transition::before {
+    content: "";
+    position: absolute;
+    left: -8%;
+    right: -8%;
+    top: -22px;
+    height: 72px;
+    background: #fff;
+    border-radius: 50% 50% 42% 58% / 70% 70% 30% 30%;
+    transform: rotate(-1.4deg) scaleX(1.02);
+    transform-origin: center;
+    z-index: 0;
+    box-shadow: 0 -2px 20px rgba(255,255,255,.30);
+    animation: splitWave 7s ease-in-out infinite;
+}
+
+.sitefy-split-transition::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 170px;
+    height: 170px;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,.24), transparent 68%);
+    filter: blur(8px);
+    z-index: 0;
+    animation: splitGlow 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.sitefy-white-bridge {
+    z-index: 2;
+    transition: transform .8s cubic-bezier(.16,1,.3,1), box-shadow .8s ease;
+    animation: bridgeFloat 5s ease-in-out infinite;
+}
+
+.sitefy-split-transition:hover .sitefy-white-bridge {
+    box-shadow:
+        0 18px 42px rgba(0,0,0,.20),
+        0 0 32px rgba(139,92,246,.18);
+}
+
+.sitefy-split-letters {
+    z-index: 4;
+    animation: lettersFloat 5s ease-in-out infinite;
+}
+
+.sitefy-split-letters.black-part {
+    z-index: 4;
+}
+
+@keyframes splitWave {
+    0%,100% { transform: rotate(-1.4deg) scaleX(1.02) translateY(0); }
+    50% { transform: rotate(1.2deg) scaleX(1.04) translateY(8px); }
+}
+
+@keyframes splitGlow {
+    0%,100% { opacity: .45; transform: translate(-50%,-50%) scale(.82); }
+    50% { opacity: .9; transform: translate(-50%,-50%) scale(1.08); }
+}
+
+@keyframes bridgeFloat {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+}
+
+@keyframes lettersFloat {
+    0%,100% { margin-top: 0; }
+    50% { margin-top: 3px; }
+}
+
+@media (max-width: 768px) {
+    .portfolio-analyze {
+        opacity: 1;
+        transform: translate(-50%, 0);
+        bottom: 14px;
+        min-width: 112px;
+        padding: .62rem .95rem;
+    }
+
+    .sitefy-split-transition::before {
+        height: 55px;
+        top: -15px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sitefy-split-transition::before,
+    .sitefy-split-transition::after,
+    .sitefy-white-bridge,
+    .sitefy-split-letters {
+        animation: none !important;
+    }
+}
+
+    
+        /* ===== ANIMAÇÕES PREMIUM SITEFY ===== */
+        html { scroll-behavior: smooth; }
+
+        .btn, .site-card, .portfolio-img img, .section-badge, .logo-icon, .nav-links a {
+            will-change: transform;
+        }
+
+        .btn { position: relative; overflow: hidden; transform: translateZ(0); transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease, background .35s ease, color .35s ease, border-color .35s ease; }
+        .btn::before { content:""; position:absolute; inset:-2px; background:linear-gradient(110deg, transparent 25%, rgba(255,255,255,.25) 48%, transparent 70%); transform:translateX(-120%); transition:transform .7s ease; pointer-events:none; }
+        .btn:hover { transform:translateY(-4px) scale(1.02); }
+        .btn:hover::before { transform:translateX(120%); }
+        .btn:active { transform:translateY(-1px) scale(.98); }
+
+        .site-card { transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s ease, border-color .4s ease; }
+        .site-card:hover { transform:translateY(-9px); box-shadow:0 25px 65px rgba(0,0,0,.16); }
+
+        .portfolio-card { transform-style:preserve-3d; }
+        .portfolio-card:hover { transform:translateY(-12px) rotateX(1deg); }
+        .portfolio-img { position:relative; overflow:hidden; }
+        .portfolio-img::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.18), transparent 30%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .portfolio-card:hover .portfolio-img::after { opacity:1; }
+        .portfolio-img img { transition:transform 1s cubic-bezier(.16,1,.3,1), filter .6s ease; }
+        .portfolio-card:hover .portfolio-img img { transform:scale(1.12); filter:saturate(1.08) contrast(1.04); }
+
+        .section-badge { transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; }
+        .section-badge:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(124,58,237,.18); }
+
+        .hero-title .highlight-text { background-size:200% auto; animation:textShimmer 5s linear infinite; }
+        @keyframes textShimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+
+        .reveal { opacity:0; transform:translateY(45px) scale(.985); filter:blur(5px); transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1), filter .85s ease; }
+        .reveal.active { opacity:1; transform:none; filter:none; }
+        .reveal:nth-child(2){transition-delay:.08s}.reveal:nth-child(3){transition-delay:.16s}.reveal:nth-child(4){transition-delay:.24s}
+
+        .stat-item { transition:transform .4s cubic-bezier(.16,1,.3,1); }
+        .stat-item:hover { transform:translateY(-6px); }
+
+        .timeline-dot { transition:transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease; }
+        .timeline-item:hover .timeline-dot { transform:scale(1.25); box-shadow:0 0 0 9px rgba(124,58,237,.12), 0 0 28px rgba(124,58,237,.35); }
+
+        .faq-item { transition:transform .4s ease, box-shadow .4s ease; }
+        .faq-item:hover { transform:translateX(5px); }
+        .faq-item[open] { transform:translateX(7px); box-shadow:0 18px 45px rgba(0,0,0,.12); }
+        .faq-icon { transition:transform .45s cubic-bezier(.16,1,.3,1), filter .35s ease; }
+        .faq-item[open] .faq-icon { transform:rotate(180deg); filter:drop-shadow(0 0 7px rgba(124,58,237,.7)); }
+
+        .navbar { transition:background .55s ease, color .4s ease, box-shadow .55s ease, padding .45s cubic-bezier(.16,1,.3,1), backdrop-filter .5s ease; }
+        .logo-icon { transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease; }
+        .logo:hover .logo-icon { transform:rotate(-7deg) scale(1.08); }
+
+        .instagram-budget { animation:ctaPulse 3s ease-in-out infinite; }
+        @keyframes ctaPulse { 0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,0)} 50%{box-shadow:0 0 0 8px rgba(124,58,237,.08)} }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
+            .reveal { opacity:1; transform:none; filter:none; }
+        }
+
     </style>
 </head>
 <body>
@@ -1601,7 +1903,8 @@
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="Captura de Tela (391).png" alt="Projeto SaaS">
-                        </div>
+                                                <a class="portfolio-analyze" href="#" data-site-url="SEU-LINK-DA-BARBEARIA" target="_blank" rel="noopener noreferrer" aria-label="Analisar este projeto"><i data-lucide="external-link"></i> Analisar</a>
+</div>
                         <div class="portfolio-info">
                             <h4>Barbearia</h4>
                             <p>Layout Moderno, objetivo e Agradável.</p>
@@ -1611,7 +1914,8 @@
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="Captura de Tela (392).png" alt="Projeto Consultoria">
-                        </div>
+                                                <a class="portfolio-analyze" href="#" data-site-url="SEU-LINK-DO-SALAO" target="_blank" rel="noopener noreferrer" aria-label="Analisar este projeto"><i data-lucide="external-link"></i> Analisar</a>
+</div>
                         <div class="portfolio-info">
                             <h4>Salão De <span class="Rosa">Beleza</span></h4>
                             <p>
@@ -1622,7 +1926,8 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" alt="Projeto E-commerce">
-                        </div>
+                                                <a class="portfolio-analyze" href="#" data-site-url="SEU-LINK-DA-LANDING-PAGE" target="_blank" rel="noopener noreferrer" aria-label="Analisar este projeto"><i data-lucide="external-link"></i> Analisar</a>
+</div>
                         <div class="portfolio-info">
                             <h4>Landing Page para E-commerce</h4>
                             <p>Página de produto com seções estratégicas focadas no aumento de vendas.</p>
@@ -1697,9 +2002,9 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
                 <div class="cta-box reveal">
                     <h2 class="cta-title">Seu próximo site <span class="highlight-text">começa aqui.</span></h2>
                     <p class="cta-subtitle">Acelere o crescimento da sua empresa com uma presença digital atraente e focada em resultados.</p>
-                    <button class="btn btn-primary open-modal" data-plan="Geral / Dúvida">
-                        Solicitar Orçamento Agora <i data-lucide="arrow-right"></i>
-                    </button>
+                    <a class="btn btn-primary instagram-budget" href="https://www.instagram.com/sitefydesign/" target="_blank" rel="noopener noreferrer">
+                        Solicitar Orçamento Agora <i data-lucide="instagram"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -1783,6 +2088,8 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
         // Inicialização de Ícones
         lucide.createIcons();
 
+        lucide.createIcons();
+
         /* 1. MOUSE SPOTLIGHT FLUIDO */
         const spotlight = document.getElementById('mouse-spotlight');
         document.addEventListener('mousemove', (e) => {
@@ -1794,13 +2101,33 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
         const mobileToggle = document.getElementById('mobile-toggle');
         const navLinks = document.getElementById('nav-links');
 
-        window.addEventListener('scroll', () => {
+        function updateNavbarTheme() {
             if (window.scrollY > 40) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-        });
+
+            // Descobre qual fundo está atrás do centro da navbar.
+            const centerX = window.innerWidth / 2;
+            const sampleY = Math.min(navbar.offsetHeight * 0.5, window.innerHeight - 1);
+
+            navbar.style.pointerEvents = 'none';
+            const elementBehind = document.elementFromPoint(centerX, sampleY);
+            navbar.style.pointerEvents = '';
+
+            const darkSection = elementBehind && (
+                elementBehind.closest('.dark-section-wrapper') ||
+                elementBehind.closest('.sitefy-split-transition')
+            );
+
+            navbar.classList.toggle('nav-dark', !!darkSection);
+            navbar.classList.toggle('nav-light', !darkSection);
+        }
+
+        window.addEventListener('scroll', updateNavbarTheme, { passive: true });
+        window.addEventListener('resize', updateNavbarTheme);
+        requestAnimationFrame(updateNavbarTheme);
 
         mobileToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
@@ -1870,7 +2197,24 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
             });
         });
 
-        /* 6. MODAL & FORMULÁRIO WHATSAPP */
+        /* 6. PORTFÓLIO — botão ANALISAR */
+        document.querySelectorAll('.portfolio-analyze').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const url = btn.dataset.siteUrl;
+
+                // Os links reais não estavam no código enviado.
+                // Quando você colocar a URL no data-site-url, o botão abrirá o projeto.
+                if (!url || url.startsWith('SEU-LINK-')) {
+                    e.preventDefault();
+                    alert('Este projeto ainda não tem um link cadastrado.');
+                    return;
+                }
+
+                btn.href = url;
+            });
+        });
+
+        /* 7. MODAL & FORMULÁRIO WHATSAPP */
         const modalOverlay = document.getElementById('modal-overlay');
         const modalClose = document.getElementById('modal-close');
         const openModalBtns = document.querySelectorAll('.open-modal');
