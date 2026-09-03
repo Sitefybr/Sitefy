@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="favicon.png">
-    <title>Sitefy | Sua Imaginação</title>
+    <title>SITEFY | Sites Profissionais, Modernos e de Alta Performance</title>
     <meta name="description" content="A SITEFY cria sites modernos, rápidos e focados em conversão. Transforme a presença digital da sua marca hoje mesmo.">
     <meta name="theme-color" content="#ffffff">
 
@@ -13,18 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/lucide@latest">
-
-        document.querySelectorAll('.portfolio-card').forEach(card => {
-            const image = card.querySelector('.portfolio-img');
-            if (!image) return;
-            image.addEventListener('pointermove', e => {
-                const r = image.getBoundingClientRect();
-                image.style.setProperty('--mx', `${((e.clientX-r.left)/r.width)*100}%`);
-                image.style.setProperty('--my', `${((e.clientY-r.top)/r.height)*100}%`);
-            });
-        });
-    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         /* ==========================================================================
@@ -1287,295 +1276,227 @@
                 font-size: 0.92rem;
             }
         }
-    
-/* ==========================================================================
-   SITEFY V2 — NAVBAR ADAPTATIVA + PORTFÓLIO + TRANSIÇÃO PREMIUM
-   ========================================================================== */
 
-/* Navbar acompanha a cor da seção que está atrás dela */
-.navbar {
-    background: rgba(255,255,255,0.88);
-    color: #0f172a;
-    transition:
-        background 0.75s cubic-bezier(0.16,1,0.3,1),
-        color 0.75s cubic-bezier(0.16,1,0.3,1),
-        box-shadow 0.75s cubic-bezier(0.16,1,0.3,1),
-        border-color 0.75s cubic-bezier(0.16,1,0.3,1),
-        padding 0.4s cubic-bezier(0.16,1,0.3,1);
-}
+        /* ================================================================
+           SITEFY — POLIMENTO PREMIUM / BLUR / MICROINTERAÇÕES
+           ================================================================ */
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(85px);
+            opacity: .16;
+        }
+        body::before { top: 8vh; left: -180px; background: rgba(124,58,237,.42); }
+        body::after { right: -180px; bottom: 8vh; background: rgba(37,99,235,.24); }
 
-.navbar.nav-dark {
-    background: rgba(5,5,7,0.90);
-    color: #fff;
-    border-bottom-color: rgba(255,255,255,0.10);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.20);
-}
-
-.navbar.nav-dark .logo,
-.navbar.nav-dark .nav-links a,
-.navbar.nav-dark .mobile-toggle {
-    color: #fff;
-}
-
-.navbar.nav-dark .nav-links a:hover {
-    color: var(--purple-light);
-}
-
-.navbar.nav-light {
-    background: rgba(255,255,255,0.90);
-    color: #0f172a;
-    border-bottom-color: rgba(226,232,240,0.85);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-}
-
-.navbar.nav-light .logo,
-.navbar.nav-light .nav-links a,
-.navbar.nav-light .mobile-toggle {
-    color: #0f172a;
-}
-
-/* Um brilho discreto deixa a troca da navbar mais "viva" */
-.navbar::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(124,58,237,.35), transparent);
-    opacity: .65;
-    pointer-events: none;
-}
-
-/* PORTFÓLIO — botão Analisar sobre a imagem */
-.portfolio-img {
-    isolation: isolate;
-}
-
-.portfolio-img::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(7,7,9,0.02) 15%,
-        rgba(7,7,9,0.72) 100%
-    );
-    opacity: 0;
-    transition: opacity .45s cubic-bezier(.16,1,.3,1);
-    z-index: 1;
-    pointer-events: none;
-}
-
-.portfolio-card:hover .portfolio-img::after {
-    opacity: 1;
-}
-
-.portfolio-analyze {
-    position: absolute;
-    left: 50%;
-    bottom: 22px;
-    transform: translate(-50%, 18px);
-    opacity: 0;
-    z-index: 3;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .55rem;
-    min-width: 130px;
-    padding: .72rem 1.15rem;
-    border: 1px solid rgba(255,255,255,.25);
-    border-radius: 999px;
-    background: rgba(7,7,9,.76);
-    color: #fff;
-    text-decoration: none;
-    font: 700 .9rem var(--font-sans);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 12px 30px rgba(0,0,0,.30);
-    transition:
-        opacity .45s cubic-bezier(.16,1,.3,1),
-        transform .45s cubic-bezier(.16,1,.3,1),
-        background .3s ease,
-        border-color .3s ease;
-}
-
-.portfolio-card:hover .portfolio-analyze,
-.portfolio-analyze:focus-visible {
-    opacity: 1;
-    transform: translate(-50%, 0);
-}
-
-.portfolio-analyze:hover {
-    background: var(--purple-main);
-    border-color: rgba(255,255,255,.55);
-    box-shadow: 0 14px 34px rgba(124,58,237,.42);
-}
-
-.portfolio-analyze:focus-visible {
-    outline: 2px solid var(--purple-light);
-    outline-offset: 4px;
-}
-
-/* TRANSIÇÃO PRETA/BRANCA — movimento suave no "quebradinho" */
-.sitefy-split-transition {
-    isolation: isolate;
-    background:
-        radial-gradient(circle at 50% 48%, rgba(124,58,237,.16), transparent 34%),
-        var(--bg-dark);
-}
-
-.sitefy-split-transition::before {
-    content: "";
-    position: absolute;
-    left: -8%;
-    right: -8%;
-    top: -22px;
-    height: 72px;
-    background: #fff;
-    border-radius: 50% 50% 42% 58% / 70% 70% 30% 30%;
-    transform: rotate(-1.4deg) scaleX(1.02);
-    transform-origin: center;
-    z-index: 0;
-    box-shadow: 0 -2px 20px rgba(255,255,255,.30);
-    animation: splitWave 7s ease-in-out infinite;
-}
-
-.sitefy-split-transition::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 170px;
-    height: 170px;
-    transform: translate(-50%,-50%);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(139,92,246,.24), transparent 68%);
-    filter: blur(8px);
-    z-index: 0;
-    animation: splitGlow 4s ease-in-out infinite;
-    pointer-events: none;
-}
-
-.sitefy-white-bridge {
-    z-index: 2;
-    transition: transform .8s cubic-bezier(.16,1,.3,1), box-shadow .8s ease;
-    animation: bridgeFloat 5s ease-in-out infinite;
-}
-
-.sitefy-split-transition:hover .sitefy-white-bridge {
-    box-shadow:
-        0 18px 42px rgba(0,0,0,.20),
-        0 0 32px rgba(139,92,246,.18);
-}
-
-.sitefy-split-letters {
-    z-index: 4;
-    animation: lettersFloat 5s ease-in-out infinite;
-}
-
-.sitefy-split-letters.black-part {
-    z-index: 4;
-}
-
-@keyframes splitWave {
-    0%,100% { transform: rotate(-1.4deg) scaleX(1.02) translateY(0); }
-    50% { transform: rotate(1.2deg) scaleX(1.04) translateY(8px); }
-}
-
-@keyframes splitGlow {
-    0%,100% { opacity: .45; transform: translate(-50%,-50%) scale(.82); }
-    50% { opacity: .9; transform: translate(-50%,-50%) scale(1.08); }
-}
-
-@keyframes bridgeFloat {
-    0%,100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
-}
-
-@keyframes lettersFloat {
-    0%,100% { margin-top: 0; }
-    50% { margin-top: 3px; }
-}
-
-@media (max-width: 768px) {
-    .portfolio-analyze {
-        opacity: 1;
-        transform: translate(-50%, 0);
-        bottom: 14px;
-        min-width: 112px;
-        padding: .62rem .95rem;
-    }
-
-    .sitefy-split-transition::before {
-        height: 55px;
-        top: -15px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .sitefy-split-transition::before,
-    .sitefy-split-transition::after,
-    .sitefy-white-bridge,
-    .sitefy-split-letters {
-        animation: none !important;
-    }
-}
-
-    
-        /* ===== ANIMAÇÕES PREMIUM SITEFY ===== */
-        html { scroll-behavior: smooth; }
-
-        .btn, .site-card, .portfolio-img img, .section-badge, .logo-icon, .nav-links a {
-            will-change: transform;
+        .navbar {
+            background: rgba(255,255,255,.70);
+            border: 1px solid rgba(255,255,255,.55);
+            box-shadow: 0 10px 35px rgba(15,23,42,.05);
+            backdrop-filter: blur(22px) saturate(150%);
+            -webkit-backdrop-filter: blur(22px) saturate(150%);
+        }
+        .navbar::after {
+            content:"";
+            position:absolute;
+            left:0; right:0; bottom:-1px;
+            height:1px;
+            background:linear-gradient(90deg,transparent,rgba(124,58,237,.45),transparent);
+            opacity:.55;
         }
 
-        .btn { position: relative; overflow: hidden; transform: translateZ(0); transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease, background .35s ease, color .35s ease, border-color .35s ease; }
-        .btn::before { content:""; position:absolute; inset:-2px; background:linear-gradient(110deg, transparent 25%, rgba(255,255,255,.25) 48%, transparent 70%); transform:translateX(-120%); transition:transform .7s ease; pointer-events:none; }
-        .btn:hover { transform:translateY(-4px) scale(1.02); }
-        .btn:hover::before { transform:translateX(120%); }
-        .btn:active { transform:translateY(-1px) scale(.98); }
+        /* Barrinha roxa carregando embaixo dos links */
+        .nav-links li:not(:has(.btn)) { position:relative; }
+        .nav-links li:not(:has(.btn)) > a {
+            position:relative;
+            padding: .35rem 0;
+            transition: color .35s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1);
+        }
+        .nav-links li:not(:has(.btn)) > a::after {
+            content:"";
+            position:absolute;
+            left:0;
+            bottom:-5px;
+            width:100%;
+            height:2px;
+            border-radius:999px;
+            background:linear-gradient(90deg,#7c3aed,#a855f7);
+            transform:scaleX(0);
+            transform-origin:left center;
+            transition:transform .42s cubic-bezier(.16,1,.3,1);
+            box-shadow:0 0 10px rgba(124,58,237,.55);
+        }
+        .nav-links li:not(:has(.btn)) > a:hover,
+        .nav-links li:not(:has(.btn)) > a.nav-active {
+            color:#7c3aed;
+            transform:translateY(-1px);
+        }
+        .nav-links li:not(:has(.btn)) > a:hover::after,
+        .nav-links li:not(:has(.btn)) > a.nav-active::after { transform:scaleX(1); }
+        .nav-links li:not(:has(.btn)) > a:active { transform:translateY(0) scale(.97); }
 
-        .site-card { transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s ease, border-color .4s ease; }
-        .site-card:hover { transform:translateY(-9px); box-shadow:0 25px 65px rgba(0,0,0,.16); }
+        .logo { transition:transform .45s cubic-bezier(.16,1,.3,1), filter .45s ease; }
+        .logo:hover { transform:translateY(-2px); filter:drop-shadow(0 7px 16px rgba(124,58,237,.22)); }
+        .logo-icon { transition:transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease; }
+        .logo:hover .logo-icon { transform:rotate(-5deg) scale(1.06); box-shadow:0 8px 22px rgba(124,58,237,.42); }
 
-        .portfolio-card { transform-style:preserve-3d; }
-        .portfolio-card:hover { transform:translateY(-12px) rotateX(1deg); }
-        .portfolio-img { position:relative; overflow:hidden; }
-        .portfolio-img::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.18), transparent 30%); opacity:0; transition:opacity .35s ease; pointer-events:none; }
+        .btn { will-change:transform; overflow:hidden; }
+        .btn::before {
+            content:"";
+            position:absolute;
+            inset:-2px;
+            background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.24) 50%,transparent 70%);
+            transform:translateX(-130%);
+            transition:transform .75s cubic-bezier(.16,1,.3,1);
+            pointer-events:none;
+        }
+        .btn:hover::before { transform:translateX(130%); }
+        .btn:hover { filter:saturate(1.08); }
+
+        .site-card {
+            isolation:isolate;
+            overflow:hidden;
+            backdrop-filter:blur(8px);
+            -webkit-backdrop-filter:blur(8px);
+            will-change:transform;
+        }
+        .site-card::before {
+            content:"";
+            position:absolute;
+            width:180px;
+            height:180px;
+            top:-100px;
+            right:-90px;
+            border-radius:50%;
+            background:rgba(139,92,246,.12);
+            filter:blur(35px);
+            opacity:0;
+            transition:opacity .6s ease, transform .7s cubic-bezier(.16,1,.3,1);
+            pointer-events:none;
+            z-index:-1;
+        }
+        .site-card:hover::before { opacity:1; transform:translate(-20px,25px); }
+        .site-card:hover { transform:translateY(-10px); }
+
+        .portfolio-card { transform:translateZ(0); }
+        .portfolio-img::after {
+            content:"";
+            position:absolute;
+            inset:0;
+            background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(168,85,247,.28),transparent 38%);
+            opacity:0;
+            transition:opacity .4s ease;
+            pointer-events:none;
+        }
         .portfolio-card:hover .portfolio-img::after { opacity:1; }
-        .portfolio-img img { transition:transform 1s cubic-bezier(.16,1,.3,1), filter .6s ease; }
-        .portfolio-card:hover .portfolio-img img { transform:scale(1.12); filter:saturate(1.08) contrast(1.04); }
 
-        .section-badge { transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; }
-        .section-badge:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(124,58,237,.18); }
+        /* Mais profundidade na transição branco/preto */
+        .sitefy-split-transition::before {
+            content:"";
+            position:absolute;
+            left:50%; top:0;
+            width:190px; height:190px;
+            transform:translateX(-50%);
+            border-radius:50%;
+            background:rgba(124,58,237,.16);
+            filter:blur(55px);
+            pointer-events:none;
+            animation:splitAura 5s ease-in-out infinite;
+        }
+        @keyframes splitAura {
+            0%,100% { opacity:.45; transform:translateX(-50%) scale(.92); }
+            50% { opacity:.9; transform:translateX(-50%) scale(1.12); }
+        }
+        .sitefy-white-bridge {
+            will-change:transform;
+            box-shadow:0 18px 45px rgba(0,0,0,.20), 0 0 45px rgba(124,58,237,.10);
+            animation:bridgeFloat 5.5s ease-in-out infinite;
+        }
+        @keyframes bridgeFloat {
+            0%,100% { transform:translate3d(-50%,0,0); }
+            50% { transform:translate3d(-50%,5px,0); }
+        }
 
-        .hero-title .highlight-text { background-size:200% auto; animation:textShimmer 5s linear infinite; }
-        @keyframes textShimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+        /* Letras: somente transform = animação mais lisa, sem reflow */
+        .sitefy-split-letters {
+            will-change:transform;
+            backface-visibility:hidden;
+            -webkit-backface-visibility:hidden;
+            animation:sitefyLettersFloat 4.8s cubic-bezier(.45,0,.55,1) infinite;
+        }
+        .sitefy-split-letters.white-part { animation-delay:-1.2s; }
+        .sitefy-split-letters.black-part { animation-delay:-3.6s; }
+        .sitefy-split-letters span {
+            display:block;
+            height:.84em;
+            will-change:transform;
+            transform:translateZ(0);
+        }
+        @keyframes sitefyLettersFloat {
+            0%,100% { transform:translate3d(-50%,0,0); }
+            25% { transform:translate3d(-50%,-3px,0); }
+            50% { transform:translate3d(-50%,5px,0); }
+            75% { transform:translate3d(-50%,1px,0); }
+        }
+        .sitefy-split-letters span:nth-child(1) { animation:sitefyLetterIndividual 4.2s ease-in-out infinite; }
+        .sitefy-split-letters span:nth-child(2) { animation:sitefyLetterIndividual 4.2s ease-in-out infinite -0.7s; }
+        .sitefy-split-letters span:nth-child(3) { animation:sitefyLetterIndividual 4.2s ease-in-out infinite -1.4s; }
+        @keyframes sitefyLetterIndividual {
+            0%,100% { transform:translate3d(0,0,0); }
+            50% { transform:translate3d(0,3px,0); }
+        }
 
-        .reveal { opacity:0; transform:translateY(45px) scale(.985); filter:blur(5px); transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1), filter .85s ease; }
-        .reveal.active { opacity:1; transform:none; filter:none; }
-        .reveal:nth-child(2){transition-delay:.08s}.reveal:nth-child(3){transition-delay:.16s}.reveal:nth-child(4){transition-delay:.24s}
+        /* Reveal mais cinematográfico */
+        .reveal {
+            opacity:0;
+            transform:translate3d(0,34px,0) scale(.985);
+            filter:blur(6px);
+            transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1), filter .85s cubic-bezier(.16,1,.3,1);
+        }
+        .reveal.active { opacity:1; transform:translate3d(0,0,0) scale(1); filter:blur(0); }
+        .pricing-grid .reveal:nth-child(2) { transition-delay:.08s; }
+        .pricing-grid .reveal:nth-child(3) { transition-delay:.16s; }
+        .portfolio-grid .reveal:nth-child(2) { transition-delay:.08s; }
+        .portfolio-grid .reveal:nth-child(3) { transition-delay:.16s; }
 
-        .stat-item { transition:transform .4s cubic-bezier(.16,1,.3,1); }
-        .stat-item:hover { transform:translateY(-6px); }
+        .section-badge { transition:transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; }
+        .section-badge:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(124,58,237,.14); }
 
-        .timeline-dot { transition:transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease; }
-        .timeline-item:hover .timeline-dot { transform:scale(1.25); box-shadow:0 0 0 9px rgba(124,58,237,.12), 0 0 28px rgba(124,58,237,.35); }
+        .highlight-text {
+            background-size:200% 200%;
+            animation:gradientFlow 6s ease infinite;
+        }
+        @keyframes gradientFlow { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
 
-        .faq-item { transition:transform .4s ease, box-shadow .4s ease; }
-        .faq-item:hover { transform:translateX(5px); }
-        .faq-item[open] { transform:translateX(7px); box-shadow:0 18px 45px rgba(0,0,0,.12); }
-        .faq-icon { transition:transform .45s cubic-bezier(.16,1,.3,1), filter .35s ease; }
-        .faq-item[open] .faq-icon { transform:rotate(180deg); filter:drop-shadow(0 0 7px rgba(124,58,237,.7)); }
+        #mouse-spotlight {
+            filter:blur(2px);
+            mix-blend-mode:multiply;
+            opacity:.9;
+            will-change:transform;
+        }
 
-        .navbar { transition:background .55s ease, color .4s ease, box-shadow .55s ease, padding .45s cubic-bezier(.16,1,.3,1), backdrop-filter .5s ease; }
-        .logo-icon { transition:transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease; }
-        .logo:hover .logo-icon { transform:rotate(-7deg) scale(1.08); }
+        /* Barra de progresso discreta no topo */
+        body::marker { display:none; }
+        #sitefy-progress {
+            position:fixed;
+            top:0; left:0;
+            width:0%; height:2px;
+            background:linear-gradient(90deg,#7c3aed,#a855f7,#2563eb);
+            box-shadow:0 0 12px rgba(124,58,237,.55);
+            z-index:10001;
+            pointer-events:none;
+            transition:width .08s linear;
+        }
 
-        .instagram-budget { animation:ctaPulse 3s ease-in-out infinite; }
-        @keyframes ctaPulse { 0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,0)} 50%{box-shadow:0 0 0 8px rgba(124,58,237,.08)} }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
-            .reveal { opacity:1; transform:none; filter:none; }
+        @media (prefers-reduced-motion:reduce) {
+            *,*::before,*::after { scroll-behavior:auto !important; animation:none !important; transition-duration:.01ms !important; }
+            .reveal { filter:none; transform:none; opacity:1; }
         }
 
     </style>
@@ -1583,6 +1504,7 @@
 <body>
 
     <div id="mouse-spotlight"></div>
+    <div id="sitefy-progress"></div>
 
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
@@ -1761,7 +1683,7 @@
                     </div>
                     <div class="pricing-price">
                         <span class="currency">R$</span>
-                        <span class="amount">47,90</span>
+                        <span class="amount">39,90</span>
                     </div>
                     <ul class="pricing-features">
                         <li><i data-lucide="check"></i> Page Única / Landing Page</li>
@@ -1770,7 +1692,7 @@
                         <li><i data-lucide="check"></i> Hospedagem Otimizada</li>
                         <li><i data-lucide="check"></i> Entrega Rápida</li>
                     </ul>
-                    <button class="btn btn-secondary open-modal" data-plan="SITE BÁSICO (R$ 59,90)">Contratar Plano</button>
+                    <button class="btn btn-secondary open-modal" data-plan="SITE BÁSICO (R$ 39,90)">Contratar Plano</button>
                 </div>
 
                 <div class="site-card pricing-card reveal">
@@ -1780,7 +1702,7 @@
                     </div>
                     <div class="pricing-price">
                         <span class="currency">R$</span>
-                        <span class="amount">79,50</span>
+                        <span class="amount">79,90</span>
                     </div>
                     <ul class="pricing-features">
                         <li><i data-lucide="check"></i> Até 5 Páginas Exclusivas</li>
@@ -1789,7 +1711,7 @@
                         <li><i data-lucide="check"></i> Formulário de Contato Direto</li>
                         <li><i data-lucide="check"></i> Integração com Redes Sociais</li>
                     </ul>
-                    <button class="btn btn-secondary open-modal" data-plan="SITE PRO (R$ 140,90)">Contratar Plano</button>
+                    <button class="btn btn-secondary open-modal" data-plan="SITE PRO (R$ 79,90)">Contratar Plano</button>
                 </div>
 
                 <div class="site-card pricing-card featured reveal">
@@ -1800,7 +1722,7 @@
                     </div>
                     <div class="pricing-price">
                         <span class="currency">R$</span>
-                        <span class="amount">97,40</span>
+                        <span class="amount">149,90</span>
                     </div>
                     <ul class="pricing-features">
                         <li><i data-lucide="check"></i> Páginas Múltiplas / Estrutura Completa</li>
@@ -1810,7 +1732,7 @@
                         <li><i data-lucide="check"></i> Suporte VIP Prioritário</li>
                         <li><i data-lucide="check"></i> Relatório de Performance</li>
                     </ul>
-                    <button class="btn btn-primary open-modal" data-plan="SITE ULTRA (R$ 249,90)">Contratar Ultra</button>
+                    <button class="btn btn-primary open-modal" data-plan="SITE ULTRA (R$ 149,90)">Contratar Ultra</button>
                 </div>
             </div>
         </div>
@@ -1903,8 +1825,7 @@
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="Captura de Tela (391).png" alt="Projeto SaaS">
-                                                <a class="portfolio-analyze" href="#" data-site-url="https://sitefybr.github.io/Barbearia/" target="_blank" rel="noopener noreferrer" aria-label="Analisar este projeto"><i data-lucide="external-link"></i> Analisar</a>
-</div>
+                        </div>
                         <div class="portfolio-info">
                             <h4>Barbearia</h4>
                             <p>Layout Moderno, objetivo e Agradável.</p>
@@ -1914,8 +1835,7 @@
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="Captura de Tela (392).png" alt="Projeto Consultoria">
-                                                <a class="portfolio-analyze" href="#" data-site-url="https://sitefybr.github.io/Salaodebeleza/" target="_blank" rel="noopener noreferrer" aria-label="Analisar este projeto"><i data-lucide="external-link"></i> Analisar</a>
-</div>
+                        </div>
                         <div class="portfolio-info">
                             <h4>Salão De <span class="Rosa">Beleza</span></h4>
                             <p>
@@ -1926,8 +1846,7 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" alt="Projeto E-commerce">
-                                                <a class="portfolio-analyze" href="#" data-site-url="SEU-LINK-DA-LANDING-PAGE" target="_blank" rel="noopener noreferrer" aria-label="Analisar este projeto"><i data-lucide="external-link"></i> Analisar</a>
-</div>
+                        </div>
                         <div class="portfolio-info">
                             <h4>Landing Page para E-commerce</h4>
                             <p>Página de produto com seções estratégicas focadas no aumento de vendas.</p>
@@ -2002,9 +1921,9 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
                 <div class="cta-box reveal">
                     <h2 class="cta-title">Seu próximo site <span class="highlight-text">começa aqui.</span></h2>
                     <p class="cta-subtitle">Acelere o crescimento da sua empresa com uma presença digital atraente e focada em resultados.</p>
-                    <a class="btn btn-primary instagram-budget" href="https://www.instagram.com/sitefydesign/" target="_blank" rel="noopener noreferrer">
-                        Solicitar Orçamento Agora <i data-lucide="instagram"></i>
-                    </a>
+                    <button class="btn btn-primary open-modal" data-plan="Geral / Dúvida">
+                        Solicitar Orçamento Agora <i data-lucide="arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </section>
@@ -2088,46 +2007,68 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
         // Inicialização de Ícones
         lucide.createIcons();
 
-        lucide.createIcons();
+
+        /* SITEFY — animações e interações premium */
+        const progressBar = document.getElementById('sitefy-progress');
+        const updateProgress = () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = max > 0 ? `${(window.scrollY / max) * 100}%` : '0%';
+        };
+        window.addEventListener('scroll', updateProgress, {passive:true});
+        updateProgress();
+
+        /* Spotlight com requestAnimationFrame: mais suave e menos pesado */
+        const spotlight = document.getElementById('mouse-spotlight');
+        let spotX = window.innerWidth / 2, spotY = window.innerHeight / 2;
+        let currentX = spotX, currentY = spotY;
+        document.addEventListener('mousemove', e => { spotX = e.clientX; spotY = e.clientY; });
+        const animateSpotlight = () => {
+            currentX += (spotX - currentX) * .12;
+            currentY += (spotY - currentY) * .12;
+            spotlight.style.transform = `translate3d(${currentX - 250}px, ${currentY - 250}px, 0)`;
+            requestAnimationFrame(animateSpotlight);
+        };
+        animateSpotlight();
+
+        /* Link ativo conforme a seção que está na tela */
+        const sectionLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')].filter(a => !a.classList.contains('btn'));
+        const sections = sectionLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+        const sectionObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                sectionLinks.forEach(link => link.classList.remove('nav-active'));
+                const active = sectionLinks.find(link => link.getAttribute('href') === `#${entry.target.id}`);
+                if (active) active.classList.add('nav-active');
+            });
+        }, {rootMargin:'-35% 0px -55% 0px', threshold:0});
+        sections.forEach(section => sectionObserver.observe(section));
+
+        /* Efeito magnético sutil nos botões */
+        document.querySelectorAll('.btn-primary').forEach(btn => {
+            btn.addEventListener('pointermove', e => {
+                if (window.innerWidth < 769) return;
+                const r = btn.getBoundingClientRect();
+                const x = (e.clientX - r.left - r.width / 2) * .08;
+                const y = (e.clientY - r.top - r.height / 2) * .08;
+                btn.style.transform = `translate3d(${x}px,${y - 3}px,0) scale(1.02)`;
+            });
+            btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+        });
 
         /* 1. MOUSE SPOTLIGHT FLUIDO */
-        const spotlight = document.getElementById('mouse-spotlight');
-        document.addEventListener('mousemove', (e) => {
-            spotlight.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
-        });
 
         /* 2. NAVBAR SCROLL & MENU MOBILE */
         const navbar = document.getElementById('navbar');
         const mobileToggle = document.getElementById('mobile-toggle');
         const navLinks = document.getElementById('nav-links');
 
-        function updateNavbarTheme() {
+        window.addEventListener('scroll', () => {
             if (window.scrollY > 40) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-
-            // Descobre qual fundo está atrás do centro da navbar.
-            const centerX = window.innerWidth / 2;
-            const sampleY = Math.min(navbar.offsetHeight * 0.5, window.innerHeight - 1);
-
-            navbar.style.pointerEvents = 'none';
-            const elementBehind = document.elementFromPoint(centerX, sampleY);
-            navbar.style.pointerEvents = '';
-
-            const darkSection = elementBehind && (
-                elementBehind.closest('.dark-section-wrapper') ||
-                elementBehind.closest('.sitefy-split-transition')
-            );
-
-            navbar.classList.toggle('nav-dark', !!darkSection);
-            navbar.classList.toggle('nav-light', !darkSection);
-        }
-
-        window.addEventListener('scroll', updateNavbarTheme, { passive: true });
-        window.addEventListener('resize', updateNavbarTheme);
-        requestAnimationFrame(updateNavbarTheme);
+        });
 
         mobileToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
@@ -2197,24 +2138,7 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
             });
         });
 
-        /* 6. PORTFÓLIO — botão ANALISAR */
-        document.querySelectorAll('.portfolio-analyze').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const url = btn.dataset.siteUrl;
-
-                // Os links reais não estavam no código enviado.
-                // Quando você colocar a URL no data-site-url, o botão abrirá o projeto.
-                if (!url || url.startsWith('SEU-LINK-')) {
-                    e.preventDefault();
-                    alert('Este projeto ainda não tem um link cadastrado.');
-                    return;
-                }
-
-                btn.href = url;
-            });
-        });
-
-        /* 7. MODAL & FORMULÁRIO WHATSAPP */
+        /* 6. MODAL & FORMULÁRIO WHATSAPP */
         const modalOverlay = document.getElementById('modal-overlay');
         const modalClose = document.getElementById('modal-close');
         const openModalBtns = document.querySelectorAll('.open-modal');
