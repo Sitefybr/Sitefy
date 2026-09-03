@@ -2294,14 +2294,16 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
                     <input type="text" id="name" class="form-control" placeholder="Digite seu nome completo" required>
                 </div>
                 <div class="form-group">
-                    <label for="whatsapp">Seu WhatsApp</label>
-                    <input type="tel" id="whatsapp" class="form-control" placeholder="(00) 00000-0000" required>
+                    <label for="whatsapp">Seu telefone</label>
+<input type="tel" id="whatsapp" class="form-control" placeholder="(00) 00000-0000" required>
                 </div>
                 <div class="form-group">
                     <label for="message">Mensagem (Opcional)</label>
                     <textarea id="message" class="form-control" placeholder="Conte brevemente sobre seu projeto ou empresa..."></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensagem via WhatsApp</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+    Falar pelo Instagram
+</button>
             </form>
         </div>
     </div>
@@ -2467,18 +2469,12 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
         });
 
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const whatsapp = document.getElementById('whatsapp').value;
-            const message = document.getElementById('message').value;
-            const plan = selectedPlanInput.value;
+    e.preventDefault();
 
-            const text = `Olá! Meu nome é ${name}. Tenho interesse no plano: *${plan}*.\n\nMeu WhatsApp: ${whatsapp}\nMensagem: ${message || 'Gostaria de solicitar um orçamento!'}`;
-            const encodedText = encodeURIComponent(text);
-            
-            window.open(`https://wa.me/5511999999999?text=${encodedText}`, '_blank');
-            modalOverlay.classList.remove('active');
-        });
+    window.open('https://ig.me/m/sitefydesign', '_blank');
+
+    modalOverlay.classList.remove('active');
+});
     
         /* SITEFY ULTRA — finaliza o intro sem deixar scroll travado */
         document.body.classList.add('sitefy-loading');
