@@ -1318,7 +1318,7 @@
             padding: .35rem 0;
             transition: color .35s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1);
         }
-        .nav-links li:not(:has(.btn)) > a::after {
+        .nav-links li:not(:last-child) > a::after {
             content:"";
             position:absolute;
             left:0;
@@ -1499,9 +1499,303 @@
             .reveal { filter:none; transform:none; opacity:1; }
         }
 
-    </style>
+    
+        /* ============================================================
+           SITEFY ULTRA — INTRO / LOADER
+           ============================================================ */
+        #sitefy-intro {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 50% 45%, rgba(124,58,237,.16), transparent 30%),
+                radial-gradient(circle at 50% 55%, rgba(37,99,235,.10), transparent 42%),
+                #050507;
+            overflow: hidden;
+            pointer-events: auto;
+            animation: sitefyIntroOut 1s cubic-bezier(.76,0,.24,1) 2.15s forwards;
+        }
+
+        #sitefy-intro::before,
+        #sitefy-intro::after {
+            content:"";
+            position:absolute;
+            border-radius:50%;
+            pointer-events:none;
+            filter:blur(70px);
+            opacity:.45;
+        }
+
+        #sitefy-intro::before {
+            width:280px;
+            height:280px;
+            background:rgba(124,58,237,.32);
+            animation:introOrb 3s ease-in-out infinite;
+        }
+
+        #sitefy-intro::after {
+            width:180px;
+            height:180px;
+            background:rgba(37,99,235,.20);
+            animation:introOrb 3.8s ease-in-out -.8s infinite reverse;
+        }
+
+        .sitefy-intro-brand {
+            position:relative;
+            z-index:2;
+            display:flex;
+            align-items:center;
+            gap:.85rem;
+            font-family:'Space Grotesk', sans-serif;
+            font-size:clamp(2.4rem,7vw,5.8rem);
+            font-weight:800;
+            letter-spacing:.16em;
+            color:#fff;
+            text-shadow:0 0 18px rgba(124,58,237,.35), 0 0 55px rgba(124,58,237,.18);
+            animation:introBrandIn 1.15s cubic-bezier(.16,1,.3,1) .15s both,
+                      introBrandOut .72s cubic-bezier(.76,0,.24,1) 1.55s both;
+        }
+
+        .sitefy-intro-s {
+            display:grid;
+            place-items:center;
+            width:1.05em;
+            height:1.05em;
+            border-radius:.28em;
+            font-size:.55em;
+            letter-spacing:0;
+            background:linear-gradient(145deg,#7c3aed,#2563eb);
+            box-shadow:0 0 28px rgba(124,58,237,.55), inset 0 0 18px rgba(255,255,255,.12);
+            animation:introSFloat 1.8s ease-in-out infinite;
+        }
+
+        .sitefy-intro-line {
+            position:absolute;
+            left:50%;
+            bottom:-22px;
+            width:0;
+            height:2px;
+            border-radius:999px;
+            background:linear-gradient(90deg,transparent,#7c3aed,#a855f7,#2563eb,transparent);
+            box-shadow:0 0 16px rgba(124,58,237,.8);
+            transform:translateX(-50%);
+            animation:introLine .9s cubic-bezier(.16,1,.3,1) .7s forwards;
+        }
+
+        @keyframes introBrandIn {
+            0% { opacity:0; transform:translate3d(0,28px,0) scale(.88); filter:blur(14px); letter-spacing:.45em; }
+            65% { opacity:1; transform:translate3d(0,-3px,0) scale(1.02); filter:blur(0); }
+            100% { opacity:1; transform:translate3d(0,0,0) scale(1); filter:blur(0); }
+        }
+
+        @keyframes introBrandOut {
+            0% { opacity:1; transform:scale(1); filter:blur(0); }
+            100% { opacity:0; transform:translate3d(0,-24px,0) scale(1.08); filter:blur(10px); }
+        }
+
+        @keyframes introLine {
+            from { width:0; opacity:0; }
+            to { width:min(280px,70vw); opacity:1; }
+        }
+
+        @keyframes introOrb {
+            0%,100% { transform:translate3d(-20px,-12px,0) scale(.9); }
+            50% { transform:translate3d(22px,14px,0) scale(1.15); }
+        }
+
+        @keyframes introSFloat {
+            0%,100% { transform:translateY(0) rotate(0); }
+            50% { transform:translateY(-5px) rotate(2deg); }
+        }
+
+        @keyframes sitefyIntroOut {
+            0% { opacity:1; visibility:visible; }
+            72% { opacity:1; visibility:visible; }
+            100% { opacity:0; visibility:hidden; pointer-events:none; }
+        }
+
+        body.sitefy-loading {
+            overflow:hidden;
+        }
+
+        /* ============================================================
+           SITEFY ULTRA — BLUR DOS CARDS / QUADRADINHOS
+           ============================================================ */
+        .site-card {
+            isolation:isolate;
+            overflow:hidden;
+            -webkit-backdrop-filter:blur(14px) saturate(125%);
+            backdrop-filter:blur(14px) saturate(125%);
+            will-change:transform, filter;
+        }
+
+        .site-card::before {
+            z-index:0 !important;
+            opacity:.42;
+            width:210px;
+            height:210px;
+            background:
+                radial-gradient(circle, rgba(139,92,246,.24) 0%, rgba(124,58,237,.10) 38%, transparent 72%);
+            filter:blur(42px);
+            transition:opacity .7s ease, transform 1s cubic-bezier(.16,1,.3,1);
+        }
+
+        .site-card > * {
+            position:relative;
+            z-index:1;
+        }
+
+        .site-card:hover::before {
+            opacity:.95;
+            transform:translate3d(-18px,28px,0) scale(1.08);
+        }
+
+        /* O blur volta durante a entrada dos cards */
+        .reveal {
+            will-change:transform, opacity, filter;
+        }
+
+        .timeline-item .site-card {
+            box-shadow:
+                0 14px 40px rgba(0,0,0,.22),
+                0 0 0 1px rgba(124,58,237,.025),
+                0 0 34px rgba(124,58,237,.07);
+            transition:
+                transform .85s cubic-bezier(.16,1,.3,1),
+                box-shadow .85s ease,
+                border-color .6s ease,
+                filter .85s ease;
+        }
+
+        .timeline-item .site-card:hover {
+            filter:blur(0) brightness(1.04);
+            box-shadow:
+                0 22px 60px rgba(0,0,0,.30),
+                0 0 34px rgba(124,58,237,.18),
+                0 0 80px rgba(124,58,237,.08);
+        }
+
+        /* ============================================================
+           SITEFY ULTRA — PORTFÓLIO / BOTÃO ANALISAR
+           ============================================================ */
+        .portfolio-img {
+            position:relative;
+        }
+
+        .portfolio-analyze {
+            position:absolute;
+            left:50%;
+            bottom:18px;
+            z-index:4;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:.5rem;
+            min-width:132px;
+            padding:.72rem 1.05rem;
+            border:1px solid rgba(255,255,255,.28);
+            border-radius:999px;
+            color:#fff;
+            text-decoration:none;
+            font-weight:700;
+            font-size:.84rem;
+            letter-spacing:.01em;
+            background:rgba(9,9,12,.58);
+            -webkit-backdrop-filter:blur(16px) saturate(150%);
+            backdrop-filter:blur(16px) saturate(150%);
+            box-shadow:0 12px 35px rgba(0,0,0,.28), 0 0 24px rgba(124,58,237,.14);
+            transform:translate3d(-50%,14px,0) scale(.94);
+            opacity:0;
+            transition:
+                opacity .45s cubic-bezier(.16,1,.3,1),
+                transform .55s cubic-bezier(.16,1,.3,1),
+                background .35s ease,
+                border-color .35s ease,
+                box-shadow .35s ease;
+        }
+
+        .portfolio-analyze i,
+        .portfolio-analyze svg {
+            width:16px;
+            height:16px;
+            transition:transform .35s cubic-bezier(.16,1,.3,1);
+        }
+
+        .portfolio-card:hover .portfolio-analyze,
+        .portfolio-card:focus-within .portfolio-analyze {
+            opacity:1;
+            transform:translate3d(-50%,0,0) scale(1);
+        }
+
+        .portfolio-analyze:hover {
+            background:linear-gradient(135deg,rgba(124,58,237,.88),rgba(37,99,235,.82));
+            border-color:rgba(255,255,255,.48);
+            box-shadow:0 15px 40px rgba(124,58,237,.32);
+        }
+
+        .portfolio-analyze:hover svg {
+            transform:translateX(3px);
+        }
+
+        .portfolio-img::before {
+            content:"";
+            position:absolute;
+            inset:0;
+            z-index:2;
+            pointer-events:none;
+            background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.48) 100%);
+            opacity:.75;
+        }
+
+        /* ============================================================
+           SITEFY ULTRA — AMBIENTE / BRILHOS / ENTRADAS
+           ============================================================ */
+        .hero::before,
+        section::before {
+            pointer-events:none;
+        }
+
+        .section-header,
+        .hero-content,
+        .hero-image-wrapper {
+            will-change:transform,opacity,filter;
+        }
+
+        @media (max-width:768px) {
+            .sitefy-intro-brand { letter-spacing:.09em; }
+            .portfolio-analyze {
+                opacity:1;
+                transform:translate3d(-50%,0,0) scale(1);
+                bottom:14px;
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            #sitefy-intro,
+            .sitefy-intro-brand,
+            .sitefy-intro-line,
+            .sitefy-intro-s,
+            #sitefy-intro::before,
+            #sitefy-intro::after {
+                animation:none !important;
+            }
+            #sitefy-intro { opacity:0; visibility:hidden; pointer-events:none; }
+            .portfolio-analyze { opacity:1; transform:translate3d(-50%,0,0) scale(1); }
+        }
+
+</style>
 </head>
 <body>
+    <div id="sitefy-intro" aria-label="Carregando SITEFY">
+        <div class="sitefy-intro-brand">
+            <span class="sitefy-intro-s">S</span>
+            <span>ITEFY</span>
+            <span class="sitefy-intro-line"></span>
+        </div>
+    </div>
+
 
     <div id="mouse-spotlight"></div>
     <div id="sitefy-progress"></div>
@@ -1825,6 +2119,9 @@
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="Captura de Tela (391).png" alt="Projeto SaaS">
+            <a class="portfolio-analyze" href="SEU-LINK-DA-BARBEARIA" target="_blank" rel="noopener noreferrer" aria-label="Analisar projeto Barbearia">
+                Analisar <i data-lucide="external-link"></i>
+            </a>
                         </div>
                         <div class="portfolio-info">
                             <h4>Barbearia</h4>
@@ -1835,6 +2132,9 @@
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="Captura de Tela (392).png" alt="Projeto Consultoria">
+            <a class="portfolio-analyze" href="SEU-LINK-DO-SALAO" target="_blank" rel="noopener noreferrer" aria-label="Analisar projeto Salão de Beleza">
+                Analisar <i data-lucide="external-link"></i>
+            </a>
                         </div>
                         <div class="portfolio-info">
                             <h4>Salão De <span class="Rosa">Beleza</span></h4>
@@ -1846,6 +2146,9 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
                     <div class="site-card portfolio-card reveal">
                         <div class="portfolio-img">
                             <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop" alt="Projeto E-commerce">
+            <a class="portfolio-analyze" href="SEU-LINK-DA-LANDING-PAGE" target="_blank" rel="noopener noreferrer" aria-label="Analisar projeto Landing Page">
+                Analisar <i data-lucide="external-link"></i>
+            </a>
                         </div>
                         <div class="portfolio-info">
                             <h4>Landing Page para E-commerce</h4>
@@ -2176,6 +2479,25 @@ Um site elegante e moderno criado para destacar serviços, valorizar a marca e f
             window.open(`https://wa.me/5511999999999?text=${encodedText}`, '_blank');
             modalOverlay.classList.remove('active');
         });
-    </script>
+    
+        /* SITEFY ULTRA — finaliza o intro sem deixar scroll travado */
+        document.body.classList.add('sitefy-loading');
+        window.setTimeout(() => {
+            document.body.classList.remove('sitefy-loading');
+        }, 2350);
+
+
+        /* Portfólio — links "Analisar" ficam prontos para você só trocar o href */
+        document.querySelectorAll('.portfolio-analyze').forEach(link => {
+            link.addEventListener('click', event => {
+                const href = link.getAttribute('href') || '';
+                if (href.startsWith('SEU-LINK-')) {
+                    event.preventDefault();
+                    alert('Troque este href pelo link do seu projeto para o botão Analisar abrir o site.');
+                }
+            });
+        });
+
+</script>
 </body>
 </html>
